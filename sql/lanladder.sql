@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 07, 2018 at 11:34 PM
+-- Generation Time: Jun 07, 2018 at 11:50 PM
 -- Server version: 10.2.14-MariaDB
 -- PHP Version: 7.2.6
 
@@ -32,7 +32,8 @@ CREATE TABLE `ladder` (
   `id` int(11) NOT NULL,
   `game` int(32) NOT NULL,
   `start_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `color` varchar(16) NOT NULL
+  `color` varchar(16) NOT NULL,
+  `image` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
