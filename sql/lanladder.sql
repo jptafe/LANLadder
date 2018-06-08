@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 07, 2018 at 11:50 PM
+-- Generation Time: Jun 08, 2018 at 04:39 AM
 -- Server version: 10.2.14-MariaDB
 -- PHP Version: 7.2.6
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lanladder3`
+-- Database: `lanladder`
 --
 
 -- --------------------------------------------------------
@@ -30,11 +30,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `ladder` (
   `id` int(11) NOT NULL,
-  `game` int(32) NOT NULL,
+  `game` varchar(32) NOT NULL,
   `start_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `color` varchar(16) NOT NULL,
   `image` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ladder`
+--
+
+INSERT INTO `ladder` (`id`, `game`, `start_time`, `color`, `image`) VALUES
+(1, 'TF2', '2018-06-08 04:21:51', 'orange', 'tf2.png'),
+(2, 'Rocket League', '2018-06-14 14:00:00', 'navyblue', 'rocketleague.jpeg'),
+(3, 'CS GO', '2018-06-14 14:00:00', 'brown', 'csgo.jpg\r\n');
 
 -- --------------------------------------------------------
 
@@ -51,6 +60,13 @@ CREATE TABLE `played_match` (
   `match_start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `played_match`
+--
+
+INSERT INTO `played_match` (`id`, `team_a_id`, `team_b_id`, `ladder_id`, `winning_team_id`, `match_start`) VALUES
+(1, 3, 2, 3, 3, '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +81,14 @@ CREATE TABLE `player` (
   `team_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `player`
+--
+
+INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`) VALUES
+(1, 'fragspawn', 'asdfasdf', 'window', 1),
+(2, 'kandigalaxy', 'qwerqwer', 'centre', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +101,15 @@ CREATE TABLE `team` (
   `color` varchar(16) NOT NULL,
   `image` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `team`
+--
+
+INSERT INTO `team` (`id`, `team_name`, `color`, `image`) VALUES
+(1, 'Unset', 'black', ''),
+(2, 'readyriders', 'forestgreen', 'readycreek.jpeg'),
+(3, 'bluebleechers', 'skyblue', 'bluebleechers.jpg');
 
 --
 -- Indexes for dumped tables
@@ -119,25 +152,25 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `ladder`
 --
 ALTER TABLE `ladder`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `played_match`
 --
 ALTER TABLE `played_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `player`
 --
 ALTER TABLE `player`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `team`
 --
 ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
