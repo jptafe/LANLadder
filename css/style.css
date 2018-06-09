@@ -1,0 +1,187 @@
+*
+{
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+body
+{
+    background-color: rgb(32, 36, 51);
+}
+
+#ladderbody
+{
+    background-color: rgb(134, 57, 52);
+}
+
+#teambody
+{
+    background-color: rgb(10, 110, 60);
+}
+
+p, h1, h2
+{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: seashell;
+}
+
+h1, h2
+{
+    font-weight: bold;
+}
+
+.container
+{
+    width: 80%;
+    padding-top: 2em;
+    margin: 3em auto 3em auto;
+    background-color: rgb(118, 137, 202);
+    background: linear-gradient(145deg,rgb(52, 89, 122), rgb(1, 44, 85)) ;
+    border: black 2px solid;
+    box-shadow: 4px 4px 7px black;
+}
+
+.ladderitem
+{
+    margin: 1em 0 3em 4em; 
+}
+
+.ladderitem aside {
+    display: inline-block;
+    width: 8em;
+}
+
+.title
+{
+    font-size: 45px;
+    margin-bottom: 2em;
+    text-align: center;
+    overflow: hidden;
+}
+
+.teamcard
+{
+    width: 60%;
+    margin: 1em auto 1em auto;
+    padding: 1em;
+    background-color: rgb(118, 137, 202);
+    background: linear-gradient(145deg,rgb(52, 89, 122), rgb(1, 44, 85)) ;
+    border: black 2px solid;
+    box-shadow: 4px 4px 7px black;
+    overflow: hidden;
+}
+
+.teamcard img
+{
+    display: inline-block;
+    width: 15%; 
+    height: 15%;
+}
+
+.teamcard p
+{
+    margin-top: 1em;
+}
+
+.score
+{
+    float: left;
+    margin-right: 2em;
+}
+
+.totalstats
+{
+    height: 30px;
+}
+
+.teamstats img
+{
+    width: 30px;
+    height: 30px;
+}
+
+.teamstats p
+{
+    margin: 0 1em 0.25em 1em;
+    display: inline-block;
+}
+
+nav
+{
+    background-color: rgb(50, 95, 153);
+    height: 10%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    box-shadow: black 0px 0px 12px;
+}
+
+nav p
+{
+    display:inline-block; 
+    margin: 1em 2em 1em 2em;
+}
+
+/**Forms**/
+
+
+form{
+    border: 1px black solid;
+    min-height: 600px;
+    max-width: 600px;
+    background-color: grey; 
+}
+
+.registerform{
+    border: 1px black solid;
+    min-height: 600px;
+    max-width: 600px;
+    background-color: grey;
+    position: absolute;
+}
+
+form h1{
+    text-align: center;
+}
+
+fieldset{height: 450px;
+        width: 80%;
+        margin: 0 auto;
+        border: none;
+    }
+
+label {
+
+    font-size: 25px;
+
+}
+
+input{
+    min-height: 50px;
+    width: 98%;
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+
+    button{
+        height:30px;
+    
+    }
+
+
+
+.field-container{
+    margin-top: 20px;
+}
