@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 10, 2018 at 10:31 AM
--- Server version: 10.2.14-MariaDB
--- PHP Version: 7.2.6
+-- Host: 127.0.0.1
+-- Generation Time: Jun 11, 2018 at 01:21 AM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,7 +33,7 @@ CREATE TABLE `ladder` (
   `game` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `players` tinyint(4) NOT NULL,
-  `start_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `color` varchar(16) NOT NULL,
   `image` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -60,7 +60,7 @@ CREATE TABLE `played_match` (
   `ladder_id` int(11) NOT NULL,
   `winning_team_id` int(11) NOT NULL,
   `losing_team_id` int(11) NOT NULL,
-  `match_start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `match_start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -86,21 +86,22 @@ CREATE TABLE `player` (
   `name` varchar(24) NOT NULL,
   `pass` varchar(18) NOT NULL,
   `seated_loc` varchar(24) NOT NULL,
-  `team_id` int(11) NOT NULL
+  `team_id` int(11) NOT NULL,
+  `user_privileges` varchar(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `player`
 --
 
-INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`) VALUES
-(1, 'fragspawn', 'asdfasdf', 'window', 2),
-(2, 'kandigalaxy', 'qwerqwer', 'centre', 3),
-(3, 'beatlecrusher', 'uiopuiop', 'front', 2),
-(4, 'craigmod', 'zxcvzxcv', 'back', 3),
-(5, 'binglee', 'vbnmvbnm', 'door', 4),
-(6, 'vincesurf', 'fghjfghj', 'centre', 4),
-(7, 'adamant', 'poiupoiu', 'isle', 5);
+INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`, `user_privileges`) VALUES
+(1, 'fragspawn', 'asdfasdf', 'window', 2, '1'),
+(2, 'kandigalaxy', 'qwerqwer', 'centre', 3, '0'),
+(3, 'beatlecrusher', 'uiopuiop', 'front', 2, '0'),
+(4, 'craigmod', 'zxcvzxcv', 'back', 3, '0'),
+(5, 'binglee', 'vbnmvbnm', 'door', 4, '0'),
+(6, 'vincesurf', 'fghjfghj', 'centre', 4, '0'),
+(7, 'adamant', 'poiupoiu', 'isle', 5, '0');
 
 -- --------------------------------------------------------
 

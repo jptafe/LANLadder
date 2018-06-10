@@ -11,3 +11,4 @@ ADMIN
 Features
 Added team colour and ladder colour to add to layout and increase contrast
 added image upload to allow the team to add flair
+User Privileges
