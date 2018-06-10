@@ -45,7 +45,6 @@
                     <aside>Losses: 1</aside>
                     <aside>Total: 3</aside>
                 </div>
-
             </div>
         </section>
     </body>
