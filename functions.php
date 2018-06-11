@@ -150,25 +150,33 @@
   }
 
   function dom_teams(){
+    $query = 'SELECT * FROM `team`'; // Possiably replace this with a procedure
+    $conn = dbConnect();
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    var_dump($result);
     ?>
-    <section class="container">
+    <main class="container">
       <div class="title">
-        <h1>Team Ladder</h1></div>
-      <div class="ladderitem">
-        <aside><a href="teamcard.php?teamid=3">Blue Bleechers</a></aside>
-        <aside><img src="img/bluebleechers.jpg" height="64" width="64"></aside>
-        <aside>Wins: 2</aside>
-        <aside>Losses: 2</aside>
-        <aside>Total: 4</aside>
+        <h1>Team Ladder</h1>
       </div>
-      <div class="ladderitem">
-        <aside><a href="teamcard.php?teamid=4">Ready Creek</a></aside>
-        <aside><img src="img/readycreek.jpeg" height="64" width="64"></aside>
-        <aside>Wins: 2</aside>
-        <aside>Losses: 1</aside>
-        <aside>Total: 3</aside>
-      </div>
-    </section>
+      <?php
+        foreach($result as $row){
+          if(!preg_match('/^Unset$/i', $row['team_name'])){ //Checks to see if the start and end of the string only contain Unset with checks for capitialization
+            print '
+            <div class="row" style="background-color: ' . $row['color'] . '">
+              <img class="col s3 materialboxed no-margin no-padding" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="auto">
+              <span class="col s2 text-shadow"><a href="teamcard.php?teamid=' . $row['id'] . '">' . $row['team_name'] . '</a></span>
+              <span class="col s2 text-shadow">Wins: 2</span>
+              <span class="col s2 text-shadow">Losses: 2</span>
+              <span class="col s2 text-shadow">Total: 4</span>
+            </div>
+            ';
+          }
+        }
+      ?>
+    </main>
 
     <?php
   }

@@ -60,6 +60,9 @@ h1, h2 {
   float: right;
   transform: translateY(-7em);
 }
+.text-shadow{
+  text-shadow: 0px 0px 5px rgb(0, 0, 0)
+}
 
 .ladderitem aside {
   display: inline-block;
