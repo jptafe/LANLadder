@@ -41,7 +41,7 @@
 
 
   function dom_head(){
-    ?> 
+    ?>
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -129,8 +129,8 @@
           <li style="background-color: ' . $row['color'] . '" class="z-depth-1">
             <div class="collapsible-header blue-grey darken-4 waves-effect waves-light">
               <img src="img/' . $row['image'] . '" width="25px" height="25px" class="circle">
-              <span class="center-align">' . $row['game'] . '</span>   
-              <time class="right-align">' . $time  . '</time>         
+              <span class="center-align">' . $row['game'] . '</span>
+              <time class="right-align">' . $time  . '</time>
             </div>
             <div class="collapsible-body ' . $text . '">
               <h4 class="center-align">' . $row['players'] . ' VS ' . $row['players'] . '</h4>
@@ -139,13 +139,9 @@
             </div>
           </li>';
         }
-        
-
-
       ?>
       </ul>
     </section>
-
     <?php
   }
 
@@ -169,9 +165,34 @@
         <aside>Total: 3</aside>
       </div>
     </section>
-
     <?php
   }
 
-//
+// Games list
+  function ladder_list() {
+    $ladder_list = "SELECT * FROM ladder;";
+    $conn = dbConnect();
+		$stmt = $conn->prepare($ladder_list);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $game) {
+      echo '<option value="' . $game['id'] . '" Name="ladder"> ' . $game['game'] . '</option>';
+      // print_r($game);
+    }
+    return;
+  }
+
+// Team list
+  function team_list() {
+    $team_list = "SELECT * FROM team;";
+    $conn = dbConnect();
+		$stmt = $conn->prepare($team_list);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $team) {
+      echo '<option value="' . $team['id'] . '" Name="team"> ' . $team['team_name'] . '</option>';
+      // print_r($game);
+    }
+    return;
+  }
 ?>
