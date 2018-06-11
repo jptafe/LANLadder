@@ -63,6 +63,13 @@ SELECT * FROM played_match
     WHERE winning_team_id = 1 OR losing_team_id = 1
 
 -- Name each of the team names involed in matches for 'CS GO' ladder
+SELECT P.`id`, T.`team_name`, E.`team_name_b`, P.`ladder_id`, W.`team_name_winner`, L.`team_name_loser`, P.`match_start` FROM `team` AS T
+inner join `played_match` AS P ON T.`id` = P.`team_a_id`
+join (select `id` as `id_b`, `team_name` as `team_name_b` from `team`) as E on P.`team_b_id` = E.`id_b`
+join (select `id` as `id_c`, `team_name` as `team_name_winner` from `team`) as W on P.`winning_team_id` = W.`id_c`
+join (select `id` as `id_d`, `team_name` as `team_name_loser` from `team`) as L on P.`losing_team_id` = L.`id_d`
+WHERE P.`ladder_id` = '3'
+ORDER BY P.`id`
 
 -- Name the teams that have no members - and delete (except for 1 - unset)
 SELECT * FROM team 
