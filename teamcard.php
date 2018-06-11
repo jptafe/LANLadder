@@ -7,7 +7,8 @@
     $getTotalTeamWins = "SELECT count(*) AS total_win 
         FROM played_match
         WHERE (team_a_id = " . (int)$_GET['teamid'] . " OR team_b_id = " . (int)$_GET['teamid'] . ") AND
-            winning_team_id = " . (int)$_GET['teamid'];
+            winning_team_id = " . (int)$_GET['teamid'] . " AND 
+			losing_team_id > 1";
     $stmt = $conn->prepare($getTotalTeamWins);
     $stmt->execute();
     $total_wins = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -16,7 +17,8 @@
     $getTotalTeamLosses = "SELECT count(*) AS total_loss 
         FROM played_match
         WHERE (team_a_id = " . (int)$_GET['teamid'] . " OR team_b_id = " . (int)$_GET['teamid'] . ") AND
-            losing_team_id = " . (int)$_GET['teamid'];
+            losing_team_id = " . (int)$_GET['teamid'] . " AND 
+			winning_team_id > 1";
     $stmt = $conn->prepare($getTotalTeamLosses);
     $stmt->execute();
     $total_loss = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -89,7 +91,8 @@
         $ladderLoss = "SELECT count(*) AS loss 
             FROM played_match
             WHERE ladder_id = " . $ladder['id'] . " AND 
-            losing_team_id = " . (int)$_GET['teamid'];
+            losing_team_id = " . (int)$_GET['teamid'] . " AND 
+			winning_team_id > 1";
 
             $stmt = $conn->prepare($ladderLoss);
             $stmt->execute();
@@ -98,7 +101,8 @@
         $ladderWins = "SELECT count(*) AS win  
             FROM played_match
             WHERE ladder_id = " . $ladder['id'] . " AND 
-            winning_team_id = " . (int)$_GET['teamid'];
+            winning_team_id = " . (int)$_GET['teamid'] . " AND 
+			losing_team_id > 1";
 
             $stmt = $conn->prepare($ladderWins);
             $stmt->execute();
