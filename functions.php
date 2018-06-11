@@ -157,7 +157,7 @@
         <h1>Team Ladder</h1>
       </div>
       <?php
-        $teams_query = 'SELECT * FROM `played_match` WHERE `winning_team_id` OR `losing_team_id`;'; 
+        $teams_query = 'SELECT * FROM `played_match` WHERE `winning_team_id` OR `losing_team_id`;';
         $stm = $conn->prepare($teams_query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $stm->execute();
         $teams = $stm->fetchAll();
@@ -189,7 +189,7 @@
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $row){
-          
+
         }
       ?>
     </main>
@@ -222,6 +222,20 @@
     foreach ($results as $team) {
       echo '<option value="' . $team['id'] . '" Name="team"> ' . $team['team_name'] . '</option>';
       // print_r($game);
+    }
+    return;
+  }
+
+  // Teams Playing a Match
+  function playing_match() {
+    $gameMatch = $_GET['id'];
+    $match = "SELECT * FROM played_match WHERE id = '" . $gameMatch . "' ;";
+    $conn = dbConnect();
+    $stmt = $conn->prepare($match);
+    $stmt->execute();
+    $playing_match = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($playing_match as $team) {
+      
     }
     return;
   }
