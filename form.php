@@ -72,11 +72,22 @@
         <fieldset>
           <div class="field-container">
             <label for="game"><b>Game</b></label>
-            <input type="text" name="" value="">
+            <select class="" name="">
+              <?php ladder_list(); ?>
+            </select>
+            <?php $playing_match = playing_match();  ?>
             <label for="team_a"><b>Team A</b></label>
-            <input type="text" name="" value="">
+            <input type="text" name="1" <?php echo 'value="' . $playing_match['team_a_id'] . '"'; ?>>
             <label for="team_b"><b>Team B</b></label>
-            <input type="text" name="" value="">
+            <input type="text" name="2" <?php echo 'value="' . $playing_match['team_b_id'] . '"' ?>>
+            <label for="win_team"><b>Win</b></label>
+            <select class="" name="winning_team_id">
+
+            </select>
+            <label for="lose_team"><b>Lose</b></label>
+            <select class="" name="losing_team_id">
+
+            </select>
             <div class="">
               <button type="submit">Publish Match</button>
             </div>
@@ -85,6 +96,7 @@
       </div>
     </form>
 
+    <?php print_r(playing_match()); ?>
 
   </body>
 </html>

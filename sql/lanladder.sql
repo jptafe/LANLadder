@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2018 at 01:21 AM
+-- Generation Time: Jun 11, 2018 at 08:25 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -43,9 +43,9 @@ CREATE TABLE `ladder` (
 --
 
 INSERT INTO `ladder` (`id`, `game`, `description`, `players`, `start_time`, `color`, `image`) VALUES
-(1, 'TF2', '', 0, '2018-06-08 04:21:51', 'orange', 'tf2.png'),
-(2, 'Rocket League', '', 0, '2018-06-14 14:00:00', 'navyblue', 'rocketleague.jpeg'),
-(3, 'CS GO', '', 0, '2018-06-14 14:00:00', 'brown', 'csgo.jpg\r\n');
+(1, 'TF2', '', 6, '2018-06-11 01:13:27', 'orange', 'tf2.png'),
+(2, 'Rocket League', '', 3, '2018-06-11 01:13:30', 'navyblue', 'rocketleague.jpeg'),
+(3, 'CS GO', '', 5, '2018-06-11 01:13:33', 'brown', 'csgo.jpg\r\n');
 
 -- --------------------------------------------------------
 
@@ -84,7 +84,7 @@ INSERT INTO `played_match` (`id`, `team_a_id`, `team_b_id`, `ladder_id`, `winnin
 CREATE TABLE `player` (
   `id` int(11) NOT NULL,
   `name` varchar(24) NOT NULL,
-  `pass` varchar(18) NOT NULL,
+  `pass` varchar(255) NOT NULL,
   `seated_loc` varchar(24) NOT NULL,
   `team_id` int(11) NOT NULL,
   `user_privileges` varchar(1) NOT NULL DEFAULT '0'
@@ -95,13 +95,13 @@ CREATE TABLE `player` (
 --
 
 INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`, `user_privileges`) VALUES
-(1, 'fragspawn', 'asdfasdf', 'window', 2, '1'),
-(2, 'kandigalaxy', 'qwerqwer', 'centre', 3, '0'),
-(3, 'beatlecrusher', 'uiopuiop', 'front', 2, '0'),
-(4, 'craigmod', 'zxcvzxcv', 'back', 3, '0'),
-(5, 'binglee', 'vbnmvbnm', 'door', 4, '0'),
-(6, 'vincesurf', 'fghjfghj', 'centre', 4, '0'),
-(7, 'adamant', 'poiupoiu', 'isle', 5, '0');
+(1, 'fragspawn', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'window', 2, '1'),
+(2, 'kandigalaxy', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'centre', 3, '0'),
+(3, 'beatlecrusher', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'front', 2, '0'),
+(4, 'craigmod', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'back', 3, '0'),
+(5, 'binglee', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'door', 4, '0'),
+(6, 'vincesurf', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'centre', 4, '0'),
+(7, 'adamant', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'isle', 5, '0');
 
 -- --------------------------------------------------------
 
