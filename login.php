@@ -17,7 +17,7 @@ Show a form for users to login, action goes to loginprocess.php
 </head>
 
 <body>
-  <form action="control/loginprocess.php" action="post">
+  <form action="control/loginprocess.php" method="post">
     <h1>Become a Player</h1>
     <div class="container">
       <fieldset>

@@ -1,8 +1,9 @@
 <?php
 // Session Set
  session_start();
- unset($_SESSION['UserPrivilges']);
- $_SESSION['UserPrivileges'] = 0;
+ if(!isset($_SESSION['UserPrivileges'])) {
+   $_SESSION['UserPrivileges'] = 9;
+ }
 
 
 // DB Connections
@@ -72,7 +73,7 @@
               <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
             </ul>
             <ul class="right">
-              <li class="waves-effect waves-light"><a href="logout.php">Logout</a></li>
+              <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>
             </ul>
           </div>
         </nav>
@@ -88,7 +89,7 @@
               <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
             </ul>
             <ul class="right">
-              <li class="waves-effect waves-light"><a href="logout.php">Logout</a></li>
+              <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>
             </ul>
           </div>
         </nav>
@@ -102,8 +103,8 @@
               <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
             </ul>
             <ul class="right">
-              <li class="waves-effect waves-light"><a href="#">Login</a></li>
-              <li class="waves-effect waves-light"><a href="#">Register</a></li>
+              <li class="waves-effect waves-light"><a href="login.php">Login</a></li>
+              <li class="waves-effect waves-light"><a href="register.php">Register</a></li>
             </ul>
           </div>
         </nav>
@@ -250,7 +251,7 @@
     $stmt->execute();
     $playing_match = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($playing_match as $team) {
-      
+
     }
     return;
   }
