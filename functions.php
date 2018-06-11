@@ -1,7 +1,7 @@
 <?php
 // Session Set
  session_start();
- if (!isset($_SESSION['UserPrivilges'])) {
+ if(!isset($_SESSION['UserPrivileges'])) {
    $_SESSION['UserPrivileges'] = 9;
  }
 

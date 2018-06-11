@@ -22,12 +22,12 @@
 				//Set Users details into session.
 				$_SESSION['UserID'] = $result['id'];
 				$_SESSION['UserPrivileges'] = $result['user_privileges'];
-			 	header('Location: ../index.php');
+			 	// header('Location: ../index.php');
 			} else {
 				// if an email was found but your password was wrong.
 				$_SESSION['message'] = "Login details are invalid please try again";
 			 	header('Location: ../index.php');
 			}
 		}
-
+		print_r($_SESSION);
  ?>
