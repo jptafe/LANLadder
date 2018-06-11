@@ -66,11 +66,13 @@
         ?>
         <nav class="navbar_player">
           <div class="nav-wrapper">
+            <ul class="left">
+              <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
+              <li class="waves-effect waves-light"><a href="#">Create Team</a></li>
+              <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
+            </ul>
             <ul class="right">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="#">Create Team</a></li>
-              <li><a href="#">Join Ladder</a></li>
-              <li><a href="logout.php">Logout</a></li>
+              <li class="waves-effect waves-light"><a href="logout.php">Logout</a></li>
             </ul>
           </div>
         </nav>
@@ -80,10 +82,13 @@
         ?>
         <nav class="navbar_admin">
           <div class="nav-wrapper">
+            <ul class="left">
+              <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
+              <li class="waves-effect waves-light"><a href="#">Create Team</a></li>
+              <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
+            </ul>
             <ul class="right">
-              <li><a href="#">Create Matches</a></li>
-              <li><a href="#">Create Ladder</a></li>
-              <li><a href="logout.php">Logout</a></li>
+              <li class="waves-effect waves-light"><a href="logout.php">Logout</a></li>
             </ul>
           </div>
         </nav>
@@ -93,10 +98,12 @@
         ?>
         <nav class="navbar_anon">
           <div class="nav-wrapper">
+            <ul>
+              <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
+            </ul>
             <ul class="right">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Register</a></li>
+              <li class="waves-effect waves-light"><a href="#">Login</a></li>
+              <li class="waves-effect waves-light"><a href="#">Register</a></li>
             </ul>
           </div>
         </nav>
@@ -156,6 +163,7 @@
       <div class="title">
         <h1>Team Ladder</h1>
       </div>
+      <ul class="collection">
       <?php
         $teams_query = 'SELECT * FROM `played_match` WHERE `winning_team_id` OR `losing_team_id`;'; 
         $stm = $conn->prepare($teams_query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
@@ -164,9 +172,10 @@
         foreach($result as $row){
           if(!preg_match('/^Unset$/i', $row['team_name'])){ //Checks to see if the start and end of the string only contain Unset with checks for capitialization
             print '
-            <div class="row" style="background-color: ' . $row['color'] . '">
-              <img class="col s3 materialboxed no-margin no-padding" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="250px">
-              <span class="col s2 text-shadow"><a href="teamcard.php?teamid=' . $row['id'] . '">' . $row['team_name'] . '</a></span>';
+            <li class="collection-item avatar z-depth-1" style="background-color: ' . $row['color'] . ';">
+              <div class="opacity_ontop">
+              <img class="circle" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="250px">
+              <a href="teamcard.php?teamid=' . $row['id'] . '" class="title text-shadow"><h4 class=" left-align">' . $row['team_name'] . '</h4></a>';
             $win = 0;
             $loss = 0;
             foreach($teams as $teamid){
@@ -177,10 +186,15 @@
               }
             }
             $total = $win + $loss;
-            print '<span class="col s2 text-shadow">Wins: ' . $win . '</span>';
-            print '<span class="col s2 text-shadow">Losses: ' . $loss . '</span>';
-            print '<span class="col s2 text-shadow">Total: ' . $total . '</span>';
-            print '</div>';
+              print '
+                <p class="text-shadow">Wins: ' . $win . '</p>
+                <p class="text-shadow">Losses: ' . $loss . '</p>
+                <span class=" secondary-content white-text text-shadow">
+                  <p>Total: ' . $total . '</p>
+                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View teams</a>
+                </span>
+              </div>';
+            print '</li>';
           }
         }
         $team_list = "SELECT * FROM team;";
@@ -192,6 +206,7 @@
           
         }
       ?>
+      </ul>
     </main>
 
     </section>

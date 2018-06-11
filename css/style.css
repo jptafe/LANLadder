@@ -60,8 +60,18 @@ h1, h2 {
   float: right;
   transform: translateY(-7em);
 }
+.teams-button{
+  margin: 40% 0 0 0;
+}
 .text-shadow{
   text-shadow: 0px 0px 5px rgb(0, 0, 0)
+}
+.collection > .collection-item{
+  border-bottom: none;
+  margin: 5% 0;
+}
+.collection{
+  border: none;
 }
 
 .ladderitem aside {
