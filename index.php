@@ -20,7 +20,6 @@
       echo "<br>";
     ?>
   </div>
-  <input type="color" onclick="color(this.value)">
 </body>
 
 </html>

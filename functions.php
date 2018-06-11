@@ -41,7 +41,7 @@
 
 
   function dom_head(){
-    ?> 
+    ?>
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -129,8 +129,8 @@
           <li style="background-color: ' . $row['color'] . '" class="z-depth-1">
             <div class="collapsible-header blue-grey darken-4 waves-effect waves-light">
               <img src="img/' . $row['image'] . '" width="25px" height="25px" class="circle">
-              <span class="center-align">' . $row['game'] . '</span>   
-              <time class="right-align">' . $time  . '</time>         
+              <span class="center-align">' . $row['game'] . '</span>
+              <time class="right-align">' . $time  . '</time>
             </div>
             <div class="collapsible-body ' . $text . '">
               <h4 class="center-align">' . $row['players'] . ' VS ' . $row['players'] . '</h4>
@@ -139,47 +139,90 @@
             </div>
           </li>';
         }
-        
-
-
       ?>
       </ul>
     </section>
-
     <?php
   }
 
   function dom_teams(){
-    $query = 'SELECT * FROM `team`'; // Possiably replace this with a procedure
     $conn = dbConnect();
+    $query = 'SELECT * FROM `team` ORDER BY `id` ASC'; // Possiably replace this with a procedure
     $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $stmt->execute();
     $result = $stmt->fetchAll();
-    var_dump($result);
     ?>
     <main class="container">
       <div class="title">
         <h1>Team Ladder</h1>
       </div>
       <?php
+        $teams_query = 'SELECT * FROM `played_match` WHERE `winning_team_id` OR `losing_team_id`;'; 
+        $stm = $conn->prepare($teams_query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $stm->execute();
+        $teams = $stm->fetchAll();
         foreach($result as $row){
           if(!preg_match('/^Unset$/i', $row['team_name'])){ //Checks to see if the start and end of the string only contain Unset with checks for capitialization
             print '
             <div class="row" style="background-color: ' . $row['color'] . '">
-              <img class="col s3 materialboxed no-margin no-padding" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="auto">
-              <span class="col s2 text-shadow"><a href="teamcard.php?teamid=' . $row['id'] . '">' . $row['team_name'] . '</a></span>
-              <span class="col s2 text-shadow">Wins: 2</span>
-              <span class="col s2 text-shadow">Losses: 2</span>
-              <span class="col s2 text-shadow">Total: 4</span>
-            </div>
-            ';
+              <img class="col s3 materialboxed no-margin no-padding" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="250px">
+              <span class="col s2 text-shadow"><a href="teamcard.php?teamid=' . $row['id'] . '">' . $row['team_name'] . '</a></span>';
+            $win = 0;
+            $loss = 0;
+            foreach($teams as $teamid){
+              if($row['id'] == $teamid['winning_team_id']){
+                $win++;
+              }else if($row['id'] == $teamid['losing_team_id']){
+                $loss++;
+              }
+            }
+            $total = $win + $loss;
+            print '<span class="col s2 text-shadow">Wins: ' . $win . '</span>';
+            print '<span class="col s2 text-shadow">Losses: ' . $loss . '</span>';
+            print '<span class="col s2 text-shadow">Total: ' . $total . '</span>';
+            print '</div>';
           }
+        }
+        $team_list = "SELECT * FROM team;";
+        $conn = dbConnect();
+        $stmt = $conn->prepare($team_list);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result as $row){
+          
         }
       ?>
     </main>
 
+    </section>
     <?php
   }
 
-//
+// Games list
+  function ladder_list() {
+    $ladder_list = "SELECT * FROM ladder;";
+    $conn = dbConnect();
+		$stmt = $conn->prepare($ladder_list);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $game) {
+      echo '<option value="' . $game['id'] . '" Name="ladder"> ' . $game['game'] . '</option>';
+      // print_r($game);
+    }
+    return;
+  }
+
+// Team list
+  function team_list() {
+    $team_list = "SELECT * FROM team;";
+    $conn = dbConnect();
+		$stmt = $conn->prepare($team_list);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $team) {
+      echo '<option value="' . $team['id'] . '" Name="team"> ' . $team['team_name'] . '</option>';
+      // print_r($game);
+    }
+    return;
+  }
 ?>
