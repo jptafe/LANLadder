@@ -9,6 +9,6 @@
     header('location: ../index.php');
   } else {
     $_SESSION['error_message'] = 'Your password do not match';
-    header('location: ../index')
+    header('location: ../index');
   }
 ?>

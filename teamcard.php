@@ -1,3 +1,23 @@
+<?php
+
+    $getTeamMembers = "SELECT player.name 
+        FROM player, team
+        WHERE team.id = " . $_GET['teamid'] . " AND 
+        WHERE team.id = player.team_id;";
+
+    $getTotalTeamWins = "SELECT count(*)
+        FROM played_match
+        WHERE (team_a_id = " . $_GET['teamid'] . " OR team_b_id = " . $_GET['teamid'] . ") AND
+            winning_team_id = " . $_GET['teamid'];
+
+    $getTotalTeamLosses = "SELECT count(*)
+        FROM played_match
+        WHERE (team_a_id = " . $_GET['teamid'] . " OR team_b_id = " . $_GET['teamid'] . ") AND
+            losing_team_id = " . $_GET['teamid'];
+
+    $getLadders = "";
+    $getLadders = "";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
