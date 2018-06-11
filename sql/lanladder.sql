@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2018 at 08:25 AM
+-- Generation Time: Jun 11, 2018 at 08:55 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -101,7 +101,8 @@ INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`, `user_privi
 (4, 'craigmod', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'back', 3, '0'),
 (5, 'binglee', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'door', 4, '0'),
 (6, 'vincesurf', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'centre', 4, '0'),
-(7, 'adamant', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'isle', 5, '0');
+(7, 'adamant', '$2y$10$8RXCXyEy5ahpruAKMBigDu101SM0da4eiEAeGEZAdi2ixmOo75pCu', 'isle', 5, '0'),
+(8, 'houley', '$2y$10$gfKzfu7CDYFhFgyZCCM2F.xSsiVdJGv2MqlgOpyPd1mjOCdK2VJ1i', 'sky', 1, '1');
 
 -- --------------------------------------------------------
 
@@ -181,7 +182,7 @@ ALTER TABLE `played_match`
 -- AUTO_INCREMENT for table `player`
 --
 ALTER TABLE `player`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `team`
