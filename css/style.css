@@ -140,12 +140,6 @@ nav p {
 
 /**Forms**/
 
-form {
-  border: 1px black solid;
-  min-height: 600px;
-  max-width: 600px;
-  background-color: grey;
-}
 
 .registerform {
   border: 1px black solid;
