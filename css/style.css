@@ -35,19 +35,30 @@ a:hover {
 h1, h2 {
   font-weight: bold;
 }
-
-.container {
-  width: 80%;
-  padding-top: 2em;
-  margin: 3em auto 3em auto;
-  background-color: rgb(118, 137, 202);
-  background: linear-gradient(145deg, rgb(52, 89, 122), rgb(1, 44, 85));
-  border: black 2px solid;
-  box-shadow: 4px 4px 7px black;
+.collapsible-header > img{
+  position: absolute;
 }
-
+.collapsible-header > span.center-align{
+  margin: 0 0 0 5%;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.collapsible-header > time.right-align{
+  margin: 0 0 0 auto;
+}
+.collapsible-header{
+  border-bottom: none;
+  margin: 1% 0;
+}
+.collapsible{
+  border: none;
+}
 .ladderitem {
   margin: 1em 0 3em 4em;
+}
+.games-button{
+  float: right;
+  transform: translateY(-7em);
 }
 
 .ladderitem aside {
@@ -104,7 +115,6 @@ h1, h2 {
 
 nav {
   background-color: rgb(50, 95, 153);
-  height: 10%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   box-shadow: black 0px 0px 12px;
