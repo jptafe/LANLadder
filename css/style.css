@@ -10,6 +10,9 @@ body {
   background-color: rgb(32, 36, 51);
 }
 
+input {
+	background: black;
+}
 #ladderbody {
   background-color: rgb(134, 57, 52);
 }
@@ -63,7 +66,7 @@ h1, h2 {
 .teams-button{
   margin: 40% 0 0 0;
 }
-.text-shadow{
+.text-shadow {
   text-shadow: 0px 0px 5px rgb(0, 0, 0)
 }
 .collection > .collection-item{

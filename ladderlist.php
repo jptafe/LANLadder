@@ -1,10 +1,14 @@
+<html lang="en">
+
 <?php
 
     include 'functions.php';
+    dom_head();
+    echo '<body>';
 
     $conn = dbconnect();
 
-    $getLadder = "SELECT DISTINCT team.id, team.team_name, team.image  
+    $getLadder = "SELECT DISTINCT team.id, team.team_name, team.image, team.color  
 		FROM team JOIN played_match on team.id = played_match.winning_team_id
 			WHERE played_match.losing_team_id > 1 AND
 			played_match.ladder_id = " . (int)$_GET['gameid']; 
@@ -17,36 +21,10 @@
     $stmt->execute();
     $ladder_details = $stmt->fetch(PDO::FETCH_ASSOC);
 
-?>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LANLadder ladderlist</title>
-  <script src="js/code.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/style.css" type="text/css">
-</head>
+	dom_nav();
 
-<body>
-  <nav class="navbar_anon">
-    <p><a href="index.php">Home</a></p>
-    <p><a href="login.php">Login</a></p>
-    <p><a href="register.php">Register</a></p>
-  </nav>
-  <nav class="navbar_player">
-    <p><a href="index.php">Home</a></p>
-    <p>Logout</p>
-    <p>Join Team</p>
-    <p>Create Team</p>
-    <p>Join Ladder</p>
-  </nav>
-  <nav class="navbar_admin">
-    <p><a href="index.php">Home</a></p>
-    <p>Logout</p>
-    <p>Create Matches</p>
-    <p>Create Ladder</p>
-  </nav>
+?>
+
   <section class="container">
     <div class="title">
       <h1><?php echo $ladder_details['game']; ?></h1>
@@ -82,12 +60,12 @@
 
 
 ?>
-    <div class="ladderitem">
-      <aside><a href="teamcard.php?teamid=<?php echo $ladder_item['id'] . "\">" . $ladder_item['team_name']; ?></a></aside>
+    <div class="ladderitem" style="background-color: <?php echo $ladder_item['color']; ?>">
+      <aside class="text-shadow"><a href="teamcard.php?teamid=<?php echo $ladder_item['id'] . "\">" . $ladder_item['team_name']; ?></a></aside>
       <aside><img src="img/<?php echo $ladder_item['image']; ?>" height="64" width="64"></aside>
-      <aside>Wins: <?php echo $total_wins['total_win']; ?></aside>
-      <aside>Losses: <?php echo $total_loss['total_loss'];?></aside>
-      <aside>Total: <?php echo $totalgames; ?></aside>
+      <aside class="text-shadow">Wins: <?php echo $total_wins['total_win']; ?></aside>
+      <aside class="text-shadow">Losses: <?php echo $total_loss['total_loss'];?></aside>
+      <aside class="text-shadow">Total: <?php echo $totalgames; ?></aside>
     </div>
 <?php } ?>
   </section>
