@@ -148,7 +148,15 @@ nav p {
   background-color: grey;
   position: absolute;
 }
-
+input[type=color]{
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  outline: none;
+}
+input[type=range]{
+  border: none;
+}
 form h1 {
   text-align: center;
 }
@@ -162,13 +170,6 @@ fieldset {
 
 label {
   font-size: 25px;
-}
-
-input {
-  min-height: 50px;
-  width: 98%;
-  font-size: 20px;
-  margin-bottom: 25px;
 }
 
 button {
