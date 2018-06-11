@@ -6,8 +6,10 @@ SELECT * FROM ladder ORDER BY start_time;
 SELECT * FROM users ORDER BY users.name;
 
 -- count all teams
+SELECT count(*) FROM teams
 
 -- only list teams that have players in them
+SELECT * FROM team WHERE team.id IN (SELECT id FROM player)
 
 -- list the ladders that have matches scheduled/played
 
