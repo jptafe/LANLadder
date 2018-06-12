@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 11, 2018 at 08:55 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.2
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 12, 2018 at 03:06 AM
+-- Server version: 5.7.21
+-- PHP Version: 7.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,15 +28,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `ladder`
 --
 
-CREATE TABLE `ladder` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `ladder`;
+CREATE TABLE IF NOT EXISTS `ladder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `game` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `players` tinyint(4) NOT NULL,
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `color` varchar(16) NOT NULL,
-  `image` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `image` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ladder`
@@ -53,15 +55,22 @@ INSERT INTO `ladder` (`id`, `game`, `description`, `players`, `start_time`, `col
 -- Table structure for table `played_match`
 --
 
-CREATE TABLE `played_match` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `played_match`;
+CREATE TABLE IF NOT EXISTS `played_match` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `team_a_id` int(11) NOT NULL,
   `team_b_id` int(11) NOT NULL,
   `ladder_id` int(11) NOT NULL,
   `winning_team_id` int(11) NOT NULL,
   `losing_team_id` int(11) NOT NULL,
-  `match_start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `match_start` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `team_a_id` (`team_a_id`),
+  KEY `team_b_id` (`team_b_id`),
+  KEY `ladder_id` (`ladder_id`),
+  KEY `losing_team_id` (`losing_team_id`),
+  KEY `winning_team_id` (`winning_team_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `played_match`
@@ -73,7 +82,8 @@ INSERT INTO `played_match` (`id`, `team_a_id`, `team_b_id`, `ladder_id`, `winnin
 (3, 2, 4, 3, 4, 2, '0000-00-00 00:00:00'),
 (4, 3, 4, 3, 3, 4, '0000-00-00 00:00:00'),
 (5, 3, 2, 2, 1, 1, '0000-00-00 00:00:00'),
-(6, 2, 4, 2, 1, 1, '0000-00-00 00:00:00');
+(6, 2, 4, 2, 1, 1, '0000-00-00 00:00:00'),
+(7, 4, 3, 2, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -81,14 +91,17 @@ INSERT INTO `played_match` (`id`, `team_a_id`, `team_b_id`, `ladder_id`, `winnin
 -- Table structure for table `player`
 --
 
-CREATE TABLE `player` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `player`;
+CREATE TABLE IF NOT EXISTS `player` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(24) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `seated_loc` varchar(24) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `user_privileges` varchar(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `user_privileges` varchar(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `team_id` (`team_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `player`
@@ -110,12 +123,14 @@ INSERT INTO `player` (`id`, `name`, `pass`, `seated_loc`, `team_id`, `user_privi
 -- Table structure for table `team`
 --
 
-CREATE TABLE `team` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `team`;
+CREATE TABLE IF NOT EXISTS `team` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `team_name` varchar(24) NOT NULL,
   `color` varchar(16) NOT NULL,
-  `image` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `image` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `team`
@@ -127,68 +142,6 @@ INSERT INTO `team` (`id`, `team_name`, `color`, `image`) VALUES
 (3, 'bluebleechers', 'skyblue', 'bluebleechers.jpg'),
 (4, 'sunset', 'yellow', 'sunset.jpeg'),
 (5, 'tsunami', 'oceanblue', 'tsunami.jpeg');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `ladder`
---
-ALTER TABLE `ladder`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `played_match`
---
-ALTER TABLE `played_match`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `team_a_id` (`team_a_id`),
-  ADD KEY `team_b_id` (`team_b_id`),
-  ADD KEY `ladder_id` (`ladder_id`),
-  ADD KEY `losing_team_id` (`losing_team_id`),
-  ADD KEY `winning_team_id` (`winning_team_id`);
-
---
--- Indexes for table `player`
---
-ALTER TABLE `player`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `team_id` (`team_id`);
-
---
--- Indexes for table `team`
---
-ALTER TABLE `team`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `ladder`
---
-ALTER TABLE `ladder`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `played_match`
---
-ALTER TABLE `played_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `player`
---
-ALTER TABLE `player`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `team`
---
-ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

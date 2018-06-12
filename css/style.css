@@ -81,7 +81,14 @@ h1, h2 {
   display: inline-block;
   width: 8em;
 }
-
+select{
+  display: block;
+  border: none;
+  outline: none;
+}
+select:focus{
+  outline: none;
+}
 .title {
   font-size: 45px;
   margin-bottom: 2em;

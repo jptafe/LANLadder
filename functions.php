@@ -37,6 +37,35 @@
   }
 
 
+  // Played matches
+  function insert_match($game, $team_a, $team_b){
+    try{
+      $query = 'INSERT INTO `played_match`(`team_a_id`, `team_b_id`, `ladder_id`, `winning_team_id`, `losing_team_id`) VALUES (:team_a, :team_b, :game, 1, 1)'; // 1 is unset
+      $conn = dbConnect();
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':team_a', $team_a);
+      $stmt->bindParam(':team_b', $team_b);
+      $stmt->bindParam(':game', $game);
+      $result = $stmt->execute();
+    }catch (PDOException $e){
+      exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
+    }
+  }
+
+  function insert_new_player($name, $pass, $loc){
+    try{
+      $query = 'INSERT INTO `player`(`name`, `pass`, `seated_loc`) VALUES (:name , :pass, :loc)';
+      $conn = dbConnect();
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':name', $name);
+      $stmt->bindParam(':pass', $pass);
+      $stmt->bindParam(':loc', $loc);
+      $result = $stmt->execute();
+    }catch (PDOException $e){
+      exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
+    }
+  }
+
 
   // DOM Items
 
@@ -85,8 +114,8 @@
           <div class="nav-wrapper">
             <ul class="left">
               <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
-              <li class="waves-effect waves-light"><a href="#">Create Team</a></li>
-              <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
+              <li class="waves-effect waves-light"><a href="admin/createladder.php">Create Ladder</a></li>
+              <li class="waves-effect waves-light"><a href="admin/creatematch.php">Create Match</a></li>
             </ul>
             <ul class="right">
               <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>
@@ -214,18 +243,15 @@
     <?php
   }
 
+
 // Games list
   function ladder_list() {
     $ladder_list = "SELECT * FROM ladder;";
     $conn = dbConnect();
 		$stmt = $conn->prepare($ladder_list);
 		$stmt->execute();
-		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($results as $game) {
-      echo '<option value="' . $game['id'] . '" Name="ladder"> ' . $game['game'] . '</option>';
-      // print_r($game);
-    }
-    return;
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
   }
 
 // Team list
@@ -235,11 +261,7 @@
 		$stmt = $conn->prepare($team_list);
 		$stmt->execute();
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($results as $team) {
-      echo '<option value="' . $team['id'] . '" Name="team"> ' . $team['team_name'] . '</option>';
-      // print_r($game);
-    }
-    return;
+    return $results;
   }
 
   // Teams Playing a Match
@@ -250,9 +272,6 @@
     $stmt = $conn->prepare($match);
     $stmt->execute();
     $playing_match = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($playing_match as $team) {
-
-    }
-    return;
+    return $playing_match;
   }
 ?>
