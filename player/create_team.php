@@ -33,7 +33,15 @@
         <label for="color"><b>Team Colour</b></label>
         <input type="color" name="color">
         <label for="image"><b>Image</b></label>
-        <input type="file" required name="image" accept="image/jpeg, image/x-png">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+              <input type="file" required name="image" accept="image/jpeg, image/x-png">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
         <button type="submit" class="btn waves-effect waves-green">Create Team</button>
       </form>
     </div>
