@@ -25,7 +25,7 @@
 
 ?>
 
-  <section class="container">
+  <section class="container" style="background-color: <?php echo $ladder_details['color']; ?>">
     <div class="title">
       <h1><?php echo $ladder_details['game']; ?></h1>
 	</div>

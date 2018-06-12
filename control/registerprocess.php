@@ -12,7 +12,7 @@
     $HashedPassword = password_hash($UserPassword, PASSWORD_DEFAULT);
     $_SESSION['user'] = $Username;
     $_SESSION['UserPrivileges'] = 0;
-    insert_new_player($Username, $HashedPassword, $location, $teamid);
+    $_SESSION['UserID'] = insert_new_player($Username, $HashedPassword, $location, $teamid);
     header('location: ../index.php');
   } else {
     $_SESSION['error_message'] = 'Your password do not match';
