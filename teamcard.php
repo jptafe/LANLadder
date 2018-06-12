@@ -97,6 +97,23 @@
         </div>
       </div>
     </div>
+
+<!-- list any matches with a TeamID in either team_a or team_b and a 1 in either winning team or losing team -->
+<?php
+
+	$incomplete_matches = "SELECT * FROM `played_match` 
+			WHERE (losing_team_id = 1 OR winning_team_id = 1) 
+			AND (team_a_id = " . $_SESSION['TeamID'] . " OR team_b_id = " . $_SESSION['TeamID'] . ")
+			ORDER BY ladder_id";
+
+    $stmt = $conn->prepare($incomplete_matches);
+    $stmt->execute();
+    $matchlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	print_r($matchlist);
+?>
+	<div class="teamcard">
+		<h4>Incomplete Matches</h4>
+		<p>FOO</p>
     </div>
   </section>
 </body>

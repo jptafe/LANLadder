@@ -132,6 +132,7 @@
               <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
               <li class="waves-effect waves-light"><a href="player/create_team.php">Create Team</a></li>
               <li class="waves-effect waves-light"><a href="#teams">View Teams</a></li>
+              <li class="waves-effect waves-light"><a href="player/report_result.php">Report Result</a></li>
             </ul>
             <ul class="right">
               <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>

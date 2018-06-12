@@ -43,7 +43,6 @@ SELECT count(*)
     FROM played_match 
     WHERE (team_a_id = 3 OR team_b_id = 3)
 
-
 -- get all teams and their wins
 SELECT team.team_name, count(played_match.winning_team_id) 
 	FROM team  
@@ -57,6 +56,9 @@ SELECT team.team_name, count(played_match.winning_team_id)
 		JOIN played_match ON team.id = played_match.winning_team_id
 		GROUP BY team.team_name
 		ORDER BY team.team_name ASC
+
+-- Get all matches with unset winner or loser (value of 1)
+SELECT * FROM `played_match` WHERE (losing_team_id = 1 OR winning_team_id = 1) AND (team_a_id = ? OR team_b_id = ?)
 
 -- show matches that don't yet have complete results yet (1 means match with no result)
 SELECT * FROM played_match 
