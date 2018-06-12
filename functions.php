@@ -52,14 +52,15 @@
     }
   }
 
-  function insert_new_player($name, $pass, $loc){
+  function insert_new_player($name, $pass, $loc, $teamid){
     try{
-      $query = 'INSERT INTO `player`(`name`, `pass`, `seated_loc`) VALUES (:name , :pass, :loc)';
+      $query = 'INSERT INTO `player`(`name`, `pass`, `seated_loc`, `team_id`) VALUES (:name , :pass, :loc, :team)';
       $conn = dbConnect();
       $stmt = $conn->prepare($query);
       $stmt->bindParam(':name', $name);
       $stmt->bindParam(':pass', $pass);
       $stmt->bindParam(':loc', $loc);
+      $stmt->bindParam(':team', $teamid);
       $result = $stmt->execute();
     }catch (PDOException $e){
       exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
@@ -67,6 +68,20 @@
   }
 
 
+  // Create New Team
+  function create_new_team($name, $color, $file) {
+    try{
+      $query = 'INSERT INTO `team`(`team_name`, `color`, `image`) VALUES (:tname , :color, :img)';
+      $conn = dbConnect();
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':tname', $name);
+      $stmt->bindParam(':color', $color);
+      $stmt->bindParam(':img', $file);
+      $result = $stmt->execute();
+    }catch (PDOException $e){
+      exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
+    }
+  }
   // DOM Items
 
 
@@ -98,8 +113,8 @@
           <div class="nav-wrapper">
             <ul class="left">
               <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
-              <li class="waves-effect waves-light"><a href="#">Create Team</a></li>
-              <li class="waves-effect waves-light"><a href="#">Join Ladder</a></li>
+              <li class="waves-effect waves-light"><a href="player/create_team.php">Create Team</a></li>
+              <li class="waves-effect waves-light"><a href="player/join_team.php">Join Ladder</a></li>
             </ul>
             <ul class="right">
               <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>
