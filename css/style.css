@@ -64,7 +64,13 @@ h1, h2 {
   transform: translateY(-7em);
 }
 .teams-button{
-  margin: 20% 0 0 0;
+  position: absolute;
+  bottom: 0;
+  top: 350%;
+  right: -4.75%;
+}
+.teams-button:nth-child(3){
+  right: 130%;
 }
 .text-shadow {
   text-shadow: 0px 0px 5px rgb(0, 0, 0)
@@ -121,9 +127,11 @@ select:focus{
   float: left;
   margin-right: 2em;
 }
-
-.totalstats {
-  height: 30px;
+.current-team{
+  box-shadow: inset 0px 0px 300px -65px rgba(255,255,255,1);
+}
+.not-current-team{
+  box-shadow: inset 0px 0px 300px -65px rgba(0,0,0,1);
 }
 
 .teamstats img {

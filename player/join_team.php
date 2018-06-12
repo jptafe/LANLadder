@@ -4,11 +4,12 @@
 
 -->
 <?php
+  session_start();
   require_once '../functions.php';
   $teamid = $_GET['teamid'];
   if (isset($_GET['teamid'])) {
     $player = $_SESSION['UserID'];
-    $_GET['teamid'] = $_SESSION['TeamID'];
+    $_SESSION['TeamID'] = $_GET['teamid'];
     join_team($player, $teamid);
     header('location: ../');
   } else {

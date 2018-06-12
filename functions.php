@@ -231,9 +231,12 @@
         $teams = $stm->fetchAll();
         foreach($result as $row){
           if(!preg_match('/^Unset$/i', $row['team_name'])){ //Checks to see if the start and end of the string only contain Unset with checks for capitialization
+            if($_SESSION['TeamID'] == $row['id']){
+              print '<li class="collection-item avatar z-depth-3 current-team" style="background-color: ' . $row['color'] . ';">';
+            }else{
+              print '<li class="collection-item avatar z-depth-1 not-current-team" style="background-color: ' . $row['color'] . ';">';
+            }
             print '
-            <li class="collection-item avatar z-depth-1" style="background-color: ' . $row['color'] . ';">
-              <div class="opacity_ontop">
               <img class="circle" src="img/' . $row['image'] . '" alt="Team image" width="250px" height="250px">
               <a href="teamcard.php?teamid=' . $row['id'] . '" class="title text-shadow"><h4 class=" left-align">' . $row['team_name'] . '</h4></a>';
             $win = 0;
@@ -253,9 +256,9 @@
                   <p class="right-align">Total: ' . $total . '</p>';
                   if($_SESSION['UserPrivileges'] <= 1 && isset($_SESSION['UserID'])){
                     if($_SESSION['TeamID'] == 1){ // If they haven't picked a team
-                      print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join Team</a>'; 
+                      print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join</a>'; 
                     }
-                    print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View team</a>';                     
+                    print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View</a>';                     
                   }
                 print '</span>
               </div>';
