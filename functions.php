@@ -250,11 +250,14 @@
                 <p class="text-shadow">Wins: ' . $win . '</p>
                 <p class="text-shadow">Losses: ' . $loss . '</p>
                 <span class=" secondary-content white-text text-shadow">
-                  <p>Total: ' . $total . '</p>
-
-                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join Team</a>
-                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View team</a>
-                </span>
+                  <p class="right-align">Total: ' . $total . '</p>';
+                  if($_SESSION['UserPrivileges'] <= 1 && isset($_SESSION['UserID'])){
+                    if($_SESSION['TeamID'] != $row['id']){
+                      print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join Team</a>'; 
+                    }
+                    print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View team</a>';                     
+                  }
+                print '</span>
               </div>';
             print '</li>';
           }
