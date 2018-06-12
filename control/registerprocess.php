@@ -12,6 +12,7 @@
     $HashedPassword = password_hash($UserPassword, PASSWORD_DEFAULT);
     $_SESSION['user'] = $Username;
     $_SESSION['UserPrivileges'] = 0;
+	$_SESSION['TeamID'] = 1;
     $_SESSION['UserID'] = insert_new_player($Username, $HashedPassword, $location, $teamid);
     header('location: ../index.php');
   } else {

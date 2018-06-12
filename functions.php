@@ -79,6 +79,7 @@
       $stmt->bindParam(':color', $color);
       $stmt->bindParam(':img', $file);
       $result = $stmt->execute();
+	  return $conn->lastInsertId();
     }catch (PDOException $e){
       exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
     }
