@@ -232,8 +232,12 @@
         $teams = $stm->fetchAll();
         foreach($result as $row){
           if(!preg_match('/^Unset$/i', $row['team_name'])){ //Checks to see if the start and end of the string only contain Unset with checks for capitialization
-            if($_SESSION['TeamID'] == $row['id']){
-              print '<li class="collection-item avatar z-depth-3 current-team" style="background-color: ' . $row['color'] . ';">';
+            if(isset($_SESSION['TeamID'])){
+              if($_SESSION['TeamID'] == $row['id']){
+                print '<li class="collection-item avatar z-depth-3 current-team" style="background-color: ' . $row['color'] . ';">';
+              }else{
+                print '<li class="collection-item avatar z-depth-1 not-current-team" style="background-color: ' . $row['color'] . ';">';
+              }
             }else{
               print '<li class="collection-item avatar z-depth-1 not-current-team" style="background-color: ' . $row['color'] . ';">';
             }
