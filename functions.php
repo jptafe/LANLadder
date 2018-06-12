@@ -82,6 +82,21 @@
       exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
     }
   }
+
+  // Join A team
+  function join_team($player, $teamid) {
+    try {
+      $query = "UPDATE `player` SET `team_id` = :team WHERE `player`.`id` = :player";
+      $conn = dbConnect();
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':player', $player);
+      $stmt->bindParam(':team', $teamid);
+      $result = $stmt->execute();
+    }catch (PDOException $e){
+      exit(print '<h1 style="color: red; font-weight: bold; text-align: center;">ERROR</h1>' . $e->getMessage() .  '<br><p>Error breakdown</p>' . $e);
+    }
+  }
+
   // DOM Items
 
 
@@ -114,7 +129,7 @@
             <ul class="left">
               <li class="waves-effect waves-light"><a href="index.php">Home</a></li>
               <li class="waves-effect waves-light"><a href="player/create_team.php">Create Team</a></li>
-              <li class="waves-effect waves-light"><a href="player/join_team.php">Join Ladder</a></li>
+              <li class="waves-effect waves-light"><a href="#teams">View Teams</a></li>
             </ul>
             <ul class="right">
               <li class="waves-effect waves-light"><a href="control/logout.php">Logout</a></li>
@@ -206,7 +221,7 @@
     ?>
     <main class="container">
       <div class="title">
-        <h1>Team Ladder</h1>
+        <h1 id="teams">Team Ladder</h1>
       </div>
       <ul class="collection">
       <?php
@@ -236,7 +251,9 @@
                 <p class="text-shadow">Losses: ' . $loss . '</p>
                 <span class=" secondary-content white-text text-shadow">
                   <p>Total: ' . $total . '</p>
-                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View teams</a>
+
+                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join Team</a>
+                  <a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View team</a>
                 </span>
               </div>';
             print '</li>';
