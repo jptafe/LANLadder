@@ -252,7 +252,7 @@
                 <span class=" secondary-content white-text text-shadow">
                   <p class="right-align">Total: ' . $total . '</p>';
                   if($_SESSION['UserPrivileges'] <= 1 && isset($_SESSION['UserID'])){
-                    if($_SESSION['TeamID'] != $row['id']){
+                    if($_SESSION['TeamID'] == 1){ // If they haven't picked a team
                       print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="player/join_team.php?teamid=' . $row['id'] . '">Join Team</a>'; 
                     }
                     print '<a class="teams-button waves-effect waves-light btn blue-grey darken-4" href="teamcard.php?teamid=' . $row['id'] . '">View team</a>';                     
