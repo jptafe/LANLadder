@@ -9,6 +9,7 @@
   }
   $TeamName = clean($_POST['TeamName']);
   $TeamColor = clean($_POST['color']);
-  create_new_team($TeamName, $TeamColor, $UploadFile);
+  $_SESSION['TeamID'] = create_new_team($TeamName, $TeamColor, $UploadFile);
+  join_team($_SESSION['UserID'], $_SESSION['TeamID']); 
   header('location: ../index.php');
 ?>
