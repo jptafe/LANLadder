@@ -10,7 +10,7 @@ body {
   background-color: rgb(32, 36, 51);
 }
 
-input {
+input, select {
 	background: black;
 }
 #ladderbody {
