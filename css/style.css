@@ -6,8 +6,14 @@
   color: white;
 }
 
+
+html{
+  height: 100%;
+  /* Retaining browser height across all pages */
+}
+
 body {
-  background-color: rgb(32, 36, 51);
+  background-color: #c70039;
 }
 
 input, select {
@@ -56,12 +62,19 @@ h1, h2 {
 .collapsible{
   border: none;
 }
+.collapsible-header{
+  width: 100%;
+}
 .ladderitem {
   margin: 1em 0 3em 4em;
 }
 .games-button{
   float: right;
   transform: translateY(-7em);
+}
+.games-item{
+  box-shadow: inset 0px 0px 0px 1px rgb(255, 255, 255);
+  text-shadow: 0px 0px 17px rgba(0, 0, 0, 0.57);
 }
 .teams-button{
   position: absolute;
@@ -128,10 +141,10 @@ select:focus{
   margin-right: 2em;
 }
 .current-team{
-  box-shadow: inset 0px 0px 300px -65px rgba(255,255,255,1);
+  box-shadow: inset 0px 0px 0px 4px rgb(255, 255, 255);
 }
 .not-current-team{
-  box-shadow: inset 0px 0px 300px -65px rgba(0,0,0,1);
+  box-shadow: inset 0px 0px 0px 4px rgba(255, 255, 255, 0.28), inset 0px 0px 0px 100px rgba(0, 0, 0, 0.27)
 }
 
 .teamstats img {
@@ -145,10 +158,10 @@ select:focus{
 }
 
 nav {
-  background-color: rgb(50, 95, 153);
+  background-color: #900c3e;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
-  box-shadow: black 0px 0px 12px;
+  border-bottom: 1px solid #fff;
 }
 
 nav p {
@@ -179,6 +192,35 @@ form h1 {
   text-align: center;
 }
 
+h1, h2, h3, h4, h5{
+  text-transform: capitalize;
+}
+
+h1{
+  z-index: 1;
+  padding: 0;
+  width: 100%;
+}
+h1::before{
+  content: '';
+  position: absolute;
+  width: 75%;
+  height: .05em;
+  background-color: white;
+  margin-top: .6em;
+  left: 12.5%;
+  border-radius: 20px;
+  z-index: -1;
+}
+h1::after{
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 1em;
+  right: 25%;
+  background-color: #c70039;
+  z-index: -1;
+}
 fieldset {
   height: 450px;
   width: 80%;
@@ -192,6 +234,10 @@ label {
 
 button {
   height: 30px;
+}
+
+section{
+  height: 100%;
 }
 
 .field-container {

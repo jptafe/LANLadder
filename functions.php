@@ -23,7 +23,7 @@
       echo '<h1>Database Connection Error</h1>';
       echo '<p>There was an error connecting to the database.</p>';
        // display the error message
-      echo '<p>Error message:   $error_message; </p>';
+      echo '<p>Error message: ' .   $error_message . ' </p>';
       die();
     }
   }
@@ -197,14 +197,14 @@
           }
           print '
           <li style="background-color: ' . $row['color'] . '" class="z-depth-1">
-            <div class="collapsible-header blue-grey darken-4 waves-effect waves-light">
+            <div class="collapsible-header transparent games-item waves-effect waves-light">
               <img src="img/' . $row['image'] . '" width="25px" height="25px" class="circle">
               <span class="center-align">' . $row['game'] . '</span>
               <time class="right-align">' . $time  . '</time>
             </div>
             <div class="collapsible-body ' . $text . '">
               <h4 class="center-align">' . $row['players'] . ' VS ' . $row['players'] . '</h4>
-              <a class="games-button waves-effect waves-light btn right-align blue-grey darken-4" href="ladderlist.php?gameid=' . $row['id'] . '">View teams</a>
+              <a class="games-button waves-effect waves-light btn-flat white-text right-align" href="ladderlist.php?gameid=' . $row['id'] . '">View teams</a>
               <span>' . $row['description'] . '</span>
             </div>
           </li>';

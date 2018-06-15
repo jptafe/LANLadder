@@ -16,6 +16,7 @@
     $stmt->execute();
     $total_wins = $stmt->fetch(PDO::FETCH_ASSOC);
     $total_wins = $total_wins['total_win']; 
+    // Getting the number of wins for the requested team
 
     $getTotalTeamLosses = "SELECT count(*) AS total_loss 
         FROM played_match
@@ -26,6 +27,7 @@
     $stmt->execute();
     $total_loss = $stmt->fetch(PDO::FETCH_ASSOC);
     $total_loss = $total_loss['total_loss'];
+    // Getting the number of loses for the requested teams 
 
     $getTeamDetails = "SELECT * FROM team WHERE id = " . (int)$_GET['teamid'];
     $stmt = $conn->prepare($getTeamDetails);
@@ -36,6 +38,7 @@
     $stmt = $conn->prepare($getLadders);
     $stmt->execute();
     $ladders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Getting all the games for the Lan
 
     $getTeamMembers = "SELECT player.name 
         FROM player, team
@@ -46,9 +49,6 @@
     $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     dom_nav();
-
-    echo '<div class=>';
-    echo '</div>';
 ?>
   <section class="container" style="background-color: <?php echo $team_details['color']; ?>">
     <div class="title">
@@ -56,7 +56,14 @@
     <div class="detailedteamcard">
       <div class="teamcard">
       <img src="img/<?php echo $team_details['image'] ?>" height="64" width="64" alt="teams logo">
-        <p><?php echo count($members) . ' - '; foreach($members as $member) { echo $member['name'] . ' '; } ?></p>
+        <ul class="collection with-header">
+        <?php 
+        echo  '<li class="collection-header transparent white-text"> Total number of players: '  .  count($members) . '</li>'; 
+        $count = 1; // Showing all the members with numbers beside their names
+        foreach($members as $member) { 
+            echo '<li class="collection-item transparent white-text">' . $count++ .  ' - ' .  $member['name'] . '</li>'; 
+        } ?>
+        </ul>
 
         <div class="teamstats">
 <?php 
