@@ -1,23 +1,26 @@
 <?php
-    session_start();
-//INCLUDES
-    include('db.php'); // ALL SQL Actions go here
-    include('se.php'); // ALL Session Management goes here
-//INITIALISE
-    $databaseOBJ = new databaseO();
+    include("db.php"); // ALL SQL Actions go here
+    include("se.php"); // ALL Session Management goes here
+    include("ws_util.php"); // ALL generic utilities
+    session_start();    
+    $databaseObject = new databaseObj();
     
-    if(!isset( $_SESSION['sessionOBJ'])) {
-        //// probably want to know that sessions are capable of being supported before we do this...
-        $_SESSION['sessionOBJ'] = new sessionO();
-    }
-//SECURITY_CHECKS: rate limit, domain lock, 
+//SECURITY_CHECKS: rate limit, domain lock, logging
 
-//GET_SIGNATURES
-    try {
-        if(isset($_GET['reqcode'])) {
-            $sanatised_pagereq = sanatise($_GET['reqcode']);
-            $validated_pagereq = validate($sanatised_pagereq, 'alpha');
+//GET_REQUEST_SIGNATURES
+    try { 
+        if(!isset($_SESSION['sessionOBJ'])) {
+            $_SESSION['sessionOBJ'] = new sessionO();
+        } else {
             
+        }        
+        if(isset($_GET['reqcode'])) {
+            if(($sanatised_pagereq = sanatise($_GET['reqcode'])) == false) {
+                throw new APIException("request code invalid characters");
+            }
+            if(($validated_pagereq = validate($sanatised_pagereq, 'alpha')) == false) {
+                throw new APIException("request code not alpha");
+            }
             switch($validated_pagereq) {
                 /// LIST ladder in order of best to worst team
                 case "ladderlist":
@@ -72,6 +75,6 @@
         }
     }
     catch(APIException $ae) {
-        echo $ae;
+        echo $ae; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
     }
 ?>
