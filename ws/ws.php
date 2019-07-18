@@ -17,28 +17,59 @@
         $_SESSION['sessionOBJ']->domainLock();
         
         if(isset($_GET['reqcode'])) {
-            if(($sanatised_pagereq = sanatise($_GET['reqcode'])) == false) {
-                throw new APIException("request code invalid characters");
+            if(($validated_pagereq = validate($_GET['reqcode'], 'alpha')) == false) {
+                throw new APIException("request code not an alpha");
             }
-            if(($validated_pagereq = validate($sanatised_pagereq, 'alpha')) == false) {
-                throw new APIException("request code not alpha");
+            if(isset($_GET['ladderid'])) {
+                if($ladderID = validate($_GET['ladderid'], 'primarykey') == false) {
+                    throw new APIException("ladder ID not a valid ID");
+                }
+            }
+            if(isset($_GET['teamid'])) {
+                if($teamID = validate($_GET['teamid'], 'primarykey') == false) {
+                    throw new APIException("team ID not a valid ID");
+                }
+            }
+            if(isset($_GET['playerid'])) {
+                if($playerID = validate($_GET['playerid'], 'primarykey') == false) {
+                    throw new APIException("player ID not a valid ID");
+                }
+            }
+            if(isset($_GET['matchid'])) {
+                if($matchID = validate($_GET['matchid'], 'primarykey') == false) {
+                    throw new APIException("Match ID not a valid ID");
+                }
             }
             switch($validated_pagereq) {
-                /// LIST ladder in order of best to worst team
                 case "ladderlist":
-                    echo "ladderlist";
+                    if(isset($ladderID)) {
+                        if($result = $databaseOBJECT->ladderlist($ladderID) == false) {
+                            throw new APIException("invalid ladder id");
+                        }
+                    } else {
+                        throw new APIException("ladder id missing");
+                    }
                     break;
                 /// LIST all teams
                 case "teamlist":
                     echo "teamlist";
                     break;
                 /// LIST players not in a team
-                case "playersnotinteam":
+                case "playersnotinateam":
                     echo "playersnotinteam";
                     break;
                 /// LIST all players in a team
                 case "playersinteam":
                     echo "playersinteam";
+                    break;
+                case "teamsinladder":
+                    if(isset($ladderID)) {
+                        if($result = $databaseOBJECT->teamsinLadder($ladderID) == false) {
+                            throw new APIException("invalid ladder id");
+                        }
+                    } else {
+                        throw new APIException("ladder id missing");
+                    }
                     break;
                 /// UPDATE played_match with results
                 case "reportplayedmatch":
@@ -75,6 +106,7 @@
         } else {
             throw new APIException("request code not tendered");
         }
+        echo json_encode($result);
     }
     catch(APIException $ae) {
         echo $ae; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));

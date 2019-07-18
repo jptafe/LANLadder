@@ -21,7 +21,7 @@
         }
         public function logEvent() {
             // setup array of log data,
-            $databaseObject->logEvent($dataArray);
+            $databaseOBJECT->logEvent($dataArray);
         }
         public function domainLock() {
             return false;

@@ -4,15 +4,16 @@
         public function __construct() {
             try {
                 $this->conn = new PDO("mysql:host=127.0.0.1;dbname=LANLadder", 'root','');
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                //$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {
-                echo "Database Connection Error"; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
+                echo json_encode(Array("error"=>"Database Connection Error")); // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
                 die();
             }
         }
         public function ladderlist($ladderID) {
-            return false;
+            /// LIST ladder in order of best to worst team
+            return Array("request"=>"ladderlist");
         }
         public function allLadders() {
             return false;
@@ -40,7 +41,7 @@
         }
         public function createTeam($playerID) {
             return false;
-        } 
+        }
         public function joinTeam($playerID, $teamID) {
             return false;
         }
