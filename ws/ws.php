@@ -4,8 +4,6 @@
     include("ws_util.php"); // ALL generic utilities
     session_start();    
     $databaseOBJECT = new databaseObject();
-    
-//SECURITY_CHECKS: rate limit, domain lock, logging
 
 //GET_REQUEST_SIGNATURES
     try { 
@@ -40,71 +38,109 @@
                     throw new APIException("Match ID not a valid ID");
                 }
             }
+            if(isset($_GET['winloss'])) {
+                if($matchID = validate($_GET['winloss'], 'winloss') == false) {
+                    throw new APIException("win/loss value not valid");
+                }
+            }
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
-                        if($result = $databaseOBJECT->ladderlist($ladderID) == false) {
-                            throw new APIException("invalid ladder id");
-                        }
+                        $result = $databaseOBJECT->ladderlist($ladderID);
                     } else {
                         throw new APIException("ladder id missing");
                     }
                     break;
                 /// LIST all teams
                 case "teamlist":
-                    echo "teamlist";
+                    $result = $databaseOBJECT->allLadders();
                     break;
-                /// LIST players not in a team
-                case "playersnotinateam":
-                    echo "playersnotinteam";
-                    break;
-                /// LIST all players in a team
-                case "playersinteam":
-                    echo "playersinteam";
+                case "allteams":
+                    $result = $databaseOBJECT->allTeamList();
                     break;
                 case "teamsinladder":
                     if(isset($ladderID)) {
-                        if($result = $databaseOBJECT->teamsinLadder($ladderID) == false) {
-                            throw new APIException("invalid ladder id");
-                        }
+                        $result = $databaseOBJECT->teamsinLadder($ladderID);
+                    } else {
+                        throw new APIException("ladder id missing");
+                    }
+                    break;
+                /// LIST players not in a team
+                case "playersnotinateam":
+                    $result = $databaseOBJECT->playersNotinTeam();
+                    break;
+                /// LIST all players in a team
+                case "playersinteam":
+                    if(isset($teamID)) {
+                        $result = $databaseOBJECT->playersinTeam($teamID);
+                    } else {
+                        throw new APIException("team id missing");
+                    }
+                    break;
+                case "teamsinladder":
+                    if(isset($ladderID)) {
+                        $result = $databaseOBJECT->teamsinLadder($ladderID);
                     } else {
                         throw new APIException("ladder id missing");
                     }
                     break;
                 /// UPDATE played_match with results
                 case "reportplayedmatch":
-                    echo "reportplayedmatch";
+                    if(isset($ladderID) && isset($matchID) && isset($winLoss)) {
+                        $result = $databaseOBJECT->reportPlayedmatch($playerID, $matchID, $winLoss);
+                    } else {
+                        throw new APIException("played match ids missing");
+                    }
                     break;
                 /// INSERT new team and add inserting player into team
                 case "createteam":
-                    echo "createteam";
+                    if(isset($playerID)) {
+                        $result = $databaseOBJECT->createTeam($playerID);
+                    } else {
+                        throw new APIException("player id missing to create team");
+                    }
                     break;
                 /// UPDATE player with a new team. If the team they leave has 0 players, delete the team
                 case "jointeam":
-                    echo "createteam";
+                    if(isset($teamID) && isset($playerID)) {
+                        $result = $databaseOBJECT->joinTeam($playerID, $teamID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
                     break;
                 /// INSERT new player
                 case "createplayer":
-                    echo "createplayer";
+                    $result = $databaseOBJECT->createPlayer();
                     break;
                 /// INSERT new match
                 case "creatematch":
-                    echo "creatematch";
+                    $result = $databaseOBJECT->createMatch();
                     break;          
                 /// INSERT new ladder
                 case "createladder":
-                    echo "creatematch";
+                    $result = $databaseOBJECT->createLadder();
                     break;  
                 /// DELETE team, but first check if there are 0 players...
                 case "removeteam":
-                    echo "removeteam";
+                    if(isset($teamID)) {
+                        $result = $databaseOBJECT->removeTeam($teamID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
                     break;  
+                case "removeplayerfromteam":
+                    if(isset($playerID)) {
+                        $result = $databaseOBJECT->removePlayerFromTeam($playerID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
                 default:
                     throw new APIException("incorrect request code");
                     break;
             }
         } else {
-            throw new APIException("request code not tendered");
+            throw new APIException("request code does not exist");
         }
         echo json_encode($result);
     }

@@ -13,61 +13,61 @@
         }
         public function ladderlist($ladderID) {
             /// LIST ladder in order of best to worst team
-            return Array("request"=>"ladderlist");
+            return Array("request"=>"a ladder");
         }
         public function allLadders() {
-            return false;
+            return Array("request"=>"all ladders");
         }
         public function allTeamlist() {
-            return false;
+            return Array("request"=>"all teams");
         }
         public function teamsinLadder($ladderID) {
-            return false;
+            return Array("request"=>"teams in ladder");
         }
         public function TeamsWithZeroPlayerslist() { // Probably not needed
-            return false;
+            return Array("request"=>"teams with 0 players");
         }
         public function ladderTeamlist($ladderID) {
-            return false;
+            return Array("request"=>"teams in a ladder");
         }
-        public function playersNotinTeam($teamID) {
-            return false;
+        public function playersNotinTeam() {
+            return Array("request"=>"players not in a team");
         }
         public function playersinTeam($teamID) {
-            return false;
+            return Array("request"=>"players in a specific team");
         }
-        public function reportPlayedmatch($playerID, $matchID) {
-            return false;
+        public function reportPlayedmatch($playerID, $matchID, $winLoss) {
+            return Array("request"=>"report played match");
         }
         public function createTeam($playerID) {
-            return false;
+            return Array("request"=>"create new team");
         }
         public function joinTeam($playerID, $teamID) {
-            return false;
+            return Array("request"=>"join a team");
         }
         public function matchesPlayedbyTeam($teamID, $ladderID) {
-            return false;
+            return Array("request"=>"join a team");
         }
         public function isTeaminLadder($teamID, $ladderID) {
-            return false;
+            return Array("request"=>"join a team");
         }
         public function createPlayer() {
-            return false;
+            return Array("request"=>"create a player");
         }
         public function createMatch() {
-            return false;
+            return Array("request"=>"create a match");
         }
         public function createLadder() {
-            return false;
+            return Array("request"=>"create a ladder");
         }
         public function removeTeam($teamID) {
-            return false;
+            return Array("request"=>"remove a team");
         }
         public function removePlayerFromTeam($playerID) {
-            return false;
+            return Array("request"=>"remove player from team");
         }
         public function logEvent($logArrayData) {
-            return false;
+            return Array("request"=>"log an event");
         }
     }
 ?>

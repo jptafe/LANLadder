@@ -10,9 +10,12 @@
         $clean_string = trim($clean_string);
         return $clean_string;
     }
+
+    function kill_session() {
+        session_destroy();
+    }
     
     function validate($dirty_string, $action_code) {
-        //return string if OK, otherwise return false;
         switch($action_code) {
             case 'alpha':
                 if(ctype_alpha($dirty_string)) {
@@ -49,7 +52,7 @@
                     return $dirty_string;
                 }
                 return false;
-            case 'WinLose':
+            case 'winlose':
                 if($dirty_string == 'Win' || $dirty_string == 'Loss') {
                     return $dirty_string;
                 }
