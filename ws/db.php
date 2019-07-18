@@ -12,41 +12,58 @@
             }
         }
         public function ladderlist($ladderID) {
+            return false;
         }
         public function allLadders() {
+            return false;
         }
         public function allTeamlist() {
+            return false;
         }
         public function teamsinLadder($ladderID) {
+            return false;
         }
         public function TeamsWithZeroPlayerslist() { // Probably not needed
+            return false;
         }
         public function ladderTeamlist($ladderID) {
+            return false;
         }
         public function playersNotinTeam($teamID) {
+            return false;
         }
         public function playersinTeam($teamID) {
+            return false;
         }
         public function reportPlayedmatch($playerID, $matchID) {
+            return false;
         }
         public function createTeam($playerID) {
+            return false;
         } 
         public function joinTeam($playerID, $teamID) {
+            return false;
         }
         public function matchesPlayedbyTeam($teamID, $ladderID) {
+            return false;
         }
         public function isTeaminLadder($teamID, $ladderID) {
             return false;
         }
         public function createPlayer() {
+            return false;
         }
         public function createMatch() {
+            return false;
         }
         public function createLadder() {
+            return false;
         }
         public function removeTeam($teamID) {
+            return false;
         }
         public function removePlayerFromTeam($playerID) {
+            return false;
         }
     }
 ?>
