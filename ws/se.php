@@ -18,8 +18,8 @@
             } else {
                 throw new APIException("No viable headers");
             }
-            if(isset($_SERVER['Referer'])) {
-                $this->referrer = $_SERVER['Referer'];  
+            if(isset($_SERVER['HTTP_REFERER'])) {
+                $this->referrer = $_SERVER['HTTP_REFERER'];  
             } else {
                 throw new APIException("no referrer");
             }
