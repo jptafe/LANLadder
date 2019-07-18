@@ -3,17 +3,19 @@
     include("se.php"); // ALL Session Management goes here
     include("ws_util.php"); // ALL generic utilities
     session_start();    
-    $databaseObject = new databaseObj();
+    $databaseOBJECT = new databaseObject();
     
 //SECURITY_CHECKS: rate limit, domain lock, logging
 
 //GET_REQUEST_SIGNATURES
     try { 
         if(!isset($_SESSION['sessionOBJ'])) {
-            $_SESSION['sessionOBJ'] = new sessionO();
-        } else {
-            
-        }        
+            $_SESSION['sessionOBJ'] = new sessionObject();
+        }
+        $_SESSION['sessionOBJ']->logEvent();
+        $_SESSION['sessionOBJ']->rateLimit();
+        $_SESSION['sessionOBJ']->domainLock();
+        
         if(isset($_GET['reqcode'])) {
             if(($sanatised_pagereq = sanatise($_GET['reqcode'])) == false) {
                 throw new APIException("request code invalid characters");

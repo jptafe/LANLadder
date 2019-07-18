@@ -1,5 +1,5 @@
 <?php
-    class databaseObj {
+    class databaseObject {
         private $conn;
         public function __construct() {
             try {
@@ -7,7 +7,7 @@
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch(PDOException $e) {
-                echo "Database Error"; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
+                echo "Database Connection Error"; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
                 die();
             }
         }
@@ -63,6 +63,9 @@
             return false;
         }
         public function removePlayerFromTeam($playerID) {
+            return false;
+        }
+        public function logEvent($logArrayData) {
             return false;
         }
     }
