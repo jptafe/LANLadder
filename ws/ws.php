@@ -4,7 +4,6 @@
     include("ws_util.php"); // ALL generic utilities
     session_start();    
     $databaseOBJECT = new databaseObject();
-
 //GET_REQUEST_SIGNATURES
     try { 
         if(!isset($_SESSION['sessionOBJ'])) {
@@ -13,7 +12,6 @@
         $_SESSION['sessionOBJ']->logEvent();
         $_SESSION['sessionOBJ']->rateLimit();
         $_SESSION['sessionOBJ']->domainLock();
-        
         if(isset($_GET['reqcode'])) {
             if(($validated_pagereq = validate($_GET['reqcode'], 'alpha')) == false) {
                 throw new APIException("request code not an alpha");

@@ -20,6 +20,8 @@
             }
         }
         public function logEvent() {
+            $databaseOBJECT = new databaseObject();
+            $databaseOBJECT->logEvent();
             return false;
         }
         public function domainLock() {

@@ -1,20 +1,17 @@
 <?php
-
     class APIException extends Exception {
         // empty
     }
-    
     function sanatise($dirty_string) {
         $clean_string = stripslashes($dirty_string);
         $clean_string = strip_tags($clean_string);
         $clean_string = trim($clean_string);
         return $clean_string;
     }
-
     function kill_session() {
         session_destroy();
+        die();
     }
-    
     function validate($dirty_string, $action_code) {
         switch($action_code) {
             case 'alpha':

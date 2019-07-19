@@ -66,7 +66,7 @@
         public function removePlayerFromTeam($playerID) {
             return Array("request"=>"remove player from team");
         }
-        public function logEvent($logArrayData) {
+        public function logEvent() {
             return Array("request"=>"log an event");
         }
     }
