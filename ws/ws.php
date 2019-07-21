@@ -1,11 +1,16 @@
 <?php
+// Write a program that prints the numbers from 1 to 100.
+// But for multiples of three print “Fizz” instead of the number
+// and for the multiples of five print “Buzz”. For numbers which
+// are multiples of both three and five print “FizzBuzz”.
+
     include("db.php"); // ALL SQL Actions go here
     include("se.php"); // ALL Session Management goes here
     include("ws_util.php"); // ALL generic utilities
-    session_start();    
+    session_start();
     $databaseOBJECT = new databaseObject();
 //GET_REQUEST_SIGNATURES
-    try { 
+    try {
         if(!isset($_SESSION['sessionOBJ'])) {
             $_SESSION['sessionOBJ'] = new sessionObject();
         }
@@ -113,11 +118,11 @@
                 /// INSERT new match
                 case "creatematch":
                     $result = $databaseOBJECT->createMatch();
-                    break;          
+                    break;
                 /// INSERT new ladder
                 case "createladder":
                     $result = $databaseOBJECT->createLadder();
-                    break;  
+                    break;
                 /// DELETE team, but first check if there are 0 players...
                 case "removeteam":
                     if(isset($teamID)) {
@@ -125,7 +130,7 @@
                     } else {
                         throw new APIException("team joining IDs missing");
                     }
-                    break;  
+                    break;
                 case "removeplayerfromteam":
                     if(isset($playerID)) {
                         $result = $databaseOBJECT->removePlayerFromTeam($playerID);
