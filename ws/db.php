@@ -21,11 +21,15 @@
                 // no order by...
                 $stmt = $conn->prepare($getLadder);
                 $stmt->execute();
-                $ladder_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
             } catch(PDOException $e) {
-
+                echo "ladderlist error"; die();
             }
-            return Array("request"=>"a ladder");
         }
         public function allLadders() {
             try {
@@ -33,10 +37,14 @@
                 $stmt = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"all ladders");
+                }
             } catch(PDOException $e) {
-
+                echo "allladders error"; die();
             }
-            return Array("request"=>"all ladders");
         }
         public function allTeamlist() {
             try {
@@ -44,10 +52,14 @@
                 $stmt = $this->conn->prepare($team_list);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"all teams");
+                }
             } catch(PDOException $e) {
-
+                echo "allTeamList error"; die();
             }
-            return Array("request"=>"all teams");
         }
         public function teamsinLadder($ladderID) {
             try {
@@ -58,12 +70,16 @@
                 $stmt = $this->conn->prepare($team_list);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"teams in ladder");
+                }
             } catch(PDOException $e) {
-
-            }
-            return Array("request"=>"teams in ladder");
+                echo "teamsInLadder Error"; die();
+            } 
         }
-        public function TeamsWithZeroPlayerslist() { // Probably not needed
+        public function teamsWithZeroPlayerslist() { // Probably not needed
             try {
                 $teams = "SELECT DISTINCT * FROM team
                     WHERE NOT EXISTS (
@@ -73,10 +89,14 @@
                 $stmt = $this->conn->prepare($teams);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"teams with 0 players");
+                }
             } catch(PDOException $e) {
-
+                echo "teamsWithZeroPlayersList Error"; die();
             }
-            return Array("request"=>"teams with 0 players");
         }
         public function ladderTeamlist($ladderID) {
             try {
@@ -86,10 +106,14 @@
                 $stmt = $this->conn->prepare($teaminladder);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"teams in a ladder");
+                }
             } catch(PDOException $e) {
-
+                echo "ladderTeamlist error"; die();
             }
-            return Array("request"=>"teams in a ladder");
         }
         public function playersNotinTeam() {
             try {
@@ -97,10 +121,14 @@
                 $stmt = $this->conn->prepare($noteam);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"players not in a team");
+                }
             } catch(PDOException $e) {
-
+                echo "playersNotinTeam error"; die();
             }
-            return Array("request"=>"players not in a team");
         }
         public function playersinTeam($teamID) {
             try {
@@ -108,14 +136,16 @@
                 $stmt = $this->conn->prepare($playersinteam);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"players in a specific team");
+                }
             } catch(PDOException $e) {
-
+                echo "playersinTeam"; die();
             }
-            return Array("request"=>"players in a specific team");
         }
         public function reportPlayedmatch($playerID, $matchID, $winLoss) {
-
-
             return Array("request"=>"report played match");
         }
         public function incompleteMatches($teamA, $teamB) {
@@ -128,8 +158,13 @@
                 $stmt = $this->conn->prepare($incomplete_matches);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"incomplete Matches");
+                }
             } catch(PDOException $e) {
-
+                echo "incompleteMatches error"; die();
             }
         }
         public function createTeam($playerID) {
@@ -141,11 +176,16 @@
                 $stmt->bindParam(':color', $color);
                 $stmt->bindParam(':img', $file);
                 $stmt->execute();
-                return $conn->lastInsertId();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"create new team");
+                    //$conn->lastInsertId();
+                }
             } catch (PDOException $e) {
-
+                echo "createTeam error"; die();
             }
-            return Array("request"=>"create new team");
+
         }
         public function joinTeam($playerID, $teamID) {
             try {
@@ -155,10 +195,14 @@
                 $stmt->bindParam(':player', $player);
                 $stmt->bindParam(':team', $teamid);
                 $result = $stmt->execute();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"join a team");
+                }
             } catch (PDOException $e){
-
+                echo "joinTeam error"; die();
             }
-            return Array("request"=>"join a team");
         }
         public function matchesPlayedbyTeam($teamID, $ladderID) {
             try {
@@ -170,10 +214,14 @@
                 $stmt = $this->conn->prepare($complete_matches);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"join a team");
+                }
             } catch (PDOException $e) {
-
+                echo "matchesPlayedbyTeam error"; die();
             }
-            return Array("request"=>"join a team");
         }
         public function isTeaminLadder($teamID, $ladderID) {
             try {
@@ -184,10 +232,14 @@
                 $stmt = $this->conn->prepare($teaminladder);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"join a team");
+                }
             } catch (PDOException $e) {
-
+                echo "isTeaminLadder error"; die();
             }
-            return Array("request"=>"join a team");
         }
         public function createPlayer() {
             try {
@@ -199,11 +251,16 @@
                 $stmt->bindParam(':loc', $loc);
                 $stmt->bindParam(':team', $teamid);
                 $result = $stmt->execute();
-                return $conn->lastInsertId();
-            } catch (PDOException $e) {
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"create a player");
+                    //$conn->lastInsertId();
+                }
 
+            } catch (PDOException $e) {
+                echo "createPlayer error"; die();
             }
-            return Array("request"=>"create a player");
         }
         public function createMatch() {
             try{
@@ -215,10 +272,14 @@
                 $stmt->bindParam(':team_b', $team_b);
                 $stmt->bindParam(':game', $game);
                 $result = $stmt->execute();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"create a match");
+                }
             } catch (PDOException $e) {
-
+                echo "createMatch error"; die();
             }
-            return Array("request"=>"create a match");
         }
         public function createLadder() {
             return Array("request"=>"create a ladder");
@@ -228,20 +289,28 @@
                 $query = "DELETE FROM team WHERE id = " . $teamID;
                 $stmt = $this->conn->prepare($query);
                 $result = $stmt->execute();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"remove a team");
+                }
             } catch (PDOException $e) {
-
+                echo "removeTeam error"; die();
             }
-            return Array("request"=>"remove a team");
         }
         public function removePlayerFromTeam($playerID) {
             try {
                 $query = "UPDATE user SET (team_id = 1) WHERE id = " . $playerID;
                 $stmt = $this->conn->prepare($query);
                 $result = $stmt->execute();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"remove player from team"); 
+                }
             } catch (PDOException $e) {
-
+                echo "removePlayerFromTeam error"; die();
             }
-            return Array("request"=>"remove player from team");
         }
         public function logEvent() {
             return Array("request"=>"log an event");
