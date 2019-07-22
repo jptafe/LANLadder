@@ -53,6 +53,9 @@
                     } else {
                         throw new APIException("ladder id missing");
                     }
+                    if($result == false) {
+                        $result = Array('result'=>$result);
+                    }
                     break;
                 /// LIST all teams
                 case "teamlist":

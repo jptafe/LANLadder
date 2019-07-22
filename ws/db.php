@@ -19,7 +19,7 @@
                         played_match.losing_team_id > 1 AND
                         played_match.ladder_id = " . (int)$ladderID;
                 // no order by...
-                $stmt = $conn->prepare($getLadder);
+                $stmt = $this->conn->prepare($getLadder);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
@@ -77,7 +77,7 @@
                 }
             } catch(PDOException $e) {
                 echo "teamsInLadder Error"; die();
-            } 
+            }
         }
         public function teamsWithZeroPlayerslist() { // Probably not needed
             try {
@@ -306,7 +306,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"remove player from team"); 
+                    return Array("request"=>"remove player from team");
                 }
             } catch (PDOException $e) {
                 echo "removePlayerFromTeam error"; die();
