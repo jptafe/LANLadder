@@ -6,6 +6,7 @@
     class sessionObject {
         private $ip;
         private $referrer;
+        private $lastrequest = null;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -21,14 +22,25 @@
         }
         public function logEvent() {
             $databaseOBJECT = new databaseObject();
-            $databaseOBJECT->logEvent();
-            return false;
+            return $databaseOBJECT->logEvent();
         }
         public function domainLock() {
-            return false;
+            if(strpos($referrer, 'localhost') !== false) {
+                return true;
+            } else {
+                throw new APIException("invalid referrer");
+            }
+
         }
         public function rateLimit() {
-            return false;
+            if($this->lastrequest == null) {
+                $this->lastrequest = time();
+            } else {
+                if($this->lastrequest == time()) {
+                    throw new APIException("rate limit exceeded");
+                }
+            }
+            return true;
         }
     }
 ?>
