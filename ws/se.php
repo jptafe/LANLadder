@@ -25,12 +25,12 @@
             return $databaseOBJECT->logEvent();
         }
         public function domainLock() {
-            if(strpos($referrer, 'localhost') !== false) {
+            if((strpos($this->referrer, 'localhost') !== false) || 
+                    (strpos($this->referrer, '34.211.34.94') !== false)) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");
             }
-
         }
         public function rateLimit() {
             if($this->lastrequest == null) {
