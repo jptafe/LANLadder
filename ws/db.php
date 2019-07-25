@@ -20,7 +20,7 @@
                         played_match.ladder_id = :ladderid";
                 // no order by...?
                 $stmt = $this->conn->prepare($getLadder);
-                $stmt->bindParam(':ladderid', $ladderID);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
@@ -41,7 +41,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"all ladders");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "allladders error"; die();
@@ -56,7 +56,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"all teams");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "allTeamList error"; die();
@@ -64,14 +64,15 @@
         }
         public function playersNotinTeam() {
             try {
-                $noteam = "SELECT * FROM player WHERE team_id = 1";
+                $noteam = "SELECT name, loc, team_id FROM player WHERE team_id = 1
+                    AND user_privileges = 0";
                 $stmt = $this->conn->prepare($noteam);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"players not in a team");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "playersNotinTeam error"; die();
@@ -79,15 +80,16 @@
         }
         public function playersinTeam($teamID) {
             try {
-                $playersinteam = "SELECT * FROM player WHERE team_id = :teamid";
+                $playersinteam = "SELECT name, loc, team_id FROM player WHERE team_id = :teamid
+                    AND user_privileges = 0";
                 $stmt = $this->conn->prepare($playersinteam);
+                $stmt->bindParam(':teamid', $teamID, PDO::PARAM_INT);
                 $stmt->execute();
-                $stmt->bindParam(':teamid', $teamID);
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"players in a specific team");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "playersinTeam"; die();
@@ -100,30 +102,30 @@
                     ON (team.id = played_match.team_a_id OR team.id = played_match.team_b_id)
                     WHERE team.ladder_id = :ladderid";
                 $stmt = $this->conn->prepare($team_list);
-                $stmt->bindParam(':ladderid', $ladderID);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"teams in ladder");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "teamsInLadder Error"; die();
             }
         }
-        public function reportPlayedmatch($matchID, $teamID, $winLoss) {
+        public function reportPlayedmatch($matchID, $playerID, $winLoss) {
             return Array("request"=>"report played match");
         }
         public function createTeam($playerID, $teamname, $color, $imageurl) {
             try {
                 $query = "INSERT INTO team (team_name, color, image)
-                    VALUES (:tname , :color, :img)";
+                    VALUES (:tname, :color, :img)";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':tname', $teamname);
                 $stmt->bindParam(':color', $color);
                 $stmt->bindParam(':img', $imageurl);
-                $stmt->execute();
+                $result = $stmt->execute();
                 //update playerid with $conn->lastInsertId();
                 if($result == false) {
                     return false;
@@ -139,8 +141,8 @@
                 $query = "UPDATE player SET player.team_id = :team
                     WHERE player.id = :player";
                 $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':player', $playerID);
-                $stmt->bindParam(':team', $teamID);
+                $stmt->bindParam(':player', $playerID, PDO::PARAM_INT);
+                $stmt->bindParam(':team', $teamID, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
@@ -160,7 +162,7 @@
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':pass', $HashedPassword);
                 $stmt->bindParam(':loc', $loc);
-                $stmt->bindParam(':team', $teamid);
+                $stmt->bindParam(':team', $teamid, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
@@ -178,9 +180,9 @@
                   `ladder_id`, `winning_team_id`, `losing_team_id`)
                   VALUES (:team_a, :team_b, :ladder, 1, 1)'; // 1 is unset
                 $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':team_a', $team_a);
-                $stmt->bindParam(':team_b', $team_b);
-                $stmt->bindParam(':ladder', $ladder);
+                $stmt->bindParam(':team_a', $team_a, PDO::PARAM_INT);
+                $stmt->bindParam(':team_b', $team_b, PDO::PARAM_INT);
+                $stmt->bindParam(':ladder', $ladder, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
@@ -200,7 +202,7 @@
             try {
                 $query = "DELETE FROM team WHERE id = :teamid";
                 $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':teamid', $teamID);
+                $stmt->bindParam(':teamid', $teamID, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
@@ -215,7 +217,7 @@
             try {
                 $query = "UPDATE user SET (team_id = 1) WHERE id = :playerid";
                 $stmt = $this->conn->prepare($query);
-                $stmt->bindParam(':playerid', $playerID);
+                $stmt->bindParam(':playerid', $playerID, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
@@ -233,13 +235,13 @@
                         SELECT team_id FROM player
                             WHERE team.id = player.team_id)";
                 $stmt = $this->conn->prepare($teams);
-                $stmt->bindParam(':ladderid', $ladderID);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"teams with 0 players");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "teamsWithZeroPlayersList Error"; die();
@@ -251,33 +253,35 @@
                     JOIN ladder ON team.ladder_id = ladder
                         WHERE team.ladder_id = :ladderID";
                 $stmt = $this->conn->prepare($teaminladder);
-                $stmt->bindParam(':ladderid', $ladderID);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"teams in a ladder");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "ladderTeamlist error"; die();
             }
         }
-        public function incompleteMatches($teamA, $teamB) {
+        public function incompleteMatches($playerID, $ladderID) {
             try {
                 $incomplete_matches = "SELECT * FROM played_match
-                    WHERE (losing_team_id = 1 OR winning_team_id = 1)
-                    AND (team_a_id = :teama OR team_b_id = :teamb)
-                        ORDER BY ladder_id";
+                    JOIN player ON player.team_id = played_match.team_a_id 
+                        OR player.team_id = played_match.team_b_id 
+                            WHERE (losing_team_id = 1 OR winning_team_id = 1)
+                            AND (played_match.ladder_id = :ladderid 
+                            AND (player.team_id = :playerid)";
                 $stmt = $this->conn->prepare($incomplete_matches);
-                $stmt->bindParam(':teama', $teamA);
-                $stmt->bindParam(':teamb', $teamB);
+                $stmt->bindParam(':playerid', $playerID, PDO::PARAM_INT);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"incomplete Matches");
+                    return $result;
                 }
             } catch(PDOException $e) {
                 echo "incompleteMatches error"; die();
@@ -291,14 +295,14 @@
                         AND ladder_id = :ladder
                             ORDER BY ladder_id";
                 $stmt = $this->conn->prepare($complete_matches);
-                $stmt->bindParam(':ladder', $ladderID);
-                $stmt->bindParam(':team', $teamID);
+                $stmt->bindParam(':ladder', $ladderID, PDO::PARAM_INT);
+                $stmt->bindParam(':team', $teamID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"join a team");
+                    return $result;
                 }
             } catch (PDOException $e) {
                 echo "matchesPlayedbyTeam error"; die();
@@ -312,14 +316,14 @@
                         WHERE team.id = :teamid
                         AND played_match.ladder_id = :ladderid";
                 $stmt = $this->conn->prepare($teaminladder);
-                $stmt->bindParam(':teamid', $teamID);
-                $stmt->bindParam(':ladderid', $ladderID);
+                $stmt->bindParam(':teamid', $teamID, PDO::PARAM_INT);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"join a team");
+                    return $result;
                 }
             } catch (PDOException $e) {
                 echo "isTeaminLadder error"; die();

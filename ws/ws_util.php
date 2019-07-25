@@ -20,7 +20,7 @@
                 }
                 return false;
             case 'integer':
-                if(is_numeric($dirty_string)) {
+                if(is_numeric($dirty_string)) { // not enough
                     return $dirty_string;
                 } 
                 return false;
@@ -33,24 +33,33 @@
                 return false;
             case 'primarykey':
                 if(is_numeric($dirty_string)) {
-                    if((int)$dirty_string > 0 && (int)$dirty_string < 65335) {
+                    if((int)$dirty_string > 0 && (int)$dirty_string < 99999999999) {
                         return $dirty_string;
                     }
                 } 
                 return false;
-            case 'alphanumeric':
-                if(preg_match('/[A-Za-z0-9]{3,24}/', $dirty_string) > 0) {
-                    return $safe_value;
-                }
-                return false;
-                break;
             case 'IP':
                 if(ip2long($dirty_string)) {
                     return $dirty_string;
                 }
                 return false;
-            case 'winlose':
-                if($dirty_string == 'Win' || $dirty_string == 'Loss') {
+            case 'winloss':
+                if($dirty_string == 'win' || $dirty_string == 'loss') {
+                    return $dirty_string;
+                }
+                return false;
+            case 'colorcode':
+                if(ctype_xdigit($dirty_string)) {
+                    return $dirty_string;
+                }
+                return false;
+            case 'alpha':
+                if(ctype_alpha($dirty_string)) {
+                    return $dirty_string;
+                }
+                return false;
+            case 'alphanumeric':
+                if(ctype_alnum($dirty_string)) {
                     return $dirty_string;
                 }
                 return false;

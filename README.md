@@ -1,4 +1,11 @@
-# LANLadder
+      +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''+
+     /                                                                 /
+    /   /   /\   /|  / /   /\   /--/ /--/ /-- /--/                    /
+   /   /   ---  / | / /   ---  /  / /  / /-  /--/                    /
+  /   /___/   \/  |/ /___/   \/__/ /__/ /__ /   \    LAN-Only       /
+ /                                                                 /
++.................................................................+
+
 
 A LAN Party ladder Management System to show the state of play in LAN games between teams
 
@@ -23,5 +30,14 @@ Technologies:
 * If the username is the steamid, user icons will be pulled from Steam API
 * Administration panel will be developed using either Angular and API or Symfony
 
-Things to implement:
-EVERYTHING!
+RoadMap
+ team ID link to user icons & Screen Names
+ Password Reset via email post deployment online
+
+Current Status
+ Frontend - Not Started
+ Backend - Web Service in Test phase
+ Admin End - Not Started
+
+Priorities:
+ Make auth robust (research is necessary)

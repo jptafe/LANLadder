@@ -1,7 +1,7 @@
 <?php
     if(count($_COOKIE) < 1) {
-        header('Location: ws.php');
-    } // this may cause a infinate loop...
+        header('Location: testsession.php');
+    }
 
     class sessionObject {
         private $ip;

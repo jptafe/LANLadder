@@ -1,9 +1,4 @@
 <?php
-// Write a program that prints the numbers from 1 to 100.
-// But for multiples of three print “Fizz” instead of the number
-// and for the multiples of five print “Buzz”. For numbers which
-// are multiples of both three and five print “FizzBuzz”.
-
     include("db.php"); // ALL SQL Actions go here
     include("se.php"); // ALL Session Management goes here
     include("ws_util.php"); // ALL generic utilities
@@ -14,48 +9,70 @@
         if(!isset($_SESSION['sessionOBJ'])) {
             $_SESSION['sessionOBJ'] = new sessionObject();
         }
+
         $_SESSION['sessionOBJ']->logEvent();
         $_SESSION['sessionOBJ']->rateLimit();
         $_SESSION['sessionOBJ']->domainLock();
+
         if(isset($_GET['reqcode'])) {
-            if(($validated_pagereq = validate($_GET['reqcode'], 'alpha')) == false) {
+            $validated_pagereq = validate($_GET['reqcode'], 'alpha');
+            if($validated_pagereq == false) {
                 throw new APIException("request code not an alpha");
             }
             if(isset($_GET['ladderid'])) {
-                if($ladderID = validate($_GET['ladderid'], 'primarykey') == false) {
+                $ladderID = validate($_GET['ladderid'], 'primarykey');
+                if($ladderID == false) {
                     throw new APIException("ladder ID not a valid ID");
                 }
             }
             if(isset($_GET['teamid'])) {
-                if($teamID = validate($_GET['teamid'], 'primarykey') == false) {
+                $teamID = validate($_GET['teamid'], 'primarykey');
+                if($teamID == false) {
                     throw new APIException("team ID not a valid ID");
                 }
             }
             if(isset($_GET['teambid'])) {
-                if($teamBID = validate($_GET['teambid'], 'primarykey') == false) {
+                $teamBID = validate($_GET['teambid'], 'primarykey');
+                if($teamBID == false) {
                     throw new APIException("team B ID not a valid ID");
                 }
             }
             if(isset($_GET['playerid'])) {
-                if($playerID = validate($_GET['playerid'], 'primarykey') == false) {
+                $playerID = validate($_GET['playerid'], 'primarykey');
+                if($playerID == false) {
                     throw new APIException("player ID not a valid ID");
                 }
             }
             if(isset($_GET['matchid'])) {
-                if($matchID = validate($_GET['matchid'], 'primarykey') == false) {
+                $matchID = validate($_GET['matchid'], 'primarykey');
+                if($matchID == false) {
                     throw new APIException("Match ID not a valid ID");
                 }
             }
             if(isset($_GET['winloss'])) {
-                if($winLoss = validate($_GET['winloss'], 'winloss') == false) {
+                $winLoss = validate($_GET['winloss'], 'winloss');
+                if($winLoss == false) {
                     throw new APIException("win/loss value not valid");
                 }
             }
-            if(isset($_GET['colorcode'])) {
-                if($colorCode = validate($_GET['colorcode'], 'hexcode') == false) {
+            if(isset($_GET['teamcolor'])) {
+                $teamColor = validate($_GET['teamcolor'], 'colorcode');
+                if($teamColor == false) {
                     throw new APIException("hexcode value not valid");
                 }
             }
+            if(isset($_GET['teamname'])) {
+                $teamName = validate($_GET['teamname'], 'alphanumeric');
+                if($teamName == false) {
+                    throw new APIException("hexcode value not valid");
+                }
+            }
+            if(isset($_GET['imageurl'])) {
+                $imageURL = validate($_GET['imageurl'], 'alpha');
+                if($imageURL == false) {
+                    throw new APIException("hexcode value not valid");
+                }
+            }            
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
@@ -94,8 +111,8 @@
                     break;
                 /// UPDATE played_match with results
                 case "reportplayedmatch":
-                    if(isset($matchID) && isset($teamID) && isset($winLoss)) {
-                        $result = $databaseOBJECT->reportPlayedmatch($matchID, $teamID, $winLoss);
+                    if(isset($matchID) && isset($playerID) && isset($winLoss)) {
+                        $result = $databaseOBJECT->reportPlayedmatch($matchID, $playerID, $winLoss);
                     } else {
                         throw new APIException("played match ids missing");
                     }
@@ -162,8 +179,8 @@
                     }
                     break;
                 case "incompletematches":
-                    if(isset($teamID) && isset($teamBID)) {
-                        $result = $databaseOBJECT->incompleteMatches($teamID, $teamBID);
+                    if(isset($playerID) && isset($ladderID)) {
+                        $result = $databaseOBJECT->incompleteMatches($playerID, $ladderID);
                     } else {
                         throw new APIException("team joining IDs missing");
                     }
@@ -192,7 +209,7 @@
                 default:
                     throw new APIException("incorrect request code");
                     break;
-            }
+            }   
         } else {
             throw new APIException("request code does not exist");
         }
