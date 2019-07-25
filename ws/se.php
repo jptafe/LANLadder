@@ -2,7 +2,7 @@
     if(count($_COOKIE) < 1) {
         header('Location: ws.php');
     } // this may cause a infinate loop...
-    
+
     class sessionObject {
         private $ip;
         private $referrer;
@@ -15,7 +15,7 @@
                 throw new APIException("No viable headers");
             }
             if(isset($_SERVER['HTTP_REFERER'])) {
-                $this->referrer = $_SERVER['HTTP_REFERER'];  
+                $this->referrer = $_SERVER['HTTP_REFERER'];
             } else {
                 throw new APIException("no referrer");
             }
@@ -25,7 +25,7 @@
             return $databaseOBJECT->logEvent();
         }
         public function domainLock() {
-            if((strpos($this->referrer, 'localhost') !== false) || 
+            if((strpos($this->referrer, 'localhost') !== false) ||
                     (strpos($this->referrer, '34.211.34.94') !== false)) {
                 return true;
             } else {

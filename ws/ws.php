@@ -31,6 +31,11 @@
                     throw new APIException("team ID not a valid ID");
                 }
             }
+            if(isset($_GET['teambid'])) {
+                if($teamBID = validate($_GET['teambid'], 'primarykey') == false) {
+                    throw new APIException("team B ID not a valid ID");
+                }
+            }
             if(isset($_GET['playerid'])) {
                 if($playerID = validate($_GET['playerid'], 'primarykey') == false) {
                     throw new APIException("player ID not a valid ID");
@@ -42,8 +47,13 @@
                 }
             }
             if(isset($_GET['winloss'])) {
-                if($matchID = validate($_GET['winloss'], 'winloss') == false) {
+                if($winLoss = validate($_GET['winloss'], 'winloss') == false) {
                     throw new APIException("win/loss value not valid");
+                }
+            }
+            if(isset($_GET['colorcode'])) {
+                if($colorCode = validate($_GET['colorcode'], 'hexcode') == false) {
+                    throw new APIException("hexcode value not valid");
                 }
             }
             switch($validated_pagereq) {
@@ -57,19 +67,11 @@
                         $result = Array('result'=>$result);
                     }
                     break;
-                /// LIST all teams
-                case "teamlist":
+                case "allladders":
                     $result = $databaseOBJECT->allLadders();
                     break;
                 case "allteams":
                     $result = $databaseOBJECT->allTeamList();
-                    break;
-                case "teamsinladder":
-                    if(isset($ladderID)) {
-                        $result = $databaseOBJECT->teamsinLadder($ladderID);
-                    } else {
-                        throw new APIException("ladder id missing");
-                    }
                     break;
                 /// LIST players not in a team
                 case "playersnotinateam":
@@ -92,16 +94,16 @@
                     break;
                 /// UPDATE played_match with results
                 case "reportplayedmatch":
-                    if(isset($ladderID) && isset($matchID) && isset($winLoss)) {
-                        $result = $databaseOBJECT->reportPlayedmatch($playerID, $matchID, $winLoss);
+                    if(isset($matchID) && isset($teamID) && isset($winLoss)) {
+                        $result = $databaseOBJECT->reportPlayedmatch($matchID, $teamID, $winLoss);
                     } else {
                         throw new APIException("played match ids missing");
                     }
                     break;
                 /// INSERT new team and add inserting player into team
                 case "createteam":
-                    if(isset($playerID)) {
-                        $result = $databaseOBJECT->createTeam($playerID);
+                    if(isset($playerID) && isset($teamName) || isset($teamColor) && isset($imageURL)) {
+                        $result = $databaseOBJECT->createTeam($playerID, $teamName, $teamColor, $imageURL);
                     } else {
                         throw new APIException("player id missing to create team");
                     }
@@ -116,11 +118,19 @@
                     break;
                 /// INSERT new player
                 case "createplayer":
-                    $result = $databaseOBJECT->createPlayer();
+                    if(isset($playerName) && isset($passWord) && isset($location) && isset($teamID)) {
+                        $result = $databaseOBJECT->createPlayer($playerName, $passWord, $location, $teamID);
+                    } else {
+                        throw new APIException("create player error");
+                    }
                     break;
                 /// INSERT new match
                 case "creatematch":
-                    $result = $databaseOBJECT->createMatch();
+                    if(isset($teamID) && isset($teamBID) && isset($ladderID)) {
+                        $result = $databaseOBJECT->createMatch($teamID, $teamBID, $ladderID);
+                    } else {
+                        throw new APIException("create player error");
+                    }
                     break;
                 /// INSERT new ladder
                 case "createladder":
@@ -131,12 +141,50 @@
                     if(isset($teamID)) {
                         $result = $databaseOBJECT->removeTeam($teamID);
                     } else {
-                        throw new APIException("team joining IDs missing");
+                        throw new APIException("team IDs missing");
                     }
                     break;
                 case "removeplayerfromteam":
                     if(isset($playerID)) {
                         $result = $databaseOBJECT->removePlayerFromTeam($playerID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
+                case "emptyteams":
+                    $result = $databaseOBJECT->teamsWithZeroPlayerslist();
+                    break;
+                case "teamsinladder":
+                    if(isset($ladderID)) {
+                        $result = $databaseOBJECT->ladderTeamlist($ladderID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
+                case "incompletematches":
+                    if(isset($teamID) && isset($teamBID)) {
+                        $result = $databaseOBJECT->incompleteMatches($teamID, $teamBID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
+                case "matchesplayedbyteam":
+                    if(isset($teamID) && isset($ladderID)) {
+                        $result = $databaseOBJECT->matchesPlayedbyTeam($teamID, $ladderID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
+                case "isteaminladder":
+                    if(isset($teamID) && isset($ladderID)) {
+                        $result = $databaseOBJECT->isTeaminLadder($teamID, $ladderID);
+                    } else {
+                        throw new APIException("team joining IDs missing");
+                    }
+                    break;
+                case "auth":
+                    if(isset($username) && isset($password)) {
+                        $result = $databaseOBJECT->authPlayer($username, $password);
                     } else {
                         throw new APIException("team joining IDs missing");
                     }
