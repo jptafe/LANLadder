@@ -3,70 +3,70 @@
     <head>
         <meta charset="UTF-8">
         <title>TestPage</title>
-    <style>
-        div {
-            display: inline-block;
-            width: 24em;
-            border-radius: 8px;
-            box-shadow: gray .5em .5em .5em;
-            margin: .7em .6em;
-            background-color: LemonChiffon; 
-            padding: 1em;
-            vertical-align: top;
-            min-height: 4em;
-        }
-        div a {
-            padding-left: 2em;
-        }
-        input {
-            display: block;
-        }
-        form {
-            display: inline-block;
-            width: 12em;
-            border: solid 1px black;
-            padding: 2em;
-            vertical-align: top;
-        }
-    </style>
+        <script src="app.js" defer></script>
+        <link rel="stylesheet" href="app.css">
     </head>
     <body>
         <h1>UI Tests</h1>
-        <form>
+        <form id="form_login" novalidate>
+            <label>Login</label>
+            <input type="text" name="username" placeholder="User Name">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Login">
+        </form>
+        <form id="form_addteam" novalidate>
             <label>Create Team</label>
             <input type="text" name="teamname" placeholder="Team Name">
-            <input type="color" name="teamcolor" oninput="colorout.innerHTML = this.value;">
-            <input type="text" name="teamicon" placeholder="Team Icon (Dopdown)">
-            <input type="button" value="Create Team">
+            <input type="color" name="teamcolor" oninput="colorout.innerHTML = this.value.substr(1,6);">
+            <select name="teamicon">
+                <option>Choose Team Icon...</option>
+                <option>foo</option>
+                <option>bar</option>
+            </select>
+            <input type="submit" value="Create Team">
             <span id="colorout"></span>
         </form>
-        <form>
+        <form id="form_regplayer" novalidate>
             <label>Create Player</label>
             <input type="text" name="name" placeholder="Player Name">
             <input type="text" name="pass" placeholder="Password">
             <input type="text" name="pass2" placeholder="Password Again">
             <input type="text" name="seated" placeholder="Seated Location (dropdown)">
             <input type="text" name="team_id" placeholder="Pre-existing Team">
-            <input type="button" value="Create Player">
+            <input type="submit" value="Create Player">
         </form>
-        <form>
+        <form id="form_addmatch" novalidate>
             <label>Create Match</label>
             <input type="text" name="team_a" placeholder="Team A Name">
             <input type="text" name="team_b" placeholder="Team B Name">
             <input type="text" name="ladder_id" placeholder="Ladder">
             <input type="time" name="start_time" placeholder="00:00">
-            <input type="button" value="Create Match">
+            <input type="submit" value="Create Match">
         </form>
-        <form>
+        <form id="form_addladder" novalidate>
             <label>Create Ladder</label>
             <input type="text" name="game" placeholder="Game Name">
             <input type="text" name="desc" placeholder="Description">
             <input type="number" name="players" placeholder="0">
-            <input type="color" name="ladder_color" oninput="colorout2.innerHTML = this.value;">
+            <input type="color" name="ladder_color">
             <input type="text" name="ladder_image" placeholder="image">
-            <input type="time" name="start_time" placeholder="00:00">
-            <input type="button" value="Create Match">
+            <input type="time" min="0:00" max="23:00" name="start_time" placeholder="00:00">
+            <input type="submit" value="Create Ladder">
         </form>
+        <form id="form_reportmatch" novalidate>
+            <label>Report Match</label>
+            <input type="hidden" name="playerid" value="0">
+            <input type="hidden" name="matchid" value="0">
+            <input type="text" placeholder="ladderName" disabled>
+            <input type="text" placeholder="teamA" disabled>
+            <input type="text" placeholder="teamB" disabled>
+            <select name="winloss">
+                <option value="win">Win</option>
+                <option value="loss">Loss</option>
+            </select>
+            <input type="submit" value="Create Ladder">
+        </form>
+
         <h3>API Teams</h3>
         <div>
             <p>Show all players that are not in a team. This may allow an players to put other players in their team</p>
@@ -132,7 +132,6 @@
             <p>Admins need to manage ladders</p>
             <a href="ws/ws.php?reqcode=createladder">ws/ws.php?reqcode=createladder</a>
         </div>
-
 
         <h3>API Matches</h3>
         <div>

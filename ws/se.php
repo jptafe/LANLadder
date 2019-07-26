@@ -7,6 +7,7 @@
         private $ip;
         private $referrer;
         private $lastrequest = null;
+        private $lastrequestArray;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
