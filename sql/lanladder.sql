@@ -138,10 +138,11 @@ CREATE TABLE IF NOT EXISTS `team` (
 
 INSERT INTO `team` (`id`, `team_name`, `color`, `image`) VALUES
 (1, 'Unset', 'black', ''),
-(2, 'readyriders', 'forestgreen', 'readycreek.jpeg'),
-(3, 'bluebleechers', 'skyblue', 'bluebleechers.jpg'),
-(4, 'sunset', 'yellow', 'sunset.jpeg'),
-(5, 'tsunami', 'oceanblue', 'tsunami.jpeg');
+(2, 'Forefit', 'black', ''),
+(3, 'readyriders', 'forestgreen', 'readycreek.jpeg'),
+(4, 'bluebleechers', 'skyblue', 'bluebleechers.jpg'),
+(5, 'sunset', 'yellow', 'sunset.jpeg'),
+(6, 'tsunami', 'oceanblue', 'tsunami.jpeg');
 
 --
 -- Constraints for dumped tables

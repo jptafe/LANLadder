@@ -23,6 +23,7 @@ Business Rules:
 * The number of games played for a valid ladder must be equal to the number of teams in the ladder 
 * The authenticated player must return a user token to the API supplied by the server during auth to access secure API functions 
 * Teams will choose from a library of approved iconagraphy (to avoid ugly or unsavoury icons)  
+* Team ID 1 = Unset, Team ID 2 = Forefit
 
 Technologies:
 * Web Service will support the activities of a user, but users must authenticate in order to participate

@@ -44,7 +44,8 @@
                 }
                 return false;
             case 'winloss':
-                if($dirty_string == 'win' || $dirty_string == 'loss') {
+                if($dirty_string == 'win' || $dirty_string == 'loss'
+                        || $dirty_string == 'draw') {
                     return $dirty_string;
                 }
                 return false;

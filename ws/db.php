@@ -4,7 +4,7 @@
         public function __construct() {
             try {
                 $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
-                //$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {
                 echo json_encode(Array("error"=>"Database Connection Error")); // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));
@@ -49,7 +49,7 @@
         }
         public function allTeamlist() {
             try {
-                $team_list = "SELECT * FROM team;";
+                $team_list = "SELECT * FROM team WHERE id > 2;";
                 $stmt = $this->conn->prepare($team_list);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -76,6 +76,21 @@
                 }
             } catch(PDOException $e) {
                 echo "playersNotinTeam error"; die();
+            }
+        }
+        public function allPlayers() {
+            try {
+                $players = "SELECT name, seated_loc, team_id FROM player WHERE user_privileges = 0";
+                $stmt = $this->conn->prepare($players);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
+            } catch(PDOException $e) {
+                echo "playersinTeam"; die();
             }
         }
         public function playersinTeam($teamID) {
@@ -116,6 +131,38 @@
         }
         public function reportPlayedmatch($matchID, $playerID, $winLoss) {
             return Array("request"=>"report played match");
+        }
+        function allPlayedMatches() {
+            try {
+                $matches = "SELECT * FROM played_match WHERE played_match.winning_team_id > 2
+                    AND played_match.losing_team_id > 2";
+                $stmt = $this->conn->prepare($matches);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
+            } catch(PDOException $e) {
+                echo "playersinTeam"; die();
+            }
+        }
+        function allUnReportedMatches() {
+            try {
+                $matches = "SELECT * FROM played_match WHERE played_match.winning_team_id < 3
+                    AND played_match.losing_team_id < 3";
+                $stmt = $this->conn->prepare($matches);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
+            } catch(PDOException $e) {
+                echo "playersinTeam"; die();
+            }
         }
         public function createTeam($playerID, $teamname, $color, $imageurl) {
             try {
@@ -268,10 +315,10 @@
         public function incompleteMatches($playerID, $ladderID) {
             try {
                 $incomplete_matches = "SELECT * FROM played_match
-                    JOIN player ON player.team_id = played_match.team_a_id 
-                        OR player.team_id = played_match.team_b_id 
+                    JOIN player ON player.team_id = played_match.team_a_id
+                        OR player.team_id = played_match.team_b_id
                             WHERE (losing_team_id = 1 OR winning_team_id = 1)
-                            AND (played_match.ladder_id = :ladderid 
+                            AND (played_match.ladder_id = :ladderid
                             AND (player.team_id = :playerid)";
                 $stmt = $this->conn->prepare($incomplete_matches);
                 $stmt->bindParam(':playerid', $playerID, PDO::PARAM_INT);

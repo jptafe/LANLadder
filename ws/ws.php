@@ -72,7 +72,7 @@
                 if($imageURL == false) {
                     throw new APIException("hexcode value not valid");
                 }
-            }            
+            }
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
@@ -89,6 +89,15 @@
                     break;
                 case "allteams":
                     $result = $databaseOBJECT->allTeamList();
+                    break;
+                case "allplayers":
+                    $result = $databaseOBJECT->allPlayers();
+                    break;
+                case "allplayedmatches":
+                    $result = $databaseOBJECT->allPlayedMatches();
+                    break;
+                case "allunreportedmatches":
+                    $result = $databaseOBJECT->allUnReportedMatches();
                     break;
                 /// LIST players not in a team
                 case "playersnotinateam":
@@ -209,7 +218,7 @@
                 default:
                     throw new APIException("incorrect request code");
                     break;
-            }   
+            }
         } else {
             throw new APIException("request code does not exist");
         }
