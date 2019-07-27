@@ -79,6 +79,16 @@
             </select>
             <input type="submit" value="Report Match">
         </form>
+        <form>
+            <label>Join Team</label>
+            <select name="player_id" onfocus="populatePlayers(this)">
+                <option value="0">Choose Payer</option>
+            </select>
+            <select name="team_id" onfocus="populateAllTeamsInForm(this)">
+                <option value="0">Choose Team A</option>
+            </select>
+            <input type="submit" value="Join Team">
+        </form>
         <form id="form_showplayers" novalidate>
             <label>Show Players in a Team</label>
             <select name="team_id" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)">

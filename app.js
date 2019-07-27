@@ -8,31 +8,32 @@ getAllUnPlayedMatches();
 
 // Event Registration
 // 
-document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
-document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
 document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
+document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
 document.getElementById('form_addladder').addEventListener('submit', function(e) {addLadderProcess(e)});
+document.getElementById('form_jointeam').addEventListener('submit', function(e) {joinTeamProcess(e)});
+document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
 
 // User actuated functions
 //
-function loginProcess(evt) {
-    evt.preventDefault();
-    console.log('ws/ws.php?reqcode=auth');
-}
 function addTeamProcess(evt) {
     evt.preventDefault();
-    console.log('add team process');
+    console.log('ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&imageurl=sabrek');
 }
 function registerPlayerProcess(evt) {
     evt.preventDefault();
-    console.log('register player process');
+    console.log('ws/ws.php?reqcode=createplayer');
     //// Check password equality
 }
 function addMatchProcess(evt) {
     evt.preventDefault();
     console.log('add match process');
+}
+function joinTeamProcess(evt) {
+    evt.preventDefault();
+    console.log('ws/ws.php?reqcode=jointeam&playerid=1&teamid=1');
 }
 function addLadderProcess(evt) {
     evt.preventDefault();
@@ -42,10 +43,17 @@ function reportMatchProcess(evt) {
     evt.preventDefault();
     console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
 }
+function loginProcess(evt) {
+    evt.preventDefault();
+    console.log('ws/ws.php?reqcode=auth');
+}
 // Data Acquisition Functions
 //
 function getAllPlayers() {
-    fetch('ws/ws.php?reqcode=allplayers')
+    fetch('ws/ws.php?reqcode=allplayers', {
+        method: 'GET',
+        credentials: 'include'
+    })
     .then(
         function(response) {
             if (response.status !== 200) {
@@ -58,7 +66,10 @@ function getAllPlayers() {
     )
 }
 function getAllTeams() {  
-    fetch('ws/ws.php?reqcode=allteams')
+    fetch('ws/ws.php?reqcode=allteams', {
+        method: 'GET',
+        credentials: 'include'
+    })
     .then(
         function(response) {
             if (response.status !== 200) {
@@ -71,7 +82,10 @@ function getAllTeams() {
     )
 }
 function getAllLadders() {  
-    fetch('ws/ws.php?reqcode=allladders')
+    fetch('ws/ws.php?reqcode=allladders', {
+        method: 'GET',
+        credentials: 'include'
+    })
     .then(
         function(response) {
             if (response.status !== 200) {
@@ -84,7 +98,10 @@ function getAllLadders() {
     )
 }
 function getAllPlayedMatches() {  
-    fetch('ws/ws.php?reqcode=allplayedmatches')
+    fetch('ws/ws.php?reqcode=allplayedmatches', {
+        method: 'GET',
+        credentials: 'include'
+    })
     .then(
         function(response) {
             if (response.status !== 200) {
@@ -97,7 +114,10 @@ function getAllPlayedMatches() {
     )
 }
 function getAllUnPlayedMatches() {  
-    fetch('ws/ws.php?reqcode=allunreportedmatches')
+    fetch('ws/ws.php?reqcode=allunreportedmatches', {
+        method: 'GET',
+        credentials: 'include'
+    })
     .then(
         function(response) {
             if (response.status !== 200) {
@@ -127,6 +147,7 @@ function populateAllLaddersInForm(elem) {
 }
 function populateTeamsInLadder(elem, ladder) {
     var HTMLTeams = '';
+    var loopindex;
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
     var uniqueTeamResult = new Set;
@@ -138,8 +159,8 @@ function populateTeamsInLadder(elem, ladder) {
     }
     uniqueTeamResult = Array.from(uniqueTeamResult); 
     for(var loop = 0;loop<uniqueTeamResult.length;loop++) {
-        var index = uniqueTeamResult[loop];
-        HTMLTeams += '<option value="' + JSONTeams[index].id + '">' + JSONTeams[index].team_name + '</option>';
+        loopindex = parseInt(uniqueTeamResult[loop]);
+        HTMLTeams += '<option value="' + JSONTeams[loopindex].id + '">' + JSONTeams[loopindex].team_name+ '</option>';
     }
     if(HTMLTeams.length > 0) {
         elem.nextElementSibling.removeAttribute('disabled');
@@ -164,6 +185,14 @@ function populatePlayersInATeam(elem, team) {
         elem.nextElementSibling.setAttribute('disabled','');
         elem.nextElementSibling.innerHTML = '<option value="0">Players not Populated</option>';
     }
+}
+function populatePlayers(elem) {
+    var HTMLPlayers = '';
+    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    for(var loop = 0;loop<JSONPlayers.length;loop++) {
+        HTMLPlayers += '<option value="' + JSONPlayers[loop].id + '">' + JSONPlayers[loop].name + '</option>';
+    }
+    elem.innerHTML = '<option value="0">Choose One...</option>' + HTMLPlayers;
 }
 function populateTeamsInFormForLadder(elem, teamID) {
 }

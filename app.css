@@ -12,7 +12,7 @@ div {
 div a {
     padding-left: 2em;
 }
-input {
+input, select {
     display: block;
 }
 form {
