@@ -15,6 +15,13 @@ document.getElementById('form_addladder').addEventListener('submit', function(e)
 document.getElementById('form_jointeam').addEventListener('submit', function(e) {joinTeamProcess(e)});
 document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
+document.getElementById('form_showplayers').addEventListener('submit', function(e) {showPlayersForm(e)});
+
+function form_showplayers(evt) {
+    // GIMPED 
+    evt.preventDefault();
+    console.log('showPlayersForm');
+}
 
 // User actuated functions
 //
@@ -251,9 +258,11 @@ function populateTeamsInLadder(elem, ladder) {
         }
     }
     uniqueTeamResult = Array.from(uniqueTeamResult); 
-    for(var loop = 0;loop<uniqueTeamResult.length;loop++) {
-        loopindex = parseInt(uniqueTeamResult[loop]);
-        HTMLTeams += '<option value="' + JSONTeams[loopindex].id + '">' + JSONTeams[loopindex].team_name+ '</option>';
+    console.log(uniqueTeamResult);
+    for(var loop = 0;loop<JSONTeams.length;loop++) {
+        if(uniqueTeamResult.indexOf(JSONTeams[loop].id) != -1) {
+            HTMLTeams += '<option value="' + JSONTeams[loop].id + '">' + JSONTeams[loop].team_name + '</option>';
+        }
     }
     if(HTMLTeams.length > 0) {
         elem.nextElementSibling.removeAttribute('disabled');
@@ -262,6 +271,7 @@ function populateTeamsInLadder(elem, ladder) {
         elem.nextElementSibling.setAttribute('disabled','');
         elem.nextElementSibling.innerHTML = '<option value="">Teams not Populated</option>';
     }
+    // incomplete list unplayed matches...
 }
 function populatePlayersInATeam(elem, team) {
     var HTMLPlayers = '';
@@ -276,7 +286,7 @@ function populatePlayersInATeam(elem, team) {
         elem.nextElementSibling.innerHTML = HTMLPlayers;
     } else {
         elem.nextElementSibling.setAttribute('disabled','');
-        elem.nextElementSibling.innerHTML = '<option value="0">Players not Populated</option>';
+        elem.nextElementSibling.innerHTML = '<option value="">Players not Populated</option>';
     }
 }
 function populatePlayers(elem) {
