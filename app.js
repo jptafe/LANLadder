@@ -73,12 +73,15 @@ function registerPlayerProcess(evt) {
 // Admin function
 function addMatchProcess(evt) {
     evt.preventDefault();
-    console.log(evt);
     var teamA = evt.srcElement[0].value;
     var teamB = evt.srcElement[1].value;
     var ladder = evt.srcElement[2].value;
     var starttime = new Date(evt.srcElement[3].value).toISOString();
-    var url = '';
+    var starttime = starttime.replace('T', ' ');
+    var starttime = starttime.replace(/-/g, '/');
+    var starttime = starttime.split('Z');
+    var starttime = starttime[0].split('.');
+    var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + ladder + '&starttime=' + starttime[0];
     if(teamA == teamB) {
         alert('teams should not match');
     } else {
@@ -225,7 +228,7 @@ function populateAllTeamsInForm(elem) {
     for(var loop = 0;loop<JSONTeams.length;loop++) {
         HTMLTeams += '<option value="' + JSONTeams[loop].id + '">' + JSONTeams[loop].team_name + '</option>';
     }
-    elem.innerHTML = '<option value="0">Choose One...</option>' + HTMLTeams;
+    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLTeams;
 }
 function populateAllLaddersInForm(elem) {
     var HTMLLadders = '';
@@ -233,7 +236,7 @@ function populateAllLaddersInForm(elem) {
     for(var loop = 0;loop<JSONLadders.length;loop++) {
         HTMLLadders += '<option value="' + JSONLadders[loop].id + '">' + JSONLadders[loop].game + '</option>';
     }
-    elem.innerHTML = '<option value="0">Choose One...</option>' + HTMLLadders;
+    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLLadders;
 }
 function populateTeamsInLadder(elem, ladder) {
     var HTMLTeams = '';
@@ -254,10 +257,10 @@ function populateTeamsInLadder(elem, ladder) {
     }
     if(HTMLTeams.length > 0) {
         elem.nextElementSibling.removeAttribute('disabled');
-        elem.nextElementSibling.innerHTML = '<option value="0">Choose Team...</option>' + HTMLTeams;
+        elem.nextElementSibling.innerHTML = '<option value="">Choose Team...</option>' + HTMLTeams;
     } else {
         elem.nextElementSibling.setAttribute('disabled','');
-        elem.nextElementSibling.innerHTML = '<option value="0">Teams not Populated</option>';
+        elem.nextElementSibling.innerHTML = '<option value="">Teams not Populated</option>';
     }
 }
 function populatePlayersInATeam(elem, team) {
@@ -282,7 +285,7 @@ function populatePlayers(elem) {
     for(var loop = 0;loop<JSONPlayers.length;loop++) {
         HTMLPlayers += '<option value="' + JSONPlayers[loop].id + '">' + JSONPlayers[loop].name + '</option>';
     }
-    elem.innerHTML = '<option value="0">Choose One...</option>' + HTMLPlayers;
+    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLPlayers;
 }
 function populateTeamsInFormForLadder(elem, teamID) {
 }

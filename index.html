@@ -8,66 +8,64 @@
     </head>
     <body>
         <h1>UI Tests</h1>
-        <form id="form_login" novalidate>
+        <form id="form_login">
             <label>Login</label>
-            <input type="text" name="username" placeholder="User Name">
-            <input type="password" name="password" placeholder="Password">
+            <input type="text" name="username" placeholder="User Name" title="Username Required" required>
+            <input type="password" name="password" placeholder="Password" title="Password Required" required>
             <input type="submit" value="Login">
         </form>
-        <form id="form_addteam" novalidate>
+        <form id="form_addteam">
             <label>Create Team</label>
-            <input type="text" name="teamname" placeholder="Team Name">
-            <input type="color" name="teamcolor" oninput="colorout.innerHTML = this.value.substr(1,6);">
-            <select name="teamicon">
-                <option>Choose Team Icon...</option>
-                <option>foo</option>
-                <option>bar</option>
+            <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" required>
+            <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" onfocus="console.log(this.value)" required>
+            <select name="teamicon" required>
+                <option value="">Choose Team Icon...</option>
+                <option value="foo">foo</option>
+                <option value="bar">bar</option>
             </select>
             <input type="submit" value="Create Team">
-            <span id="colorout"></span>
         </form>
-        <form id="form_regplayer" novalidate>
+        <form id="form_regplayer">
             <label>Create Player</label>
-            <input type="text" name="name" placeholder="Player Name">
-            <input type="text" name="pass" placeholder="Password">
-            <input type="text" name="pass2" placeholder="Password Again">
-            <input type="text" name="seated" placeholder="Seated Location (dropdown)">
-            <select name="team_id" onfocus="populateAllTeamsInForm(this)">
-                <option value="0">Choose Team...</option>
+            <input type="text" name="name" placeholder="Player Name" required>
+            <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
+            <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
+            <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
+            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team...</option>
             </select>
             <input type="submit" value="Create Player">
         </form>
-        <form id="form_addmatch" novalidate>
+        <form id="form_addmatch">
             <label>Create Match</label>
-            <select name="team_a" onfocus="populateAllTeamsInForm(this)">
-                <option value="0">Choose Team A</option>
+            <select name="team_a" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team A</option>
             </select>
-            <select name="team_b" onfocus="populateAllTeamsInForm(this)">
-                <option value="0">Choose Team B</option>
+            <select name="team_b" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team B</option>
             </select>
-            <select name="ladder_id" onfocus="populateAllLaddersInForm(this)">
-                <option value="0">Choose A Ladder...</option>
+            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" required>
+                <option value="">Choose A Ladder...</option>
             </select>
-            <input type="datetime-local" name="start_time" placeholder="00:00">
-            <input type="submit" value="Create Match">
-        </form>
-        <form id="form_addladder" novalidate>
-            <label>Create Ladder</label>
-            <input type="text" name="game" placeholder="Game Name">
-            <input type="text" name="desc" placeholder="Description">
-            <input type="number" name="players" placeholder="0">
+            <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
+            <input type="submit" value="Create Match"> 
+        </form> 
+        <form id="form_addladder"> 
+            <label>Create Ladder</label> 
+            <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" placeholder="Description" required>
+            <input type="number" name="players" placeholder="0" min="2" pattern="[2-9]\d|[0-9]\d{1,2}" required>
             <input type="color" name="ladder_color">
             <input type="text" name="ladder_image" placeholder="image">
-            <input type="time" min="0:00" max="23:00" name="start_time" placeholder="00:00">
+            <input type="datetime-local" min="" max="" name="start_time" placeholder="00:00">
             <input type="submit" value="Create Ladder">
         </form>
-        <form id="form_reportmatch" novalidate>
+        <form id="form_reportmatch">
             <label>Report Match (this will be a listing)</label>
-            <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" onChange="populateTeamsInLadder(this, this.value)">
-                <option value="0">Choose a Ladder...</option>
+            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onChange="populateTeamsInLadder(this, this.value)" required>
+                <option value="">Choose a Ladder...</option>
             </select>
-            <select name="team_id" disabled>
-                <option value="0">Choose a Team...</option>
+            <select name="team_id" min="1" required disabled>
+                <option value="">Choose a Team...</option>
             </select>
             <input type="hidden" name="playerid" value="0">
             <input type="hidden" name="matchid" value="0">
@@ -80,21 +78,21 @@
         </form>
         <form id="form_jointeam">
             <label>Join Team</label>
-            <select name="player_id" onfocus="populatePlayers(this)">
-                <option value="0">Choose Payer</option>
+            <select name="player_id" min="1" onfocus="populatePlayers(this)" required>
+                <option value="">Choose Payer</option>
             </select>
-            <select name="team_id" onfocus="populateAllTeamsInForm(this)">
-                <option value="0">Choose Team A</option>
+            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team A</option>
             </select>
             <input type="submit" value="Join Team">
         </form>
-        <form id="form_showplayers" novalidate>
+        <form id="form_showplayers">
             <label>Show Players in a Team</label>
-            <select name="team_id" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)">
-                <option value="0">Choose a Team...</option>
+            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" required>
+                <option value="">Choose a Team...</option>
             </select>
-            <select name="player_id" disabled>
-                <option value="0">Players not Populated</option>
+            <select name="player_id" min="1" required disabled>
+                <option value="">Players not Populated</option>
             <input type="submit" value="Not Sure Why this exists">
         </form>
 

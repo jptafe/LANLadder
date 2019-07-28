@@ -8,6 +8,7 @@
         private $referrer;
         private $lastrequest = null;
         private $lastrequestArray;
+        private $databaseOBJECT;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -20,10 +21,11 @@
             } else {
                 throw new APIException("no referrer");
             }
+            $this->databaseOBJECT = new databaseObject();
+
         }
         public function logEvent() {
-            $databaseOBJECT = new databaseObject();
-            return $databaseOBJECT->logEvent();
+            //return $this->databaseOBJECT->logEvent();
         }
         public function domainLock() {
             if((strpos($this->referrer, 'localhost') !== false) ||

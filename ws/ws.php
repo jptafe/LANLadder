@@ -70,13 +70,13 @@
             if(isset($_GET['imageurl'])) {
                 $imageURL = validate($_GET['imageurl'], 'alpha');
                 if($imageURL == false) {
-                    throw new APIException("hexcode value not valid");
+                    throw new APIException("image url value not valid");
                 }
             }
             if(isset($_GET['playername'])) {
                 $playerName = validate($_GET['playername'], 'alphanumeric');
                 if($playerName == false) {
-                    throw new APIException("Play Name value not valid");
+                    throw new APIException("Player Name value not valid");
                 }
             }
             if(isset($_GET['password'])) {
@@ -85,13 +85,13 @@
             if(isset($_GET['location'])) {
                 $location = validate($_GET['location'], 'alphanumeric');
                 if($location == false) {
-                    throw new APIException("Play Name value not valid");
+                    throw new APIException("Location Name value not valid");
                 }
             }
             if(isset($_GET['starttime'])) {
                 $startTime = validate($_GET['starttime'], 'isodatetime');
                 if($startTime == false) {
-                    throw new APIException("Play Name value not valid");
+                    throw new APIException("ISO date not valid");
                 }
             }
             switch($validated_pagereq) {
@@ -173,8 +173,8 @@
                     break;
                 /// INSERT new match
                 case "creatematch":
-                    if(isset($teamID) && isset($teamBID) && isset($ladderID)) {
-                        $result = $databaseOBJECT->createMatch($teamID, $teamBID, $ladderID);
+                    if(isset($teamID) && isset($teamBID) && isset($ladderID) && isset($startTime)) {
+                        $result = $databaseOBJECT->createMatch($teamID, $teamBID, $ladderID, $startTime);
                     } else {
                         throw new APIException("create player error");
                     }

@@ -64,16 +64,17 @@
                     return $dirty_string;
                 }
                 return false;
-            case 'isodatetime':
-                $dt = DateTime::createFromFormat('Y-m-d', $dirty_string);
+            case 'isodate':
+                $dt = strtotime($dirty_string);
+                $dt = DateTime::createFromFormat('Y-m-d', $dt);
                 if($dt != false) {
-                    return $dirty_string;
+                    return $dt->format('Y-m-d');
                 }
                 return false;
             case 'isodatetime':
-                $dt = DateTime::createFromFormat('Y-m-d H:i:s', $dirty_string);
+                $dt = DateTime::createFromFormat('Y/m/d H:i:s', $dirty_string);
                 if($dt != false) {
-                    return $dirty_string;
+                    return $dt->format('Y-m-d H:i:s');
                 }
                 return false;
             default:

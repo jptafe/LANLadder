@@ -221,24 +221,25 @@
                 echo "createPlayer error"; die();
             }
         }
-        public function createMatch($team_a, $team_b, $ladder) {
-            try{
-                $query = 'INSERT INTO `played_match`(`team_a_id`, `team_b_id`,
-                  `ladder_id`, `winning_team_id`, `losing_team_id`)
-                  VALUES (:team_a, :team_b, :ladder, 1, 1)'; // 1 is unset
+        public function createMatch($team_a, $team_b, $ladder, $start) {
+        //    try{
+                $query = 'INSERT INTO played_match(team_a_id, team_b_id,
+                    ladder_id, winning_team_id, losing_team_id, match_start)
+                    VALUES (:team_a, :team_b, :ladder, 1, 1, :start)'; // 1 is unset
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':team_a', $team_a, PDO::PARAM_INT);
                 $stmt->bindParam(':team_b', $team_b, PDO::PARAM_INT);
                 $stmt->bindParam(':ladder', $ladder, PDO::PARAM_INT);
+                $stmt->bindParam(':start', $start, PDO::PARAM_STR);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
                 } else {
                     return Array("request"=>"create a match");
                 }
-            } catch (PDOException $e) {
-                echo "createMatch error"; die();
-            }
+          //  } catch (PDOException $e) {
+              //  echo "createMatch error"; die();
+            //}
         }
         public function createLadder() {
 ////////////////////////////////////////////////////////////////////////////////
