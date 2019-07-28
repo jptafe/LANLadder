@@ -36,7 +36,7 @@ RoadMap
  Password Reset via email post deployment online
 
 Current Status
- Frontend - Not Started
+ Frontend - Test html/css/js created to interact with web service
  Backend - Web Service in Test phase
  Admin End - Not Started
 
