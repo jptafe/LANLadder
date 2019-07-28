@@ -80,7 +80,7 @@
         }
         public function allPlayers() {
             try {
-                $players = "SELECT name, seated_loc, team_id FROM player WHERE user_privileges = 0";
+                $players = "SELECT id, name, seated_loc, team_id FROM player WHERE user_privileges = 0";
                 $stmt = $this->conn->prepare($players);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -95,7 +95,7 @@
         }
         public function playersinTeam($teamID) {
             try {
-                $playersinteam = "SELECT name, loc, team_id FROM player WHERE team_id = :teamid
+                $playersinteam = "SELECT id, name, loc, team_id FROM player WHERE team_id = :teamid
                     AND user_privileges = 0";
                 $stmt = $this->conn->prepare($playersinteam);
                 $stmt->bindParam(':teamid', $teamID, PDO::PARAM_INT);

@@ -73,6 +73,27 @@
                     throw new APIException("hexcode value not valid");
                 }
             }
+            if(isset($_GET['playername'])) {
+                $playerName = validate($_GET['playername'], 'alphanumeric');
+                if($playerName == false) {
+                    throw new APIException("Play Name value not valid");
+                }
+            }
+            if(isset($_GET['password'])) {
+                $passWord = $_GET['password'];
+            }
+            if(isset($_GET['location'])) {
+                $location = validate($_GET['location'], 'alphanumeric');
+                if($location == false) {
+                    throw new APIException("Play Name value not valid");
+                }
+            }
+            if(isset($_GET['starttime'])) {
+                $startTime = validate($_GET['starttime'], 'isodatetime');
+                if($startTime == false) {
+                    throw new APIException("Play Name value not valid");
+                }
+            }
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {

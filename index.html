@@ -48,7 +48,7 @@
             <select name="ladder_id" onfocus="populateAllLaddersInForm(this)">
                 <option value="0">Choose A Ladder...</option>
             </select>
-            <input type="time" name="start_time" placeholder="00:00">
+            <input type="datetime-local" name="start_time" placeholder="00:00">
             <input type="submit" value="Create Match">
         </form>
         <form id="form_addladder" novalidate>
@@ -69,7 +69,6 @@
             <select name="team_id" disabled>
                 <option value="0">Choose a Team...</option>
             </select>
-
             <input type="hidden" name="playerid" value="0">
             <input type="hidden" name="matchid" value="0">
             <select name="winloss">
@@ -79,7 +78,7 @@
             </select>
             <input type="submit" value="Report Match">
         </form>
-        <form>
+        <form id="form_jointeam">
             <label>Join Team</label>
             <select name="player_id" onfocus="populatePlayers(this)">
                 <option value="0">Choose Payer</option>

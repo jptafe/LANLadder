@@ -1,4 +1,4 @@
-// localStorage Initialsation (we'll) need to update these lists, when we enact a change)
+// localStorage Initialsation (we'll) need to update these lists, when we enact changes)
 //
 getAllTeams();
 getAllLadders();
@@ -18,27 +18,117 @@ document.getElementById('form_reportmatch').addEventListener('submit', function(
 
 // User actuated functions
 //
+// Authenticted function
 function addTeamProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&imageurl=sabrek');
+    var name = evt.srcElement[0].value;
+    var color = evt.srcElement[1].value.substr(1,6);
+    var icon = evt.srcElement[2].value;
+    var url = 'ws/ws.php?reqcode=createteam&playerid=1&teamname=' + name + '&teamcolor=' + color + '&imageurl=' + icon;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                getAllTeams();
+            });
+        }
+    )
 }
 function registerPlayerProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=createplayer');
-    //// Check password equality
-}
+    var playerName = evt.srcElement[0].value;
+    var pass1 = evt.srcElement[1].value;
+    var pass2 = evt.srcElement[2].value;
+    var seated = evt.srcElement[3].value;
+    var team_id = evt.srcElement[4].value;
+    var url = 'ws/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
+    if(pass1 != pass2) { 
+        alert('pass does not match');
+    } else {
+        if(team_id == 0) {
+            team_id = 1;
+        }
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(
+            function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function(data) {
+                    getAllPlayers();
+            });
+            }
+        ) 
+    } 
+} 
+// Admin function
 function addMatchProcess(evt) {
     evt.preventDefault();
-    console.log('add match process');
+    console.log(evt);
+    var teamA = evt.srcElement[0].value;
+    var teamB = evt.srcElement[1].value;
+    var ladder = evt.srcElement[2].value;
+    var starttime = new Date(evt.srcElement[3].value).toISOString();
+    var url = '';
+    if(teamA == teamB) {
+        alert('teams should not match');
+    } else {
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(
+            function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function(data) {
+                    getAllUnPlayedMatches();
+                });
+            }
+        )
+    }
 }
+
+// Authenticted function
 function joinTeamProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=jointeam&playerid=1&teamid=1');
+    var player_id = evt.srcElement[0].value;
+    var team_id = evt.srcElement[1].value;
+    var url = 'ws/ws.php?reqcode=jointeam&playerid=' + player_id + '&teamid=' + team_id; 
+    if(team_id == 0) {
+        team_id = 1;
+    }
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                getAllPlayers();
+            });
+        }
+    )
 }
+// Admin function
 function addLadderProcess(evt) {
     evt.preventDefault();
     console.log('ws/ws.php?reqcode=createladder');
 }
+// Authenticted function
 function reportMatchProcess(evt) {
     evt.preventDefault();
     console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');

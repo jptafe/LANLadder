@@ -22,7 +22,7 @@
             case 'integer':
                 if(is_numeric($dirty_string)) { // not enough
                     return $dirty_string;
-                } 
+                }
                 return false;
             case 'key':
                 if(is_numeric($dirty_string)) {
@@ -36,7 +36,7 @@
                     if((int)$dirty_string > 0 && (int)$dirty_string < 99999999999) {
                         return $dirty_string;
                     }
-                } 
+                }
                 return false;
             case 'IP':
                 if(ip2long($dirty_string)) {
@@ -61,6 +61,18 @@
                 return false;
             case 'alphanumeric':
                 if(ctype_alnum($dirty_string)) {
+                    return $dirty_string;
+                }
+                return false;
+            case 'isodatetime':
+                $dt = DateTime::createFromFormat('Y-m-d', $dirty_string);
+                if($dt != false) {
+                    return $dirty_string;
+                }
+                return false;
+            case 'isodatetime':
+                $dt = DateTime::createFromFormat('Y-m-d H:i:s', $dirty_string);
+                if($dt != false) {
                     return $dirty_string;
                 }
                 return false;

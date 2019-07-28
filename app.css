@@ -19,6 +19,7 @@ form {
     display: inline-block;
     width: 12em;
     border: solid 1px black;
+    margin: 4px 2px;
     padding: 2em;
     vertical-align: top;
 }
