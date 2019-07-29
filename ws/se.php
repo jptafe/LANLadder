@@ -6,9 +6,7 @@
     class sessionObject {
         private $ip;
         private $referrer;
-        private $lastrequest = null;
-        private $lastrequestArray;
-        private $databaseOBJECT;
+        private $lastrequestArray = null;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -21,26 +19,40 @@
             } else {
                 throw new APIException("no referrer");
             }
-            $this->databaseOBJECT = new databaseObject();
-
         }
         public function logEvent() {
-            //return $this->databaseOBJECT->logEvent();
+            global $databaseOBJECT;
+            return $databaseOBJECT->logEvent();
         }
         public function domainLock() {
             if((strpos($this->referrer, 'localhost') !== false) ||
-                    (strpos($this->referrer, '34.211.34.94') !== false)) {
+                    (strpos($this->referrer, '34.209.66.76') !== false)) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");
             }
         }
         public function rateLimit() {
-            if($this->lastrequest == null) {
-                $this->lastrequest = time();
-            } else {
-                if($this->lastrequest == time()) {
-                    throw new APIException("rate limit exceeded");
+            if($this->lastrequestArray == null) {
+                $this->lastrequestArray = Array(time());
+            }
+            if(time() == end($this->lastrequestArray)) {
+                foreach($this->lastrequestArray AS $thisone) {
+                    if($thisone == time()) {
+                        array_push($temprequestArray, $thisone);
+                    }
+                }
+                if(count($temprequestArray) > 10) {
+                    return false;
+                }
+            }
+            foreach($this->lastrequestArray AS $thisone) {
+                if($thisone > (time() - 86400)) {
+                    array_push($temprequestArray, $thisone);
+                }
+                if(count($temprequestArray) > 1000) {
+                    $lastrequestArray = $temprequestArray;
+                    return false;
                 }
             }
             return true;
