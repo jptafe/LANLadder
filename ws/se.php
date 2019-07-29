@@ -33,6 +33,7 @@
             }
         }
         public function rateLimit() {
+            $temprequestArray = Array();
             if($this->lastrequestArray == null) {
                 $this->lastrequestArray = Array(time());
             }
@@ -55,6 +56,7 @@
                     return false;
                 }
             }
+            array_push($this->lastrequestArray, time());
             return true;
         }
     }

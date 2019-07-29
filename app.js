@@ -31,7 +31,7 @@ function addTeamProcess(evt) {
     var name = evt.srcElement[0].value;
     var color = evt.srcElement[1].value.substr(1,6);
     var icon = evt.srcElement[2].value;
-    var url = 'ws/ws.php?reqcode=createteam&playerid=1&teamname=' + name + '&teamcolor=' + color + '&imageurl=' + icon;
+    var url = 'ws/ws.php?reqcode=createteam&playerid=1&name=' + name + '&color=' + color + '&imageurl=' + icon;
     fetch(url, {
         method: 'GET',
         credentials: 'include'
@@ -88,6 +88,7 @@ function addMatchProcess(evt) {
     var starttime = starttime.replace(/-/g, '/');
     var starttime = starttime.split('Z');
     var starttime = starttime[0].split('.');
+
     var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + ladder + '&starttime=' + starttime[0];
     if(teamA == teamB) {
         alert('teams should not match');
@@ -136,7 +137,33 @@ function joinTeamProcess(evt) {
 // Admin function
 function addLadderProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=createladder');
+    //console.log(evt);
+    var gameName = evt.srcElement[0].value;
+    var description = evt.srcElement[1].value;
+    var memberNo = evt.srcElement[2].value;
+    var teamColor = evt.srcElement[3].value.substr(1,6);
+    var teamImage = evt.srcElement[4].value;
+    var teamTime = new Date(evt.srcElement[5].value).toISOString();
+    var teamTime = teamTime.replace('T', ' ');
+    var teamTime = teamTime.replace(/-/g, '/');
+    var teamTime = teamTime.split('Z');
+    var teamTime = teamTime[0].split('.');
+    var url = 'ws/ws.php?reqcode=createladder&name=' + gameName + '&desc=' + description + '&members=' + memberNo + 
+        '&color=' + teamColor + '&imageurl=' + teamImage + '&starttime=' + teamTime[0];
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                getAllLadders();
+            });
+        }
+    )
 }
 // Authenticted function
 function reportMatchProcess(evt) {

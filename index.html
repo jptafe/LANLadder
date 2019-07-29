@@ -53,9 +53,9 @@
         <form id="form_addladder"> 
             <label>Create Ladder</label> 
             <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" required>
-            <input type="number" name="players" placeholder="0" min="1" pattern="[1-9]\d|[0-9]\d{1,2}" required>
-            <input type="color" value="" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" required>
-            <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" placeholder="image is alpha numeric, no spaces" placeholder="image">
+            <input type="number" name="players" placeholder="0" value="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title+"playes must be int 1-99" required>
+            <input type="color" value="" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
+            <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
             <input type="submit" value="Create Ladder">
         </form>

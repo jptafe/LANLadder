@@ -11,8 +11,11 @@
         }
 
         $_SESSION['sessionOBJ']->logEvent();
-        $_SESSION['sessionOBJ']->rateLimit();
         $_SESSION['sessionOBJ']->domainLock();
+
+        if($_SESSION['sessionOBJ']->rateLimit() == false) {
+            throw new APIException("Rate limit exceeded");
+        }
 
         if(isset($_GET['reqcode'])) {
             $validated_pagereq = validate($_GET['reqcode'], 'alpha');
@@ -55,16 +58,28 @@
                     throw new APIException("win/loss value not valid");
                 }
             }
-            if(isset($_GET['teamcolor'])) {
-                $teamColor = validate($_GET['teamcolor'], 'colorcode');
-                if($teamColor == false) {
-                    throw new APIException("hexcode value not valid");
+            if(isset($_GET['color'])) {
+                $color = validate($_GET['color'], 'colorcode');
+                if($color == false) {
+                    throw new APIException("color value not valid");
                 }
             }
-            if(isset($_GET['teamname'])) {
-                $teamName = validate($_GET['teamname'], 'alphanumeric');
-                if($teamName == false) {
-                    throw new APIException("hexcode value not valid");
+            if(isset($_GET['name'])) {
+                $name = validate($_GET['name'], 'alphanumeric');
+                if($name == false) {
+                    throw new APIException("teamname value not valid");
+                }
+            }
+            if(isset($_GET['desc'])) {
+                $desc = validate($_GET['desc'], 'alphanumeric');
+                if($desc == false) {
+                    throw new APIException("Description value not valid");
+                }
+            }
+            if(isset($_GET['members'])) {
+                $memberNos = validate($_GET['members'], 'integer');
+                if($memberNos == false || $memberNos < 1) {
+                    throw new APIException("Member Numbernot valid");
                 }
             }
             if(isset($_GET['imageurl'])) {
@@ -149,7 +164,7 @@
                     break;
                 /// INSERT new team and add inserting player into team
                 case "createteam":
-                    if(isset($playerID) && isset($teamName) || isset($teamColor) && isset($imageURL)) {
+                    if(isset($playerID) && isset($name) || isset($color) && isset($imageURL)) {
                         $result = $databaseOBJECT->createTeam($playerID, $teamName, $teamColor, $imageURL);
                     } else {
                         throw new APIException("player id missing to create team");
@@ -181,7 +196,11 @@
                     break;
                 /// INSERT new ladder
                 case "createladder":
-                    $result = $databaseOBJECT->createLadder();
+                    if(isset($imageURL) && isset($memberNos) && isset($name) && isset($color) && isset($desc) && isset($startTime)) {
+                        $result = $databaseOBJECT->createLadder($name, $desc, $memberNos, $color, $imageURL, $startTime);
+                    } else {
+                        throw new APIException("create player error");
+                    }
                     break;
                 /// DELETE team, but first check if there are 0 players...
                 case "removeteam":

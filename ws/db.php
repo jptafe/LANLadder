@@ -222,7 +222,7 @@
             }
         }
         public function createMatch($team_a, $team_b, $ladder, $start) {
-        //    try{
+            try{
                 $query = 'INSERT INTO played_match(team_a_id, team_b_id,
                     ladder_id, winning_team_id, losing_team_id, match_start)
                     VALUES (:team_a, :team_b, :ladder, 1, 1, :start)'; // 1 is unset
@@ -237,13 +237,32 @@
                 } else {
                     return Array("request"=>"create a match");
                 }
-          //  } catch (PDOException $e) {
-              //  echo "createMatch error"; die();
-            //}
+            } catch (PDOException $e) {
+                echo "createMatch error"; die();
+            }
         }
-        public function createLadder() {
-////////////////////////////////////////////////////////////////////////////////
-            return Array("request"=>"create a ladder");
+        public function createLadder($name, $description, $members, $color, $image, $start) {
+            try{
+                $query = 'INSERT INTO ladder (game, description,
+                    players, start_time, color, image)
+                    VALUES (:name, :desc, :members, :start, :color, :image)';
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+                $stmt->bindParam(':desc', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':start', $start, PDO::PARAM_STR);
+                $stmt->bindParam(':color', $color, PDO::PARAM_STR);
+                $stmt->bindParam(':image', $image, PDO::PARAM_INT);
+                $stmt->bindParam(':members', $members, PDO::PARAM_INT);
+                $stmt->bindParam(':start', $start, PDO::PARAM_STR);
+                $result = $stmt->execute();
+                if($result == false) {
+                    return false;
+                } else {
+                    return Array("request"=>"create a ladder");
+                }
+            } catch (PDOException $e) {
+                echo "createMatch error"; die();
+            }
         }
         public function removeTeam($teamID) {
 ///////////// Check to see if team has players first!

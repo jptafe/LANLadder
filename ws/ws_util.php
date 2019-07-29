@@ -21,7 +21,7 @@
                 return false;
             case 'integer':
                 if(is_numeric($dirty_string)) { // not enough
-                    return $dirty_string;
+                    return (int)$dirty_string;
                 }
                 return false;
             case 'key':
