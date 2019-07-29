@@ -26,7 +26,7 @@
         }
         public function domainLock() {
             if((strpos($this->referrer, 'localhost') !== false) ||
-                    (strpos($this->referrer, '34.209.66.76') !== false)) {
+                    (strpos($this->referrer, 'LANLadder') !== false)) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");
@@ -38,6 +38,7 @@
                 $this->lastrequestArray = Array(time());
             }
             if(time() == end($this->lastrequestArray)) {
+                array_push($this->lastrequestArray, time());
                 foreach($this->lastrequestArray AS $thisone) {
                     if($thisone == time()) {
                         array_push($temprequestArray, $thisone);
@@ -46,6 +47,8 @@
                 if(count($temprequestArray) > 10) {
                     return false;
                 }
+            } else {
+                array_push($this->lastrequestArray, time());
             }
             foreach($this->lastrequestArray AS $thisone) {
                 if($thisone > (time() - 86400)) {
@@ -56,7 +59,6 @@
                     return false;
                 }
             }
-            array_push($this->lastrequestArray, time());
             return true;
         }
     }

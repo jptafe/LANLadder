@@ -23,3 +23,6 @@ form {
     padding: 2em;
     vertical-align: top;
 }
+.notdone {
+    background-color: mistyrose;
+}

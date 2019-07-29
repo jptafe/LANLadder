@@ -17,8 +17,8 @@ document.getElementById('form_login').addEventListener('submit', function(e) {lo
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
 document.getElementById('form_showplayers').addEventListener('submit', function(e) {showPlayersForm(e)});
 
-function form_showplayers(evt) {
-    // GIMPED 
+function showPlayersForm(evt) {
+    // GIMPED FORM that does not submit
     evt.preventDefault();
     console.log('showPlayersForm');
 }
