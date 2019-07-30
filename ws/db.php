@@ -3,7 +3,8 @@
         private $conn;
         public function __construct() {
             try {
-                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
+                //$this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
+                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','RRU7xecj8E2EqL');
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {

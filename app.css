@@ -18,8 +18,17 @@ div a {
 input, select {
     display: block;
 }
-input:not(:focus):invalid, select:not(:focus):invalid {
+input:not(:placeholder-shown):not(:focus):invalid {
+/* , select:not(:blank):invalid { don't think I need this */ 
     border: red solid 2px;
+}
+select:disabled, input:disabled {
+    border: lightgray dotted 1px;
+    color: gainsboro;
+    background-color: snow;
+}
+input:disabled::placeholder {
+    color: gainsboro;
 }
 form {
     display: inline-block;

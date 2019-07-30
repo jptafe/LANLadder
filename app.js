@@ -28,9 +28,18 @@ function enableAllForms() {
     var allForms = document.getElementsByTagName('form');
     for(var loop = 0;loop<allForms.length;loop++) {
         var formElements = allForms[loop].children;
-        for(var loop2 = 0;loop2<formElements.length;loop2++) {
-            if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                formElements[loop2].removeAttribute('disabled');
+        if(allForms[loop].children[0].innerHTML == 'Login' ||
+               allForms[loop].children[0].innerHTML == 'Create Player') {
+            for(var loop2 = 0;loop2<formElements.length;loop2++) {
+                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                    formElements[loop2].setAttribute('disabled', '');
+                }
+            }
+        } else {
+            for(var loop2 = 0;loop2<formElements.length;loop2++) {
+                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                    formElements[loop2].removeAttribute('disabled');
+                }
             }
         }
     }
