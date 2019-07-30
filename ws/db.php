@@ -398,22 +398,22 @@
         }
         public function authPlayer($username, $password) {
             try {
-                $auth = "SELECT * FROM user WHERE name = :username";
+                $auth = "SELECT * FROM player WHERE name = :username";
                 $stmt = $this->conn->prepare($auth);
-                $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result == false) {
-                    return false;
+                    return Array("user"=>-1);
                 } else {
-                    if(password_verify($result['pass'], $password)) {
-                        return Array("request"=>"user exists");
+                    if(password_verify($password, $result['pass'])) {
+                        return Array("user"=>$result['id']);
                     } else {
-                        return false;
+                        return Array("user"=>-1);
                     }
                 }
             } catch (PDOException $e) {
-                echo "isTeaminLadder error"; die();
+                echo "Auth error"; die();
             }
         }
         public function logEvent() {

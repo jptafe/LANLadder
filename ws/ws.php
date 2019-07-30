@@ -109,6 +109,13 @@
                     throw new APIException("ISO date not valid");
                 }
             }
+            if(isset($_POST['username'])) {
+                $userName = $_POST['username'];
+            }
+            if(isset($_POST['password'])) {
+                $passWord = $_POST['password'];
+            }
+            
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
@@ -249,11 +256,14 @@
                     }
                     break;
                 case "auth":
-                    if(isset($username) && isset($password)) {
-                        $result = $databaseOBJECT->authPlayer($username, $password);
+                    if(isset($userName) && isset($passWord)) {
+                        $result = $databaseOBJECT->authPlayer($userName, $passWord);
                     } else {
-                        throw new APIException("team joining IDs missing");
+                        throw new APIException("auth information missing");
                     }
+                    break;
+                case "isauth":
+                    $result =  $_SESSION['sessionOBJ']->isAuth();
                     break;
                 default:
                     throw new APIException("incorrect request code");

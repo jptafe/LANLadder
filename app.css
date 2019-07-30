@@ -1,3 +1,6 @@
+:root {
+    box-sizing: border-box;
+}
 div {
     display: inline-block;
     width: 24em;
@@ -19,7 +22,9 @@ form {
     display: inline-block;
     width: 12em;
     border: solid 1px black;
-    margin: 4px 2px;
+    border-radius: 8px;
+    box-shadow: gray .5em .5em .5em;
+    margin: .7em .6em;
     padding: 2em;
     vertical-align: top;
 }

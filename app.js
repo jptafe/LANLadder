@@ -5,7 +5,42 @@ getAllLadders();
 getAllPlayers();
 getAllPlayedMatches();
 getAllUnPlayedMatches();
+isAuthorized();
 
+function isAuthorized() {
+    if(localStorage.getItem('authcode') === null) {
+        var authcode = isAuth();
+        if(isLoggedin() == false) {
+            disableAllForms();
+            return false;
+        } 
+        localStorage.setItem('authcode', authcode);
+    }
+    return true;
+}
+
+function disableAllForms() {
+    var allForms = document.getElementsByTagName('form');
+    for(var loop = 0;loop<allForms.length;loop++) {
+        var formElements = allForms[loop].children;
+        for(var loop2 = 0;loop2<formElements.length;loop2++) {
+            if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                formElements[loop2].setAttribute('disabled','');
+            }
+        }
+    }
+}
+function enableAllForms() {
+    var allForms = document.getElementsByTagName('form');
+    for(var loop = 0;loop<allForms.length;loop++) {
+        var formElements = allForms[loop].children;
+        for(var loop2 = 0;loop2<formElements.length;loop2++) {
+            if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                formElements[loop2].removeAttribute('disabled');
+            }
+        }
+    }
+}
 // Event Registration
 // 
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
@@ -170,9 +205,36 @@ function reportMatchProcess(evt) {
     evt.preventDefault();
     console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
 }
+function isLoggedin() {
+    return 5; // userid&
+}
 function loginProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=auth');
+    var fd = new FormData();
+    fd.append('username', evt.srcElement[0].value);
+    fd.append('password', evt.srcElement[1].value);
+    var url = 'ws/ws.php?reqcode=auth';
+    fetch(url, {
+        method: 'POST',
+        body: fd,
+        mode: 'cors',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                console.log(data);
+                if(data.user == -1) {
+                    localStorage.setItem('authcode', null);
+                } else {
+                    localStorage.setItem('authcode', data.user);
+                }
+            });
+        }
+    )
 }
 // Data Acquisition Functions
 //
