@@ -7,6 +7,7 @@
         private $ip;
         private $referrer;
         private $lastrequestArray = null;
+        private $authCode = null;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -60,6 +61,20 @@
                 }
             }
             return true;
+        }
+        function isAuth() {
+            if($this->authCode !== null) {
+                return Array('auth'=>$this->authCode);
+            } else {
+                return Array('auth'=>'false');
+            }
+        }
+        function setAuth($incomingAuth) {
+            $this->authCode = $incomingAuth;
+        }
+        function unsetAuth() {
+            $this->authCode = null;
+            return Array("user"=>"-1");
         }
     }
 ?>

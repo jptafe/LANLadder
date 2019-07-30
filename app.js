@@ -5,27 +5,21 @@ getAllLadders();
 getAllPlayers();
 getAllPlayedMatches();
 getAllUnPlayedMatches();
-isAuthorized();
+isLoggedIn();
 
-function isAuthorized() {
-    if(localStorage.getItem('authcode') === null) {
-        var authcode = isAuth();
-        if(isLoggedin() == false) {
-            disableAllForms();
-            return false;
-        } 
-        localStorage.setItem('authcode', authcode);
-    }
-    return true;
-}
-
+//Interface manipulation
 function disableAllForms() {
     var allForms = document.getElementsByTagName('form');
     for(var loop = 0;loop<allForms.length;loop++) {
-        var formElements = allForms[loop].children;
-        for(var loop2 = 0;loop2<formElements.length;loop2++) {
-            if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                formElements[loop2].setAttribute('disabled','');
+        if(allForms[loop].children[0].innerHTML == 'Login' ||
+               allForms[loop].children[0].innerHTML == 'Create Player') {
+            // do nothing;
+        } else {
+            var formElements = allForms[loop].children;
+            for(var loop2 = 0;loop2<formElements.length;loop2++) {
+                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                    formElements[loop2].setAttribute('disabled','');
+                }
             }
         }
     }
@@ -41,8 +35,8 @@ function enableAllForms() {
         }
     }
 }
-// Event Registration
-// 
+// Events
+// Submit:
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
 document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
 document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
@@ -51,16 +45,14 @@ document.getElementById('form_jointeam').addEventListener('submit', function(e) 
 document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
 document.getElementById('form_showplayers').addEventListener('submit', function(e) {showPlayersForm(e)});
+document.getElementById('form_logout').addEventListener('submit', function(e) {logoutNowForm(e)});
 
 function showPlayersForm(evt) {
     // GIMPED FORM that does not submit
     evt.preventDefault();
     console.log('showPlayersForm');
 }
-
-// User actuated functions
-//
-// Authenticted function
+// Authenticted functions
 function addTeamProcess(evt) {
     evt.preventDefault();
     var name = evt.srcElement[0].value;
@@ -112,40 +104,28 @@ function registerPlayerProcess(evt) {
         ) 
     } 
 } 
-// Admin function
-function addMatchProcess(evt) {
-    evt.preventDefault();
-    var teamA = evt.srcElement[0].value;
-    var teamB = evt.srcElement[1].value;
-    var ladder = evt.srcElement[2].value;
-    var starttime = new Date(evt.srcElement[3].value).toISOString();
-    var starttime = starttime.replace('T', ' ');
-    var starttime = starttime.replace(/-/g, '/');
-    var starttime = starttime.split('Z');
-    var starttime = starttime[0].split('.');
-
-    var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + ladder + '&starttime=' + starttime[0];
-    if(teamA == teamB) {
-        alert('teams should not match');
-    } else {
-        fetch(url, {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(
-            function(response) {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' + response.status);
-                }
-                response.json().then(function(data) {
-                    getAllUnPlayedMatches();
-                });
+function logoutNowForm(evt) {
+    evt.preventDefault(evt);
+    fetch('ws/ws.php?reqcode=deauth', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
-        )
-    }
+            response.json().then(function(data) {
+                localStorage.setItem('authcode', null);
+                disableAllForms();
+            });
+        }
+    )
 }
-
-// Authenticted function
+function reportMatchProcess(evt) {
+    evt.preventDefault();
+    console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
+}
 function joinTeamProcess(evt) {
     evt.preventDefault();
     var player_id = evt.srcElement[0].value;
@@ -169,10 +149,41 @@ function joinTeamProcess(evt) {
         }
     )
 }
-// Admin function
+
+// Admin functions
+function addMatchProcess(evt) {
+    evt.preventDefault();
+    var teamA = evt.srcElement[0].value;
+    var teamB = evt.srcElement[1].value;
+    var ladder = evt.srcElement[2].value;
+    var starttime = new Date(evt.srcElement[3].value).toISOString();
+    var starttime = starttime.replace('T', ' ');
+    var starttime = starttime.replace(/-/g, '/');
+    var starttime = starttime.split('Z');
+    var starttime = starttime[0].split('.');
+    var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + 
+                ladder + '&starttime=' + starttime[0];
+    if(teamA == teamB) {
+        alert('teams should not match');
+    } else {
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(
+            function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function(data) {
+                    getAllUnPlayedMatches();
+                });
+            }
+        )
+    }
+}
 function addLadderProcess(evt) {
     evt.preventDefault();
-    //console.log(evt);
     var gameName = evt.srcElement[0].value;
     var description = evt.srcElement[1].value;
     var memberNo = evt.srcElement[2].value;
@@ -200,13 +211,50 @@ function addLadderProcess(evt) {
         }
     )
 }
-// Authenticted function
-function reportMatchProcess(evt) {
-    evt.preventDefault();
-    console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
+// Anonymous Functions
+function isLoggedIn() {
+    var url = 'ws/ws.php?reqcode=isauth';
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.auth != 'false') {
+                    localStorage.setItem('authcode', data.auth);
+                } else {
+                    localStorage.setItem('authcode', null);
+                    disableAllForms();
+                }
+            });
+        }
+    )
 }
-function isLoggedin() {
-    return 5; // userid&
+function checkExistingUser(elem) {
+    var username = elem.value;
+    var url = 'ws/ws.php?reqcode=userexists&name=' + username;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.user == "notfound") {
+                    elem.setCustomValidity("User Exists");
+                } else {
+                    elem.setCustomValidity("");
+                }
+            });
+        }
+    )
 }
 function loginProcess(evt) {
     evt.preventDefault();
@@ -226,16 +274,17 @@ function loginProcess(evt) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                console.log(data);
                 if(data.user == -1) {
                     localStorage.setItem('authcode', null);
                 } else {
                     localStorage.setItem('authcode', data.user);
+                    enableAllForms();
                 }
             });
         }
     )
 }
+
 // Data Acquisition Functions
 //
 function getAllPlayers() {
@@ -318,6 +367,7 @@ function getAllUnPlayedMatches() {
         }
     )
 }
+
 function populateAllTeamsInForm(elem) {
     var HTMLTeams = '';
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -347,7 +397,6 @@ function populateTeamsInLadder(elem, ladder) {
         }
     }
     uniqueTeamResult = Array.from(uniqueTeamResult); 
-    console.log(uniqueTeamResult);
     for(var loop = 0;loop<JSONTeams.length;loop++) {
         if(uniqueTeamResult.indexOf(JSONTeams[loop].id) != -1) {
             HTMLTeams += '<option value="' + JSONTeams[loop].id + '">' + JSONTeams[loop].team_name + '</option>';

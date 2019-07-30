@@ -7,6 +7,17 @@
         <link rel="stylesheet" href="app.css">
     </head>
     <body>
+        <nav>
+            <p><a href="#">Login</a></p>
+            <p><a href="#">Register</a></p>
+            <p><a href="#">Add Team</a></p>
+            <p><a href="#">Add Ladder</a></p>
+            <p><a href="#">Create Match</a></p>
+            <p><a href="#">Report Match</a></p>
+            <p><a href="#">Join Team</a></p>
+            <p><a href="#">Logout</a></p>
+            <p><a href="ws/ws.php?reqcode=destroy">Destroy</a></p>
+        </nav>
         <h1>UI Tests</h1>
         <form id="form_login" class="notdone">
             <label>Login</label>
@@ -27,7 +38,7 @@
         </form>
         <form id="form_regplayer">
             <label>Create Player</label>
-            <input type="text" name="name" placeholder="Player Name" required>
+            <input type="text" name="name" placeholder="Player Name" required onchange="checkExistingUser(this)">
             <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
             <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
             <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
@@ -54,7 +65,7 @@
             <label>Create Ladder</label> 
             <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" required>
             <input type="number" name="players" placeholder="0" value="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title+"playes must be int 1-99" required>
-            <input type="color" value="" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
+            <input type="color" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
             <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
             <input type="submit" value="Create Ladder">
@@ -94,6 +105,10 @@
             <select name="player_id" min="1" required disabled>
                 <option value="">Players not Populated</option>
             <input type="submit" value="Not Sure Why this exists">
+        </form>
+        <form id="form_logout">
+            <label>Logout</label>
+            <input type="submit" value="Logout">
         </form>
 
         <h3>API Teams</h3>

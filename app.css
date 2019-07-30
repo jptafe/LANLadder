@@ -18,6 +18,9 @@ div a {
 input, select {
     display: block;
 }
+input:not(:focus):invalid, select:not(:focus):invalid {
+    border: red solid 2px;
+}
 form {
     display: inline-block;
     width: 12em;
@@ -30,4 +33,8 @@ form {
 }
 .notdone {
     background-color: mistyrose;
+}
+nav p {
+    display: inline-block;
+    width: 4em;
 }

@@ -115,7 +115,7 @@
             if(isset($_POST['password'])) {
                 $passWord = $_POST['password'];
             }
-            
+
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
@@ -256,14 +256,24 @@
                     }
                     break;
                 case "auth":
-                    if(isset($userName) && isset($passWord)) {
-                        $result = $databaseOBJECT->authPlayer($userName, $passWord);
-                    } else {
-                        throw new APIException("auth information missing");
+                    $result = $databaseOBJECT->authPlayer($userName, $passWord);
+                    if($result['user'] != 'false') {
+                        $_SESSION['sessionOBJ']->setAuth($result['user']);
                     }
                     break;
                 case "isauth":
-                    $result =  $_SESSION['sessionOBJ']->isAuth();
+                    $result = $_SESSION['sessionOBJ']->isAuth();
+                    break;
+                case "deauth":
+                    $result = $_SESSION['sessionOBJ']->unsetAuth();
+                    break;
+                case 'userexists':
+                    if(isset($name)) {
+                        $result = $databaseOBJECT->doesUserExist($name);
+                    }
+                    break;
+                case 'destroy':
+                    kill_session();
                     break;
                 default:
                     throw new APIException("incorrect request code");

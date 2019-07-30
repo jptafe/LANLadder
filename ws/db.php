@@ -396,6 +396,22 @@
                 echo "isTeaminLadder error"; die();
             }
         }
+        public function doesUserExist($name) {
+            try {
+                $auth = "SELECT * FROM player WHERE name = :username";
+                $stmt = $this->conn->prepare($auth);
+                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return Array("user"=>"notfound");
+                } else {
+                    return Array("user"=>"exists");
+                }
+            } catch (PDOException $e) {
+                echo "Auth error"; die();
+            }
+        }
         public function authPlayer($username, $password) {
             try {
                 $auth = "SELECT * FROM player WHERE name = :username";
