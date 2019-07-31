@@ -3,8 +3,8 @@
         private $conn;
         public function __construct() {
             try {
-                //$this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
-                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','RRU7xecj8E2EqL');
+                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
+                //$this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','RRU7xecj8E2EqL');
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {
@@ -401,11 +401,11 @@
             try {
                 $auth = "SELECT * FROM player WHERE name = :username";
                 $stmt = $this->conn->prepare($auth);
-                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+                $stmt->bindParam(':username', $name, PDO::PARAM_STR);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result == false) {
-                    return Array("user"=>"notfound");
+                    return Array("user"=>'notfound');
                 } else {
                     return Array("user"=>"exists");
                 }

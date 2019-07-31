@@ -56,6 +56,11 @@ document.getElementById('form_reportmatch').addEventListener('submit', function(
 document.getElementById('form_showplayers').addEventListener('submit', function(e) {showPlayersForm(e)});
 document.getElementById('form_logout').addEventListener('submit', function(e) {logoutNowForm(e)});
 
+// change events
+document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamForm(e)});
+document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamForm(e)});
+
+
 function showPlayersForm(evt) {
     // GIMPED FORM that does not submit
     evt.preventDefault();
@@ -173,7 +178,8 @@ function addMatchProcess(evt) {
     var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + 
                 ladder + '&starttime=' + starttime[0];
     if(teamA == teamB) {
-        alert('teams should not match');
+        elem.srcElement[0].setCustomValidity("teams should not match");
+        elem.srcElement[1].setCustomValidity("teams should not match");
     } else {
         fetch(url, {
             method: 'GET',
@@ -257,13 +263,23 @@ function checkExistingUser(elem) {
             }
             response.json().then(function(data) {
                 if(data.user == "notfound") {
-                    elem.setCustomValidity("User Exists");
-                } else {
                     elem.setCustomValidity("");
+                } else {
+                    elem.setCustomValidity("User Exists");
                 }
             });
         }
     )
+}
+function checkSameTeamForm(elem) {
+    if(elem.srcElement.nextElementSibling.value == elem.srcElement.value) {
+        elem.srcElement.nextElementSibling.setCustomValidity("Team can't comete with itself");
+        elem.srcElement.setCustomValidity("Team can't comete with itself");
+    }
+    if(elem.srcElement.previousElementSibling.value == elem.srcElement.value) {
+        elem.srcElement.previousElementSibling.setCustomValidity("Team can't comete with itself");
+        elem.srcElement.setCustomValidity("Team can't comete with itself");
+    }
 }
 function loginProcess(evt) {
     evt.preventDefault();

@@ -49,14 +49,14 @@
         </form>
         <form id="form_addmatch">
             <label>Create Match</label>
-            <select name="team_a" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team A</option>
-            </select>
-            <select name="team_b" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team B</option>
-            </select>
             <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" required>
                 <option value="">Choose A Ladder...</option>
+            </select>
+            <select name="team_a" id="teamainladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team A</option>
+            </select>
+            <select name="team_b" id="teambinladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
+                <option value="">Choose Team B</option>
             </select>
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
             <input type="submit" value="Create Match"> 
