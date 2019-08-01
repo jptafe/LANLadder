@@ -55,7 +55,7 @@
                 if($thisone > (time() - 86400)) {
                     array_push($temprequestArray, $thisone);
                 }
-                if(count($temprequestArray) > 1000) {
+                if(count($temprequestArray) > 10000) {
                     $lastrequestArray = $temprequestArray;
                     return false;
                 }

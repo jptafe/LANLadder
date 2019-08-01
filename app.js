@@ -7,6 +7,51 @@ getAllPlayedMatches();
 getAllUnPlayedMatches();
 isLoggedIn();
 
+//
+// Interface Pre-Render from localStorage Data
+teamsWithPlayers();
+laddersWithTeamsofUnplayedMatches();
+lnadderListWithCompletedResults();
+
+function teamsWithPlayers() {
+    var HTMLTeamList = '<article>';
+    var HTMLPlayerList = '';
+    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
+    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    for(var loop = 0;loop<JSONTeams.length;loop++) {
+        HTMLTeamList += '<aside style="background-color: #' + JSONTeams[loop].color + ';"><h1>' + JSONTeams[loop].team_name +
+            '<img src="img/' + JSONTeams[loop].image + '" width="100%"></h1><input type="checkbox">';
+        for(var loop2 = 0;loop2<JSONPlayers.length;loop2++) {
+            if(JSONPlayers[loop2].team_id == JSONTeams[loop].id) {
+                HTMLPlayerList += '<h5>' + JSONPlayers[loop2].name + ' - ' + JSONPlayers[loop2].seated_loc + '</h5>'; 
+            }
+        }
+        if(HTMLPlayerList.length > 0) {
+            HTMLTeamList += '<aside class="fixfloat">' + HTMLPlayerList + '</aside>';            
+            HTMLPlayerList = '';
+        }
+        HTMLTeamList += '</aside>';
+    }
+    HTMLTeamList += '<p>Kill the checkbox if its the last child</p></article>';
+    teams_with_players.innerHTML = HTMLTeamList; 
+}
+function laddersWithTeamsofUnplayedMatches() {
+    var HTMLLadderList = '<article>';
+    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
+    for(var loop = 0;loop<JSONLadders.length;loop++) {
+        HTMLLadderList += '<aside style="background-color: #' + JSONLadders[loop].color + ';"><h3>' + 
+            JSONLadders[loop].game +
+            '<img src="img/' + JSONLadders[loop].image + '"></h3>';
+        HTMLLadderList += '</aside>';
+    }
+    HTMLLadderList += '</article>';
+    panel_ladder_team_report_form.innerHTML = HTMLLadderList; 
+}
+
+function lnadderListWithCompletedResults() {
+    panel_ladder_results.innerHTML = 'lnadderListWithCompletedResults()';
+}
+
 //Interface manipulation
 function disableAllForms() {
     var allForms = document.getElementsByTagName('form');
@@ -44,6 +89,9 @@ function enableAllForms() {
         }
     }
 }
+function clearform(evt) {
+    //unset all input & select fields in given parameter to be used in successful fetch;
+}
 // Events
 // Submit:
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
@@ -57,8 +105,8 @@ document.getElementById('form_showplayers').addEventListener('submit', function(
 document.getElementById('form_logout').addEventListener('submit', function(e) {logoutNowForm(e)});
 
 // change events
-document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamForm(e)});
-document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamForm(e)});
+document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
+document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamPreviousForm(e)});
 
 
 function showPlayersForm(evt) {
@@ -73,20 +121,24 @@ function addTeamProcess(evt) {
     var color = evt.srcElement[1].value.substr(1,6);
     var icon = evt.srcElement[2].value;
     var url = 'ws/ws.php?reqcode=createteam&playerid=1&name=' + name + '&color=' + color + '&imageurl=' + icon;
-    fetch(url, {
-        method: 'GET',
-        credentials: 'include'
-    })
-    .then(
-        function(response) {
-            if (response.status !== 200) {
-                console.log('Looks like there was a problem. Status Code: ' + response.status);
+    if(icon == '0') {
+        evt.srcElement[2].setCustomValidity("Choose an Icon");
+    } else {
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(
+            function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function(data) {
+                    getAllTeams();
+                });
             }
-            response.json().then(function(data) {
-                getAllTeams();
-            });
-        }
-    )
+        )
+    }
 }
 function registerPlayerProcess(evt) {
     evt.preventDefault();
@@ -177,10 +229,25 @@ function addMatchProcess(evt) {
     var starttime = starttime[0].split('.');
     var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + 
                 ladder + '&starttime=' + starttime[0];
+    var allGood = true;
+    if(teamA == '0') {
+        evt.srcElement[0].setCustomValidity("team A must be entered");
+        allGood = false;
+    } 
+    if(teamB == '0') {
+        evt.srcElement[1].setCustomValidity("team A must be entered");
+        allGood = false;
+    } 
+    if(ladder == '0') {
+        evt.srcElement[2].setCustomValidity("team A must be entered");
+        allGood = false;
+    } 
     if(teamA == teamB) {
-        elem.srcElement[0].setCustomValidity("teams should not match");
-        elem.srcElement[1].setCustomValidity("teams should not match");
-    } else {
+        evt.srcElement[0].setCustomValidity("teams should not match");
+        evt.srcElement[1].setCustomValidity("teams should not match");
+        allGood = false;
+    } 
+    if(allGood) {
         fetch(url, {
             method: 'GET',
             credentials: 'include'
@@ -271,14 +338,22 @@ function checkExistingUser(elem) {
         }
     )
 }
-function checkSameTeamForm(elem) {
+function checkSameTeamNextForm(elem) {
     if(elem.srcElement.nextElementSibling.value == elem.srcElement.value) {
         elem.srcElement.nextElementSibling.setCustomValidity("Team can't comete with itself");
         elem.srcElement.setCustomValidity("Team can't comete with itself");
+    } else {
+        elem.srcElement.nextElementSibling.setCustomValidity("");
+        elem.srcElement.setCustomValidity("");
     }
+}
+function checkSameTeamPreviousForm(elem) {
     if(elem.srcElement.previousElementSibling.value == elem.srcElement.value) {
         elem.srcElement.previousElementSibling.setCustomValidity("Team can't comete with itself");
         elem.srcElement.setCustomValidity("Team can't comete with itself");
+    } else {
+        elem.srcElement.previousElementSibling.setCustomValidity("");
+        elem.srcElement.setCustomValidity("");
     }
 }
 function loginProcess(evt) {
@@ -399,7 +474,7 @@ function populateAllTeamsInForm(elem) {
     for(var loop = 0;loop<JSONTeams.length;loop++) {
         HTMLTeams += '<option value="' + JSONTeams[loop].id + '">' + JSONTeams[loop].team_name + '</option>';
     }
-    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLTeams;
+    elem.innerHTML = '<option value="0" disabled>Choose One...</option>' + HTMLTeams;
 }
 function populateAllLaddersInForm(elem) {
     var HTMLLadders = '';
@@ -407,7 +482,7 @@ function populateAllLaddersInForm(elem) {
     for(var loop = 0;loop<JSONLadders.length;loop++) {
         HTMLLadders += '<option value="' + JSONLadders[loop].id + '">' + JSONLadders[loop].game + '</option>';
     }
-    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLLadders;
+    elem.innerHTML = '<option value="0" disabled>Choose One...</option>' + HTMLLadders;
 }
 function populateTeamsInLadder(elem, ladder) {
     var HTMLTeams = '';
@@ -429,7 +504,7 @@ function populateTeamsInLadder(elem, ladder) {
     }
     if(HTMLTeams.length > 0) {
         elem.nextElementSibling.removeAttribute('disabled');
-        elem.nextElementSibling.innerHTML = '<option value="">Choose Team...</option>' + HTMLTeams;
+        elem.nextElementSibling.innerHTML = '<option value="0" disabled>Choose Team...</option>' + HTMLTeams;
     } else {
         elem.nextElementSibling.setAttribute('disabled','');
         elem.nextElementSibling.innerHTML = '<option value="">Teams not Populated</option>';
@@ -458,7 +533,7 @@ function populatePlayers(elem) {
     for(var loop = 0;loop<JSONPlayers.length;loop++) {
         HTMLPlayers += '<option value="' + JSONPlayers[loop].id + '">' + JSONPlayers[loop].name + '</option>';
     }
-    elem.innerHTML = '<option value="">Choose One...</option>' + HTMLPlayers;
+    elem.innerHTML = '<option value="" disabled>Choose One...</option>' + HTMLPlayers;
 }
 function populateTeamsInFormForLadder(elem, teamID) {
 }

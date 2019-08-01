@@ -18,8 +18,8 @@ div a {
 input, select {
     display: block;
 }
-input:not(:placeholder-shown):not(:focus):invalid {
-/* , select:not(:blank):invalid { don't think I need this */ 
+input:not(:placeholder-shown):not(:focus):invalid,
+select:invalid {
     border: red solid 2px;
 }
 select:disabled, input:disabled {
@@ -27,23 +27,50 @@ select:disabled, input:disabled {
     color: gainsboro;
     background-color: snow;
 }
-input:disabled::placeholder {
+input:disabled::placeholder, select:disabled {
     color: gainsboro;
 }
-form {
+form, section {
     display: inline-block;
-    width: 12em;
-    border: solid 1px black;
+    width: 15em;
     border-radius: 8px;
     box-shadow: gray .5em .5em .5em;
-    margin: .7em .6em;
-    padding: 2em;
+    margin: .6em;
+    padding: .6em 0 6em;
     vertical-align: top;
-}
-.notdone {
-    background-color: mistyrose;
 }
 nav p {
     display: inline-block;
     width: 4em;
+}
+article aside {
+    overflow: hidden;
+}
+article aside img {
+    width: 50%;
+    float: right;
+}
+article aside input[type="checkbox"] ~ aside {
+    display: none;
+}
+article aside h5:nth-child(even) {
+    background-color: rgba(255,255,255,.2);
+}
+article aside input[type="checkbox"]:checked ~ aside {
+    display: block;
+}
+article aside input[type="checkbox"]:last-child {
+    display: none;
+}
+/* 
+ * Custom Elements */
+.fixfloat {
+    clear: both;
+}
+.defunct {
+    background-color: gainsboro;
+}
+/* debugging info */
+form p, section p {
+    background-color: peachpuff;
 }

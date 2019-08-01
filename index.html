@@ -30,7 +30,7 @@
             <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" required>
             <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" required>
             <select name="teamicon" required>
-                <option value="">Choose Team Icon...</option>
+                <option value="0" default>Choose Team Icon...</option>
                 <option value="foo">foo</option>
                 <option value="bar">bar</option>
             </select>
@@ -43,23 +43,24 @@
             <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
             <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
             <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team...</option>
+                <option value="0" disabled selected>Choose Team...</option>
             </select>
             <input type="submit" value="Create Player">
         </form>
         <form id="form_addmatch">
             <label>Create Match</label>
             <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" required>
-                <option value="">Choose A Ladder...</option>
+                <option value="0" disabled selected>Choose A Ladder...</option>
             </select>
             <select name="team_a" id="teamainladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team A</option>
+                <option value="0" disabled selected>Choose Team A</option>
             </select>
             <select name="team_b" id="teambinladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team B</option>
+                <option value="0" disabled selected>Choose Team B</option>
             </select>
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
             <input type="submit" value="Create Match"> 
+            <p>Would like to replace with just date, not datetime....</p>
         </form> 
         <form id="form_addladder"> 
             <label>Create Ladder</label> 
@@ -69,48 +70,60 @@
             <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
             <input type="submit" value="Create Ladder">
+            <p>Refactor from GET to POST</p>
         </form>
         <form id="form_reportmatch" class="notdone">
-            <label>Report Match (this will be a listing)</label>
-            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onChange="populateTeamsInLadder(this, this.value)" required>
-                <option value="">Choose a Ladder...</option>
+            <label>Report Match</label>
+            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onBlur="populateTeamsInLadder(this, this.value)" onChange="populateTeamsInLadder(this, this.value)" required>
+                <option value="0" default>Choose a Ladder...</option>
             </select>
             <select name="team_id" min="1" required disabled>
                 <option value="">Choose a Team...</option>
             </select>
             <input type="hidden" name="playerid" value="0">
             <input type="hidden" name="matchid" value="0">
-            <select name="winloss">
+            <select name="winloss" pattern=".{3,}" required>
+                <option value="" default>Choose Outcome...</option>
                 <option value="win">Win</option>
                 <option value="loss">Loss</option>
                 <option value="draw">Draw</option>
             </select>
             <input type="submit" value="Report Match">
+            <p> incomplete: Implement in another place</p>
         </form>
         <form id="form_jointeam">
             <label>Join Team</label>
-            <select name="player_id" min="1" onfocus="populatePlayers(this)" required>
-                <option value="">Choose Payer</option>
+            <select name="player_id" min="1" onfocus="populatePlayers(this)" onchange="populatePlayers(this)" required>
+                <option value="0">Choose Payer</option>
             </select>
-            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="">Choose Team A</option>
+            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onchange="populateAllTeamsInForm(this)" required>
+                <option value="0">Choose Team A</option>
             </select>
             <input type="submit" value="Join Team">
         </form>
         <form id="form_showplayers">
             <label>Show Players in a Team</label>
-            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" required>
-                <option value="">Choose a Team...</option>
+            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" onBlur="populatePlayersInATeam(this, this.value)" required>
+                <option value="0">Choose a Team...</option>
             </select>
             <select name="player_id" min="1" required disabled>
                 <option value="">Players not Populated</option>
             <input type="submit" value="Not Sure Why this exists">
+            <p>The first option chosen does not populate the 2nd</p>
         </form>
         <form id="form_logout">
             <label>Logout</label>
             <input type="submit" value="Logout">
         </form>
-
+        <section id="panel_ladder_results">
+            All Ladder List -&gt; teams
+        </section>
+        <section id="teams_with_players">
+            All Team List -&gt; players 
+        </section>
+        <section id="panel_ladder_team_report_form">
+            All Team List -&gt; players 
+        </section>
         <h3>API Teams</h3>
         <div>
             <p>Show all players that are not in a team. This may allow an players to put other players in their team</p>

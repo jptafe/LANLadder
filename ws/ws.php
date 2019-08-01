@@ -172,7 +172,7 @@
                 /// INSERT new team and add inserting player into team
                 case "createteam":
                     if(isset($playerID) && isset($name) || isset($color) && isset($imageURL)) {
-                        $result = $databaseOBJECT->createTeam($playerID, $teamName, $teamColor, $imageURL);
+                        $result = $databaseOBJECT->createTeam($playerID, $name, $color, $imageURL);
                     } else {
                         throw new APIException("player id missing to create team");
                     }
