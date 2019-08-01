@@ -42,20 +42,20 @@
             <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
             <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
             <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
-            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" required>
+            <select name="team_id" onfocus="populateAllTeamsInForm(this)">
                 <option value="0" disabled selected>Choose Team...</option>
             </select>
             <input type="submit" value="Create Player">
         </form>
         <form id="form_addmatch">
             <label>Create Match</label>
-            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" required>
+            <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" required>
                 <option value="0" disabled selected>Choose A Ladder...</option>
             </select>
-            <select name="team_a" id="teamainladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
+            <select name="team_a" id="teamainladder" onfocus="populateAllTeamsInForm(this)" required>
                 <option value="0" disabled selected>Choose Team A</option>
             </select>
-            <select name="team_b" id="teambinladder" min="1" onfocus="populateAllTeamsInForm(this)" required>
+            <select name="team_b" id="teambinladder" onfocus="populateAllTeamsInForm(this)" required>
                 <option value="0" disabled selected>Choose Team B</option>
             </select>
             <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
