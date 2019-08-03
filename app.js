@@ -7,6 +7,7 @@ getAllPlayedMatches();
 getAllUnPlayedMatches();
 isLoggedIn();
 
+
 //
 // Interface Pre-Render from localStorage Data
 teamsWithPlayers();
@@ -58,7 +59,12 @@ function disableAllForms() {
     for(var loop = 0;loop<allForms.length;loop++) {
         if(allForms[loop].children[0].innerHTML == 'Login' ||
                allForms[loop].children[0].innerHTML == 'Create Player') {
-            // do nothing;
+            var formElements = allForms[loop].children;
+            for(var loop2 = 0;loop2<formElements.length;loop2++) {
+                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
+                    formElements[loop2].removeAttribute('disabled');
+                }
+            }
         } else {
             var formElements = allForms[loop].children;
             for(var loop2 = 0;loop2<formElements.length;loop2++) {
@@ -89,9 +95,21 @@ function enableAllForms() {
         }
     }
 }
-function clearform(evt) {
-    //unset all input & select fields in given parameter to be used in successful fetch;
+function clearForm(evt) {
+    for(var loop = 0;loop < evt.srcElement.length;loop++) {
+        if(evt.srcElement[loop].type == 'text' || 
+                evt.srcElement[loop].type == 'password') {
+            evt.srcElement[loop].value = '';
+        }
+        if(evt.srcElement[loop].type == 'number') {
+            evt.srcElement[loop].value = '0';
+        }
+        if(evt.srcElement[loop].localName == 'select') {
+            evt.srcElement[loop].value = '0';
+        }
+    }
 }
+
 // Events
 // Submit:
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
@@ -108,6 +126,8 @@ document.getElementById('form_logout').addEventListener('submit', function(e) {l
 document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
 document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamPreviousForm(e)});
 
+// Window events
+//window.onfocus = function() {isLoggedIn();};
 
 function showPlayersForm(evt) {
     // GIMPED FORM that does not submit
@@ -308,6 +328,7 @@ function isLoggedIn() {
             response.json().then(function(data) {
                 if(data.auth != 'false') {
                     localStorage.setItem('authcode', data.auth);
+                    enableAllForms();
                 } else {
                     localStorage.setItem('authcode', null);
                     disableAllForms();
@@ -378,6 +399,7 @@ function loginProcess(evt) {
                     localStorage.setItem('authcode', null);
                 } else {
                     localStorage.setItem('authcode', data.user);
+                    clearForm(evt);
                     enableAllForms();
                 }
             });

@@ -1,4 +1,4 @@
-:root {
+* {
     box-sizing: border-box;
 }
 @media (prefers-color-scheme: dark) {
@@ -63,7 +63,6 @@ article aside input[type="checkbox"] {
 article aside input[type="checkbox"]::after {
     content: '_';
     background-color: rgba(0, 0, 0, .2);
-/*    background-image: url('img/tf2.png');*/
     padding: 1em 4em 2em 4em;
 }
 article aside input[type="checkbox"] ~ aside {

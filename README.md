@@ -13,8 +13,6 @@ ENTITIES: player, ladder, team & match
 USERS: ANONYMOUS, PLAYER, ADMIN
 
 Business Rules:
-* Anonymous Users will be able to view ladders only
-* One must be authenticated and be in a team to view their team's ladders and play info
 * Teams will be allocated to a ladder by admin when admin creates the requisite matches for the ladder, that team will not be added to the ladder unless they have the requisite number of players
 * Admin also creates ladders, which consists of the name of the game and the maximum players in a team
 * A player can't join a team that is full, if they are successful their current team is overwritten, and if that team then has zero players it too will be deleted
