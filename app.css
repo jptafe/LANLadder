@@ -7,7 +7,7 @@
         color: white;
     }
 }
-div {
+figcaption {
     display: inline-block;
     width: 24em;
     border-radius: 8px;
@@ -18,7 +18,7 @@ div {
     vertical-align: top;
     min-height: 4em;
 }
-div a {
+figcaption a {
     padding-left: 2em;
 }
 input, select {

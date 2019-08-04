@@ -3,118 +3,216 @@
     <head>
         <meta charset="UTF-8">
         <title>TestPage</title>
+        <!-- UIkit -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit-icons.min.js"></script>
+        <!-- Custom -->
         <script src="app.js" defer></script>
         <link rel="stylesheet" href="app.css">
     </head>
     <body>
+        <a uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></a>
         <nav>
-            <p><a href="#">Login</a></p>
-            <p><a href="#">Register</a></p>
-            <p><a href="#">Add Team</a></p>
-            <p><a href="#">Add Ladder</a></p>
-            <p><a href="#">Create Match</a></p>
-            <p><a href="#">Report Match</a></p>
-            <p><a href="#">Join Team</a></p>
-            <p><a href="#">Logout</a></p>
-            <p><a href="ws/ws.php?reqcode=destroy">Destroy PHP Session</a></p>
+            <a href="#main_nav" uk-toggle></a>
+            <div id="main_nav" uk-offcanvas="overlay: true">
+                <div class="uk-offcanvas-bar">
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+                <ul uk-tab="connect: #content_tabs" class="uk-tab-left">
+                    <li class="uk-active">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="true">
+                            <span uk-icon="icon: sign-in"></span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: users"></span>
+                            Add Team
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: pencil"></span>
+                            Register
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: calendar"></span>
+                            Add Ladder
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: play-circle"></span>
+                            Create Match
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: users"></span>
+                            Join Team
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: tag"></span>
+                            Report Match
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: users"></span>
+                            Players in Team
+                        </a>
+                    </li>
+                    <li class="">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: sign-out"></span>
+                            Logout
+                        </a>
+                    </li>
+                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                            <span uk-icon="icon: refresh"></span>
+                            Destroy PHP Session
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
-        <h1>UI Tests</h1>
-        <form id="form_login">
-            <label>Login</label>
-            <input type="text" name="username" placeholder="User Name" title="Username Required" required>
-            <input type="password" name="password" placeholder="Password" title="Password Required" required>
-            <input type="submit" value="Login">
-        </form>
-        <form id="form_addteam">
-            <label>Create Team</label>
-            <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" required>
-            <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" required>
-            <select name="teamicon" required>
-                <option value="0" default>Choose Team Icon...</option>
-                <option value="foo">foo</option>
-                <option value="bar">bar</option>
-            </select>
-            <input type="submit" value="Create Team">
-        </form>
-        <form id="form_regplayer">
-            <label>Create Player</label>
-            <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" required>
-            <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
-            <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
-            <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
-            <select name="team_id" onfocus="populateAllTeamsInForm(this)">
-                <option value="0" disabled selected>Choose Team...</option>
-            </select>
-            <input type="submit" value="Create Player">
-        </form>
-        <form id="form_addmatch">
-            <label>Create Match</label>
-            <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" required>
-                <option value="0" disabled selected>Choose A Ladder...</option>
-            </select>
-            <select name="team_a" id="teamainladder" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="0" disabled selected>Choose Team A</option>
-            </select>
-            <select name="team_b" id="teambinladder" onfocus="populateAllTeamsInForm(this)" required>
-                <option value="0" disabled selected>Choose Team B</option>
-            </select>
-            <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
-            <input type="submit" value="Create Match"> 
-            <p>Would like to replace with just date, not datetime....</p>
-        </form> 
-        <form id="form_addladder"> 
-            <label>Create Ladder</label> 
-            <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" required>
-            <input type="number" name="players" placeholder="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title+"playes must be int 1-99" required>
-            <input type="color" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
-            <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
-            <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
-            <input type="submit" value="Create Ladder">
-            <p>Refactor from GET to POST</p>
-        </form>
-        <form id="form_reportmatch" class="notdone">
-            <label>Report Match</label>
-            <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onBlur="populateTeamsInLadder(this, this.value)" onChange="populateTeamsInLadder(this, this.value)" required>
-                <option value="0" default>Choose a Ladder...</option>
-            </select>
-            <select name="team_id" min="1" required disabled>
-                <option value="">Choose a Team...</option>
-            </select>
-            <input type="hidden" name="playerid" value="0">
-            <input type="hidden" name="matchid" value="0">
-            <select name="winloss" pattern=".{3,}" required>
-                <option value="" default>Choose Outcome...</option>
-                <option value="win">Win</option>
-                <option value="loss">Loss</option>
-                <option value="draw">Draw</option>
-            </select>
-            <input type="submit" value="Report Match">
-            <p> incomplete: Implement in another place</p>
-        </form>
-        <form id="form_jointeam">
-            <label>Join Team</label>
-            <select name="player_id" min="1" onfocus="populatePlayers(this)" onchange="populatePlayers(this)" required>
-                <option value="0">Choose Payer</option>
-            </select>
-            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onchange="populateAllTeamsInForm(this)" required>
-                <option value="0">Choose Team A</option>
-            </select>
-            <input type="submit" value="Join Team">
-        </form>
-        <form id="form_showplayers">
-            <label>Show Players in a Team</label>
-            <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" onBlur="populatePlayersInATeam(this, this.value)" required>
-                <option value="0">Choose a Team...</option>
-            </select>
-            <select name="player_id" min="1" required disabled>
-                <option value="">Players not Populated</option>
-            <input type="submit" value="Not Sure Why this exists">
-            <p>The first option chosen does not populate the 2nd</p>
-        </form>
-        <form id="form_logout">
-            <label>Logout</label>
-            <input type="submit" value="Logout">
-        </form>
+        <ul class="uk-switcher" id="content_tabs">
+            <li class="">
+                <form id="form_login">
+                    <label>Login</label>
+                    <input type="text" name="username" placeholder="User Name" title="Username Required" required>
+                    <input type="password" name="password" placeholder="Password" title="Password Required" required>
+                    <input type="submit" value="Login">
+                </form>
+            </li>
+            <li class="">
+                <form id="form_regplayer">
+                    <label>Create Player</label>
+                    <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" required>
+                    <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
+                    <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
+                    <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
+                    <select name="team_id" onfocus="populateAllTeamsInForm(this)">
+                        <option value="0" disabled selected>Choose Team...</option>
+                    </select>
+                    <input type="submit" value="Create Player">
+                </form>
+            </li>
+            <li class="">
+                <form id="form_addteam">
+                    <label>Create Team</label>
+                    <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" required>
+                    <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" required>
+                    <select name="teamicon" required>
+                        <option value="0" default>Choose Team Icon...</option>
+                        <option value="foo">foo</option>
+                        <option value="bar">bar</option>
+                    </select>
+                    <input type="submit" value="Create Team">
+                </form>
+            </li>
+            <li>
+                <form id="form_addladder"> 
+                    <label>Create Ladder</label> 
+                    <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" required>
+                    <input type="number" name="players" placeholder="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title+"playes must be int 1-99" required>
+                    <input type="color" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
+                    <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
+                    <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
+                    <input type="submit" value="Create Ladder">
+                    <p>Refactor from GET to POST</p>
+                </form>
+            </li>
+            <li>
+                <form id="form_addmatch">
+                    <label>Create Match</label>
+                    <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" required>
+                        <option value="0" disabled selected>Choose A Ladder...</option>
+                    </select>
+                    <select name="team_a" id="teamainladder" onfocus="populateAllTeamsInForm(this)" required>
+                        <option value="0" disabled selected>Choose Team A</option>
+                    </select>
+                    <select name="team_b" id="teambinladder" onfocus="populateAllTeamsInForm(this)" required>
+                        <option value="0" disabled selected>Choose Team B</option>
+                    </select>
+                    <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
+                    <input type="submit" value="Create Match"> 
+                    <p>Would like to replace with just date, not datetime....</p>
+                </form> 
+            </li>
+            <li>
+                <form id="form_jointeam">
+                    <label>Join Team</label>
+                    <select name="player_id" min="1" onfocus="populatePlayers(this)" onchange="populatePlayers(this)" required>
+                        <option value="0">Choose Payer</option>
+                    </select>
+                    <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onchange="populateAllTeamsInForm(this)" required>
+                        <option value="0">Choose Team A</option>
+                    </select>
+                    <input type="submit" value="Join Team">
+                </form>
+            </li>
+            <li>
+                <form id="form_reportmatch" class="notdone">
+                    <label>Report Match</label>
+                    <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onBlur="populateTeamsInLadder(this, this.value)" onChange="populateTeamsInLadder(this, this.value)" required>
+                        <option value="0" default>Choose a Ladder...</option>
+                    </select>
+                    <select name="team_id" min="1" required disabled>
+                        <option value="">Choose a Team...</option>
+                    </select>
+                    <input type="hidden" name="playerid" value="0">
+                    <input type="hidden" name="matchid" value="0">
+                    <select name="winloss" pattern=".{3,}" required>
+                        <option value="" default>Choose Outcome...</option>
+                        <option value="win">Win</option>
+                        <option value="loss">Loss</option>
+                        <option value="draw">Draw</option>
+                    </select>
+                    <input type="submit" value="Report Match">
+                    <p> incomplete: Implement in another place</p>
+                </form>
+            </li>
+            <li>
+                <form id="form_showplayers">
+                    <label>Show Players in a Team</label>
+                    <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" onBlur="populatePlayersInATeam(this, this.value)" required>
+                        <option value="0">Choose a Team...</option>
+                    </select>
+                    <select name="player_id" min="1" required disabled>
+                        <option value="">Players not Populated</option>
+                    <input type="submit" value="Not Sure Why this exists">
+                    <p>The first option chosen does not populate the 2nd</p>
+                </form>
+            </li>
+            <li>
+                <form id="form_logout">
+                    <label>Logout</label>
+                    <input type="submit" value="Logout">
+                </form>
+            </li>
+            <li>
+                <form id="form_logout">
+                    <a href="ws/ws.php?reqcode=destroy" aria-expanded="false">Destroy PHP Session</a>
+                </form>
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
         <section id="panel_ladder_results">
             All Ladder List -&gt; teams
         </section>
