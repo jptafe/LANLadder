@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="app.css">
     </head>
     <body>
-        <a uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></a>
+        <span uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></span>
         <nav>
             <a href="#main_nav" uk-toggle></a>
             <div id="main_nav" uk-offcanvas="overlay: true">
@@ -27,14 +27,14 @@
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: users"></span>
-                            Add Team
+                            <span uk-icon="icon: pencil"></span>
+                            Register
                         </a>
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: pencil"></span>
-                            Register
+                            <span uk-icon="icon: users"></span>
+                            Add Team
                         </a>
                     </li>
                     <li class="">
