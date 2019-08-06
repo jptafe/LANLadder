@@ -13,6 +13,20 @@ isLoggedIn();
 teamsWithPlayers();
 laddersWithTeamsofUnplayedMatches();
 lnadderListWithCompletedResults();
+populateStatusPanel();
+
+function populateStatusPanel() {
+    var HTMLStatusValues;
+    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
+    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
+    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
+    var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
+
+    HTMLStatusValues = 'Players: ' + JSONPlayers.length + ' Teams: ' + JSONTeams.length + ' Ladders: ' + JSONLadders.length +
+        ' Played Matches: ' + JSONPlayedMatches.length + ' Un-Played Matches: ' + JSONUnPlayedMatches.length;
+    status_panel.innerHTML = HTMLStatusValues;
+}
 
 function teamsWithPlayers() {
     var HTMLTeamList = '<article>';
