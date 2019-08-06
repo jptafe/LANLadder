@@ -57,13 +57,13 @@
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: tag"></span>
+                            <span uk-icon="icon: microphone"></span>
                             Report Match
                         </a>
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: users"></span>
+                            <span uk-icon="icon: thumbnails"></span>
                             Players in Team
                         </a>
                     </li>
@@ -74,14 +74,30 @@
                         </a>
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
-                            <span uk-icon="icon: refresh"></span>
+                            <span uk-icon="icon: bolt"></span>
                             Destroy PHP Session
+                        </a>
+                    </li>
+                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                            <span uk-icon="icon: file-text"></span>
+                            Team & Player list 
+                        </a>
+                    </li>
+                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                            <span uk-icon="icon: push"></span>
+                            Ladder Rankings 
+                        </a>
+                    </li>
+                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                            <span uk-icon="icon: file-edit"></span>
+                            Match Report 
                         </a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <ul class="uk-switcher" id="content_tabs">
+<!--  -->
+        <ul class="uk-switcher uk-width-1-1@s uk-width-4-5@m uk-width-3-5@l uk-width-1-2@xl" id="content_tabs">
             <li class="">
                 <form id="form_login">
                     <label>Login</label>
@@ -197,31 +213,27 @@
                 </form>
             </li>
             <li>
-                <form id="form_logout">
+                <form id="form_php_session">
                     <a href="ws/ws.php?reqcode=destroy" aria-expanded="false">Destroy PHP Session</a>
                 </form>
             </li>
+            <li>
+                <div id="teams_with_players">
+                    All Team List -&gt; players 
+                </div>
+            </li>
+            <li>
+                <div class="" id="panel_ladder_results">
+                    All Ladder List -&gt; teams
+                </div>
+            </li>
+            <li>
+                <div class="" id="panel_ladder_team_report_form">
+                    All Team List -&gt; players 
+                </div>
+            </li>
         </ul>
 
-
-
-
-
-
-
-
-
-
-
-        <section id="panel_ladder_results">
-            All Ladder List -&gt; teams
-        </section>
-        <section id="teams_with_players">
-            All Team List -&gt; players 
-        </section>
-        <section id="panel_ladder_team_report_form">
-            All Team List -&gt; players 
-        </section>
         <h3>API Teams</h3>
         <div>
             <p>Show all players that are not in a team. This may allow an players to put other players in their team</p>

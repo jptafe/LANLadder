@@ -39,10 +39,6 @@ input:disabled::placeholder, select:disabled {
 form, section {
     display: inline-block;
     width: 15em;
-    border-radius: 8px;
-    box-shadow: gray .5em .5em .5em;
-    margin: .6em;
-    padding: .6em 0 6em;
     vertical-align: top;
 }
 nav p {
@@ -88,4 +84,11 @@ article aside h5:nth-child(even) {
 /* debugging info */
 form p, section p {
     background-color: peachpuff;
+}
+#content_tabs {
+    margin: .6em auto;
+    border: dotted darkgray 1px;
+    border-radius: 8px;
+    box-shadow: gray .5em .5em .5em;
+    padding: 1em;
 }
