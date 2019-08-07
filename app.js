@@ -23,8 +23,8 @@ function populateStatusPanel() {
     var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
     var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
 
-    HTMLStatusValues = 'Players: ' + JSONPlayers.length + ' Teams: ' + JSONTeams.length + ' Ladders: ' + JSONLadders.length +
-        ' Played Matches: ' + JSONPlayedMatches.length + ' Un-Played Matches: ' + JSONUnPlayedMatches.length;
+    HTMLStatusValues = 'Players:' + JSONPlayers.length + ' - Teams:' + JSONTeams.length + ' - Ladders:' + JSONLadders.length +
+        ' - Played Matches:' + JSONPlayedMatches.length + ' - UnPlayed Matches:' + JSONUnPlayedMatches.length;
     status_panel.innerHTML = HTMLStatusValues;
 }
 

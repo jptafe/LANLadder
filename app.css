@@ -85,6 +85,11 @@ article aside h5:nth-child(even) {
 form p, section p {
     background-color: peachpuff;
 }
+#status_panel {
+    position: fixed;
+    display: flex;
+    margin-left: 2em;
+}
 #content_tabs {
     margin: .6em auto;
     border: dotted darkgray 1px;

@@ -7,14 +7,16 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit-icons.min.js"></script>
-        <!-- Custom -->
-        <script src="app.js" defer></script>
-        <link rel="stylesheet" href="app.css">
+        <!-- Local Customisations -->
+            <script src="app.js" defer></script>
+            <link rel="stylesheet" href="app.css">
     </head>
     <body>
-        <div>
-            <span uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></span>
-            <span id="status_panel">Teams 9 - Players - 49 - Ladders - 3 - Played Matches - 48</span>
+        <div class="uk-navbar-container">
+            <div class="uk-navbar-left uk-light uk-background-secondary">
+                <span uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></span>
+                <span id="status_panel">Teams 9 - Players - 49 - Ladders - 3 - Played Matches - 48</span>
+            </div>
         <div>
         <nav>
             <a href="#main_nav" uk-toggle></a>
@@ -22,7 +24,7 @@
                 <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <ul uk-tab="connect: #content_tabs" class="uk-tab-left">
-                    <li class="uk-active">
+                    <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="true">
                             <span uk-icon="icon: sign-in"></span>
                             Login
@@ -100,13 +102,21 @@
             </div>
         </nav>
 <!--  -->
-        <ul class="uk-switcher uk-width-1-1@s uk-width-4-5@m uk-width-3-5@l uk-width-1-2@xl" id="content_tabs">
-            <li class="">
+        <ul class="uk-dark uk-switcher uk-width-1-1@s uk-width-4-5@m uk-width-3-5@l uk-width-1-2@xl" id="content_tabs">
+            <li class="uk-fieldset">
                 <form id="form_login">
-                    <label>Login</label>
-                    <input type="text" name="username" placeholder="User Name" title="Username Required" required>
-                    <input type="password" name="password" placeholder="Password" title="Password Required" required>
-                    <input type="submit" value="Login">
+                    <legend class="uk-form-legend">Login</legend>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input type="text" name="username" placeholder="User Name" title="Username Required" 
+                            class="uk-input" required>
+                    </div>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input type="password" name="password" placeholder="Password" title="Password Required" 
+                            class="uk-input" required>
+                    </div>
+                    <input type="submit" class="uk-button uk-button-large uk-width-1-1@s" value="Login">
                 </form>
             </li>
             <li class="">
