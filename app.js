@@ -70,7 +70,28 @@ function laddersWithTeamsofUnplayedMatches() {
 }
 
 function lnadderListWithCompletedResults() {
-    panel_ladder_results.innerHTML = 'lnadderListWithCompletedResults()';
+    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
+    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
+
+    var templateLadderHeadHTML = document.getElementById('template_ladder_head').innerHTML;
+    var templateLadderListHTML = document.getElementById('template_ladder_list').innerHTML;
+    var renderedHTML = '<ul uk-accordion>';
+
+    for(var loop = 0;loop < JSONLadders.length;loop++) {
+        renderedHTML += '<li>';
+        renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game);
+        for(var loop2 = 0;loop2 < JSONPlayedMatches.length;loop2++) {
+            if(JSONPlayedMatches[loop2].ladder_id == JSONLadders[loop].id) {
+                renderedHTML += '<div class="uk-accordion-content">';
+                renderedHTML += templateLadderListHTML.replace(/{{team_a}}/g, JSONPlayedMatches[loop2].team_a_id).
+                replace(/{{team_b}}/g, JSONPlayedMatches[loop2].team_b_id);
+                renderedHTML += '</div>';
+            }
+        }
+        renderedHTML += '</li>';
+    }
+    
+    panel_ladder_results.innerHTML = renderedHTML + '</ul>';
 }
 
 //Interface manipulation
