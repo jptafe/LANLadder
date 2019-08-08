@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>TestPage</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <!-- UIkit -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
@@ -249,88 +251,90 @@
             </li>
         </ul>
 
-        <h3>API Teams</h3>
-        <div>
-            <p>Show all players that are not in a team. This may allow an players to put other players in their team</p>
-            <a href="ws/ws.php?reqcode=playersnotinateam">ws/ws.php?reqcode=playersnotinteam</a>
-        </div>
-        <div>
-            <p>Teams will be destroyed with 0 players automatically. This API method might not be necessary</p>
-            <a href="ws/ws.php?reqcode=removeteam&teamid=9">ws/ws.php?reqcode=removeteam&teamid=9</a>
-        </div>
-        <div>
-            <p>Team members can be removed from team (those on lower levels of ladder can hack their way to the top)</p>
-            <a href="ws/ws.php?reqcode=removeplayerfromteam&playerid=2">ws/ws.php?reqcode=removeteam&teamid=2</a>
-        </div>
-        <div>
-            <p>Show all teams in the system (Should we show those teams without players?)</p>
-            <a href="ws/ws.php?reqcode=allteams">ws/ws.php?reqcode=allteams</a>
-        </div>
-        <div>
-            <p>Show a list of teams that are empty</p>
-            <a href="ws/ws.php?reqcode=emptyteams&playerid=2">ws/ws.php?reqcode=emptyteams</a>
-        </div>
-        <div>
-            <p>Any player can join a team (as long as the team is not full) but they secede from the team they are in</p>
-            <a href="ws/ws.php?reqcode=jointeam&playerid=1&teamid=1">ws/ws.php?reqcode=jointeam&playerid=1&teamid=1</a>
-        </div>
-        <div>
-            <p>Is this team in this ladder? The admin may not have matched teams</p>
-            <a href="ws/ws.php?reqcode=isteaminladder&teamid=2&ladderid=3">ws/ws.php?reqcode=isteaminladder&teamid=2&ladderid=3</a>
-        </div>
-        <div>
-            <p>A player can create a new team, but they are automatically put into the team, from whatever team they were in</p>
-            <a href="ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&imageurl=sabre">ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&teamurl=sabre</a>
-        </div>
+        <div style="display: none">
+            <h3>API Teams</h3>
+            <div>
+                <p>Show all players that are not in a team. This may allow an players to put other players in their team</p>
+                <a href="ws/ws.php?reqcode=playersnotinateam">ws/ws.php?reqcode=playersnotinteam</a>
+            </div>
+            <div>
+                <p>Teams will be destroyed with 0 players automatically. This API method might not be necessary</p>
+                <a href="ws/ws.php?reqcode=removeteam&teamid=9">ws/ws.php?reqcode=removeteam&teamid=9</a>
+            </div>
+            <div>
+                <p>Team members can be removed from team (those on lower levels of ladder can hack their way to the top)</p>
+                <a href="ws/ws.php?reqcode=removeplayerfromteam&playerid=2">ws/ws.php?reqcode=removeteam&teamid=2</a>
+            </div>
+            <div>
+                <p>Show all teams in the system (Should we show those teams without players?)</p>
+                <a href="ws/ws.php?reqcode=allteams">ws/ws.php?reqcode=allteams</a>
+            </div>
+            <div>
+                <p>Show a list of teams that are empty</p>
+                <a href="ws/ws.php?reqcode=emptyteams&playerid=2">ws/ws.php?reqcode=emptyteams</a>
+            </div>
+            <div>
+                <p>Any player can join a team (as long as the team is not full) but they secede from the team they are in</p>
+                <a href="ws/ws.php?reqcode=jointeam&playerid=1&teamid=1">ws/ws.php?reqcode=jointeam&playerid=1&teamid=1</a>
+            </div>
+            <div>
+                <p>Is this team in this ladder? The admin may not have matched teams</p>
+                <a href="ws/ws.php?reqcode=isteaminladder&teamid=2&ladderid=3">ws/ws.php?reqcode=isteaminladder&teamid=2&ladderid=3</a>
+            </div>
+            <div>
+                <p>A player can create a new team, but they are automatically put into the team, from whatever team they were in</p>
+                <a href="ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&imageurl=sabre">ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&teamurl=sabre</a>
+            </div>
 
-        <h3>API Players</h3>
-        <div>
-            <p>Show the players that are in a team</p>
-            <a href="ws/ws.php?reqcode=playersinteam&teamid=1">ws/ws.php?reqcode=playersinteam&teamid=1</a>
-        </div>
-        <div>
-            <p>New player has player details (may be able to use SteamID eventually)</p>
-            <a href="ws/ws.php?reqcode=createplayer">ws/ws.php?reqcode=createplayer</a>
-        </div>
-        <div>
-            <p>Authenticate</p>
-            <a href="ws/ws.php?reqcode=auth">ws/ws.php?reqcode=auth</a>
-        </div>
+            <h3>API Players</h3>
+            <div>
+                <p>Show the players that are in a team</p>
+                <a href="ws/ws.php?reqcode=playersinteam&teamid=1">ws/ws.php?reqcode=playersinteam&teamid=1</a>
+            </div>
+            <div>
+                <p>New player has player details (may be able to use SteamID eventually)</p>
+                <a href="ws/ws.php?reqcode=createplayer">ws/ws.php?reqcode=createplayer</a>
+            </div>
+            <div>
+                <p>Authenticate</p>
+                <a href="ws/ws.php?reqcode=auth">ws/ws.php?reqcode=auth</a>
+            </div>
 
-        <h3>API Ladders</h3>
-        <div>
-            <p>This should show the teams ordered by the one that won most matches first</p>
-            <a href="ws/ws.php?reqcode=ladderlist&ladderid=2">ws/ws.php?reqcode=ladderlist&ladderid=2</a>
-        </div>
-        <div>
-            <p>Show Every Ladder (game) in the system</p>
-            <a href="ws/ws.php?reqcode=allladders">ws/ws.php?reqcode=allladders</a>
-        </div>
-        <div>
-            <p>Teams that are in a ladder are manefested by the admin who create unplayed matches for teams</p>
-            <a href="ws/ws.php?reqcode=teamsinladder&ladderid=1">ws/ws.php?reqcode=teamsinladder&ladderid=1</a>
-        </div>
-        <div>
-            <p>Admins need to manage ladders</p>
-            <a href="ws/ws.php?reqcode=createladder">ws/ws.php?reqcode=createladder</a>
-        </div>
+            <h3>API Ladders</h3>
+            <div>
+                <p>This should show the teams ordered by the one that won most matches first</p>
+                <a href="ws/ws.php?reqcode=ladderlist&ladderid=2">ws/ws.php?reqcode=ladderlist&ladderid=2</a>
+            </div>
+            <div>
+                <p>Show Every Ladder (game) in the system</p>
+                <a href="ws/ws.php?reqcode=allladders">ws/ws.php?reqcode=allladders</a>
+            </div>
+            <div>
+                <p>Teams that are in a ladder are manefested by the admin who create unplayed matches for teams</p>
+                <a href="ws/ws.php?reqcode=teamsinladder&ladderid=1">ws/ws.php?reqcode=teamsinladder&ladderid=1</a>
+            </div>
+            <div>
+                <p>Admins need to manage ladders</p>
+                <a href="ws/ws.php?reqcode=createladder">ws/ws.php?reqcode=createladder</a>
+            </div>
 
-        <h3>API Matches</h3>
-        <div>
-            <p>Matches that are yet to be complete. Two reports of the match oucome are necessary for a match to complete</p>
-            <a href="ws/ws.php?reqcode=incompletematches&playerid=2&ladderid=3">ws/ws.php?reqcode=incompletematches&playerid=2&ladderid=3</a>
-        </div>
-        <div>
-            <p>Show matches played by team, for the team dashboard not ladder</p>
-            <a href="ws/ws.php?reqcode=matchesplayedbyteam&teamid=2&ladderid=3">ws/ws.php?reqcode=matchesplayedbyteam&teamid=2&ladderid=3</a>
-        </div>
-        <div>
-            <p>Admins create enough mataches so teams can be laddered</p>
-            <a href="ws/ws.php?reqcode=creatematch&teamid=1&teambid=2&ladderid=1">ws/ws.php?reqcode=creatematch&teamid=1&teambid=2&ladderid=1</a>
-        </div>
-        <div>
-            <p>Any player that happens to be a member of the team can report the outcome of a match (but not any player)</p>
-            <a href="ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win">ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win</a>
+            <h3>API Matches</h3>
+            <div>
+                <p>Matches that are yet to be complete. Two reports of the match oucome are necessary for a match to complete</p>
+                <a href="ws/ws.php?reqcode=incompletematches&playerid=2&ladderid=3">ws/ws.php?reqcode=incompletematches&playerid=2&ladderid=3</a>
+            </div>
+            <div>
+                <p>Show matches played by team, for the team dashboard not ladder</p>
+                <a href="ws/ws.php?reqcode=matchesplayedbyteam&teamid=2&ladderid=3">ws/ws.php?reqcode=matchesplayedbyteam&teamid=2&ladderid=3</a>
+            </div>
+            <div>
+                <p>Admins create enough mataches so teams can be laddered</p>
+                <a href="ws/ws.php?reqcode=creatematch&teamid=1&teambid=2&ladderid=1">ws/ws.php?reqcode=creatematch&teamid=1&teambid=2&ladderid=1</a>
+            </div>
+            <div>
+                <p>Any player that happens to be a member of the team can report the outcome of a match (but not any player)</p>
+                <a href="ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win">ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win</a>
+            </div>
         </div>
 
 <!-- TEMPLATES -->

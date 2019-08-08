@@ -26,8 +26,11 @@ function populateStatusPanel() {
     var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
     var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
 
-    HTMLStatusValues = 'Players:' + JSONPlayers.length + ' - Teams:' + JSONTeams.length + ' - Ladders:' + JSONLadders.length +
-        ' - Played Matches:' + JSONPlayedMatches.length + ' - UnPlayed Matches:' + JSONUnPlayedMatches.length;
+    HTMLStatusValues = '<a href="#" title="players"><span uk-icon="icon: user"></span>:' + JSONPlayers.length + 
+        '</a> - <a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONTeams.length + 
+        '</a> - <a href="#" title="Ladders"><span uk-icon="icon: calendar"></span>:' + JSONLadders.length +
+        '</a> - <a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONPlayedMatches.length + 
+        '</a> - <a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONUnPlayedMatches.length + '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
 
