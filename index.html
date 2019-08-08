@@ -104,19 +104,21 @@
 <!--  -->
         <ul class="uk-dark uk-switcher uk-width-1-1@s uk-width-4-5@m uk-width-3-5@l uk-width-1-2@xl" id="content_tabs">
             <li class="uk-fieldset">
-                <form id="form_login">
+                <form id="form_login"> 
                     <legend class="uk-form-legend">Login</legend>
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <div class="uk-inline uk-width-1-1@s">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
                         <input type="text" name="username" placeholder="User Name" title="Username Required" 
                             class="uk-input" required>
                     </div>
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <div class="uk-inline uk-width-1-1@s">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                         <input type="password" name="password" placeholder="Password" title="Password Required" 
                             class="uk-input" required>
                     </div>
-                    <input type="submit" class="uk-button uk-button-large uk-width-1-1@s" value="Login">
+                    <div class="uk-inline uk-width-1-1@s">
+                        <input type="submit" class="uk-button uk-button-large uk-width-1-1@s uk-width-1-1" value="Login">
+                    </div>
                 </form>
             </li>
             <li class="">
@@ -330,5 +332,14 @@
             <p>Any player that happens to be a member of the team can report the outcome of a match (but not any player)</p>
             <a href="ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win">ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win</a>
         </div>
+
+<!-- TEMPLATES -->
+        <script id="template_ladder_head" type="text/template">
+            <p>{{msg}}</p>
+        </script>
+        <script id="template_ladder_list" type="text/template">
+            <p>{{msg}}</p>
+        </script>
+
     </body>
 </html>

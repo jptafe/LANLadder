@@ -3,7 +3,10 @@
 getAllTeams();
 getAllLadders();
 getAllPlayers();
+
+// Remove this call
 getAllPlayedMatches();
+
 getAllUnPlayedMatches();
 isLoggedIn();
 

@@ -1,6 +1,7 @@
 <?php
     if(count($_COOKIE) < 1) {
-        header('Location: testsession.php');
+        $header = 'Location: testsession.php?' . $_SERVER['QUERY_STRING'];
+        header($header);
     }
 
     class sessionObject {
