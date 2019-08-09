@@ -100,3 +100,26 @@ SELECT team.name
 
 -- update both winner & loser data at the same time. 
 
+
+
+-- LADDER Most Important:
+-- Show wins in order of Most to least, but this is not enough, I have to count the losses too!
+SELECT played_match.winning_team_id, team.team_name, count(winning_team_id) AS wins
+	FROM `played_match`
+	JOIN team ON team.id = played_match.winning_team_id
+	WHERE ladder_id = 3 AND winning_team_id > 2 AND losing_team_id > 2
+	GROUP BY winning_team_id
+		ORDER BY wins DESC
+
+-- Show losses in order of least to most
+SELECT played_match.losing_team_id, team.team_name, count(winning_team_id) AS wins
+	FROM `played_match`
+	JOIN team ON team.id = played_match.losing_team_id
+	WHERE ladder_id = 3 AND winning_team_id > 2 AND losing_team_id > 2
+	GROUP BY losing_team_id
+		ORDER BY wins ASC 
+
+
+
+-- We need to start with a list of teams that have played matches that have completed:
+SELECT distinct(team_a_id) FROM `played_match` WHERE winning_team_id > 2 AND losing_team_id > 2 union SELECT distinct(team_b_id) FROM `played_match` WHERE winning_team_id > 2 AND losing_team_id > 2
