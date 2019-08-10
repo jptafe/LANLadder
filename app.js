@@ -10,7 +10,6 @@ getAllPlayedMatches();
 getAllUnPlayedMatches();
 isLoggedIn();
 
-
 //
 // Interface Pre-Render from localStorage Data
 teamsWithPlayers();
@@ -71,26 +70,20 @@ function laddersWithTeamsofUnplayedMatches() {
 
 function lnadderListWithCompletedResults() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
-    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
 
     var templateLadderHeadHTML = document.getElementById('template_ladder_head').innerHTML;
-    var templateLadderListHTML = document.getElementById('template_ladder_list').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
 
     for(var loop = 0;loop < JSONLadders.length;loop++) {
-        renderedHTML += '<li>';
+        renderedHTML += '<li onclick="getLadderPlayedMatches(' + JSONLadders[loop].id + ')">';
         renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game);
-        for(var loop2 = 0;loop2 < JSONPlayedMatches.length;loop2++) {
-            if(JSONPlayedMatches[loop2].ladder_id == JSONLadders[loop].id) {
-                renderedHTML += '<div class="uk-accordion-content">';
-                renderedHTML += templateLadderListHTML.replace(/{{team_a}}/g, JSONPlayedMatches[loop2].team_a_id).
-                replace(/{{team_b}}/g, JSONPlayedMatches[loop2].team_b_id);
-                renderedHTML += '</div>';
-            }
-        }
+        renderedHTML += '<div class="uk-accordion-content" id="ladder_list_' + JSONLadders[loop].id + '">';
+        renderedHTML += '<div uk-spinner></div>';
+        renderedHTML += '</div>';
         renderedHTML += '</li>';
     }
     
+
     panel_ladder_results.innerHTML = renderedHTML + '</ul>';
 }
 
@@ -510,6 +503,42 @@ function getAllPlayedMatches() {
             }
             response.json().then(function(data) {
                 localStorage.setItem('allPlayedMatches', JSON.stringify(data));
+            });
+        }
+    )
+}
+function getLadderPlayedMatches(ladder) {
+    var ladderId = 'ladder_list_' + ladder;
+    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
+    var team
+    var ladderHTML = '<table class="uk-table uk-table-small">';
+    ladderHTML += '<thead><tr><th>Team</th><th>Wins</th><th>Losses</th></tr></thead><tbody>';
+    var url = 'ws/ws.php?reqcode=ladderlist&ladderid=' + ladder; 
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                console.log(data);
+                console.log(JSONTeams);
+                if(data.result == false) {
+                    document.getElementById(ladderId).innerHTML = 'No Ladder Found';
+                } else {
+                    for(var loop = 0;loop < data.length;loop++) {
+                        for(var loop2 = 0;loop2<JSONTeams.length;loop2++) {
+                            if(data[loop].teama == JSONTeams[loop2].id) {
+                                ladderHTML += '<tr><td>' + JSONTeams[loop2].team_name + '</td><td>' + 
+                                    data[loop].wins + '</td><td>' + data[loop].losses + '</td></tr>'; 
+                            }
+                        }
+                    }
+                    document.getElementById(ladderId).innerHTML = ladderHTML + '</tbody></table>'; 
+                }
             });
         }
     )

@@ -14,11 +14,24 @@
         }
         public function ladderlist($ladderID) {
           try {
-                $getLadder = "SELECT DISTINCT team.id, team.team_name, team.image, team.color
-                    FROM team JOIN played_match ON (team.id = played_match.team_a_id OR played_match.team_b_id)
-                        WHERE played_match.winning_team_id > 1 AND
-                        played_match.losing_team_id > 1 AND
-                        played_match.ladder_id = :ladderid";
+                $getLadder = "SELECT distinct(winning_team_id) AS teama,
+                    (SELECT count(winning_team_id) FROM played_match
+                        WHERE winning_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+                    (SELECT count(losing_team_id) FROM played_match
+                        WHERE losing_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+                            FROM `played_match`
+                            WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid
+                            GROUP BY teama
+                UNION
+                SELECT distinct(losing_team_id) AS teamb,
+                    (SELECT count(winning_team_id) FROM played_match
+                        WHERE winning_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+                    (SELECT count(losing_team_id) FROM played_match
+                        WHERE losing_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+                            FROM `played_match`
+                            WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid
+                            GROUP BY teamb
+                     ORDER by wins DESC, losses ASC";
                 // no order by...?
                 $stmt = $this->conn->prepare($getLadder);
                 $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);

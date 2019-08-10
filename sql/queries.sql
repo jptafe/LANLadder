@@ -119,7 +119,22 @@ SELECT played_match.losing_team_id, team.team_name, count(winning_team_id) AS wi
 	GROUP BY losing_team_id
 		ORDER BY wins ASC 
 
-
-
--- We need to start with a list of teams that have played matches that have completed:
-SELECT distinct(team_a_id) FROM `played_match` WHERE winning_team_id > 2 AND losing_team_id > 2 union SELECT distinct(team_b_id) FROM `played_match` WHERE winning_team_id > 2 AND losing_team_id > 2
+-- union ensures that we include a count of losing teams & winning teams
+SELECT distinct(winning_team_id) AS teama,
+    (SELECT count(winning_team_id) FROM played_match
+        WHERE winning_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+    (SELECT count(losing_team_id) FROM played_match
+        WHERE losing_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+            FROM `played_match`
+            WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = 3
+            GROUP BY teama
+UNION
+SELECT distinct(losing_team_id) AS teamb,
+    (SELECT count(winning_team_id) FROM played_match
+        WHERE winning_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+    (SELECT count(losing_team_id) FROM played_match
+        WHERE losing_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+            FROM `played_match`
+            WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = 3
+            GROUP BY teamb
+     ORDER by wins DESC, losses ASC
