@@ -30,8 +30,8 @@ Technologies:
 * Administration panel will be developed using either Angular and API or Symfony
 
 RoadMap
- team ID link to user icons & Screen Names
- Password Reset via email post deployment online
+ team ID link to pre-made user icons & Screen Names
+ Password Reset via email post deployment online (AWS cognito?)
 
 Current Status
  Frontend - Test html/css/js created to interact with web service
@@ -39,4 +39,6 @@ Current Status
  Admin End - Not Started
 
 Priorities:
- Make auth robust (research is necessary)
+ Make auth robust (think about using jwt.io)
+ Look at fetch API for file upload
+ Make auth work with Google API 

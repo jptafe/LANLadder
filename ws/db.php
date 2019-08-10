@@ -32,7 +32,7 @@
                             WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid
                             GROUP BY teamb
                      ORDER by wins DESC, losses ASC";
-                // no order by...?
+                // We need add to ladder with those teams that won against a forefit
                 $stmt = $this->conn->prepare($getLadder);
                 $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();

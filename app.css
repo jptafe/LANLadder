@@ -94,6 +94,9 @@ form p, section p {
     display: flex;
     margin-left: 2em;
 }
+#status_panel a {
+    margin: 0 .5em .2em 0;
+}
 #content_tabs {
     margin: .6em auto;
     border: dotted darkgray 1px;
