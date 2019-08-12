@@ -32,7 +32,6 @@ function populateStatusPanel() {
         '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONUnPlayedMatches.length + '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
-
 function teamsWithPlayers() {
     var HTMLTeamList = '<article>';
     var HTMLPlayerList = '';
@@ -67,7 +66,6 @@ function laddersWithTeamsofUnplayedMatches() {
     HTMLLadderList += '</article>';
     panel_ladder_team_report_form.innerHTML = HTMLLadderList; 
 }
-
 function lnadderListWithCompletedResults() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
 
@@ -76,14 +74,13 @@ function lnadderListWithCompletedResults() {
 
     for(var loop = 0;loop < JSONLadders.length;loop++) {
         renderedHTML += '<li onclick="getLadderPlayedMatches(' + JSONLadders[loop].id + ')">';
-        renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game);
+        renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game)
+                .replace(/{{ladderColor}}/g, JSONLadders[loop].color);
         renderedHTML += '<div class="uk-accordion-content" id="ladder_list_' + JSONLadders[loop].id + '">';
         renderedHTML += '<div uk-spinner></div>';
         renderedHTML += '</div>';
         renderedHTML += '</li>';
     }
-    
-
     panel_ladder_results.innerHTML = renderedHTML + '</ul>';
 }
 
@@ -532,7 +529,7 @@ function getLadderPlayedMatches(ladder) {
                     for(var loop = 0;loop < data.length;loop++) {
                         for(var loop2 = 0;loop2<JSONTeams.length;loop2++) {
                             if(data[loop].teama == JSONTeams[loop2].id) {
-                                ladderHTML += '<tr><td>' + JSONTeams[loop2].team_name + '</td><td>' + 
+                                ladderHTML += '<tr><td><span style="color: "' + JSONTeams[loop2].color + ';">&#9686;&nbsp;</span>' + JSONTeams[loop2].team_name + '</td><td>' + 
                                     data[loop].wins + '</td><td>' + data[loop].losses + '</td></tr>'; 
                             }
                         }
