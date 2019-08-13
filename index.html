@@ -106,26 +106,25 @@
 <!--  -->
         <ul class="uk-dark uk-switcher uk-width-1-1@s uk-width-4-5@m uk-width-3-5@l uk-width-1-2@xl" id="content_tabs">
             <li class="uk-fieldset">
-                <form id="form_login"> 
+                <form id="form_login" class="uk-width-1-1"> 
                     <legend class="uk-form-legend">Login</legend>
-                    <div class="uk-inline uk-width-1-1@s">
+                    <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
-                        <input type="text" name="username" placeholder="User Name" title="Username Required" 
-                            class="uk-input" required>
+                        <input type="text" name="username" placeholder="User Name" title="Username Required" class="uk-input" required>
                     </div>
-                    <div class="uk-inline uk-width-1-1@s">
+                    <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                         <input type="password" name="password" placeholder="Password" title="Password Required" 
                             class="uk-input" required>
                     </div>
-                    <div class="uk-inline uk-width-1-1@s">
+                    <div class="uk-inline uk-width-1-1">
                         <input type="submit" class="uk-button uk-button-large uk-width-1-1@s uk-width-1-1" value="Login">
                     </div>
                 </form>
             </li>
-            <li class="">
-                <form id="form_regplayer">
-                    <label>Create Player</label>
+            <li class="uk-fieldset">
+                <form id="form_regplayer" class="uk-width-1-1">
+                    <legend class="uk-form-legend">Create Player</legend>
                     <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" required>
                     <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
                     <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
@@ -136,10 +135,13 @@
                     <input type="submit" value="Create Player">
                 </form>
             </li>
-            <li class="">
-                <form id="form_addteam">
-                    <label>Create Team</label>
-                    <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" required>
+            <li class="uk-fieldset">
+                <form id="form_addteam" class="uk-width-1-1">
+                    <legend class="uk-form-legend">Create Team</legend>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
+                        <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" class="uk-input" required>
+                    </div>
                     <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" required>
                     <select name="teamicon" required>
                         <option value="0" default>Choose Team Icon...</option>
@@ -341,9 +343,8 @@
         <script id="template_ladder_head" type="text/template">
             <a class="uk-accordion-title" href="#"><span style="color: {{ladderColor}}">&#9686;&nbsp;</span>{{ladderTitle}}</a>
         </script>
-        <script id="template_ladder_list" type="text/template">
-            <p>{{team_a}}&nbsp;{{team_b}}</p>
+        <script id="template_team_member_list" type="text/template">
+            <a class="uk-accordion-title" href="#"><span style="color: {{ladderColor}}">&#9686;&nbsp;</span>{{teamTitle}}</a>
         </script>
-
     </body>
 </html>

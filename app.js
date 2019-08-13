@@ -529,7 +529,7 @@ function getLadderPlayedMatches(ladder) {
                     for(var loop = 0;loop < data.length;loop++) {
                         for(var loop2 = 0;loop2<JSONTeams.length;loop2++) {
                             if(data[loop].teama == JSONTeams[loop2].id) {
-                                ladderHTML += '<tr><td><span style="color: "' + JSONTeams[loop2].color + ';">&#9686;&nbsp;</span>' + JSONTeams[loop2].team_name + '</td><td>' + 
+                                ladderHTML += '<tr><td><span style="color: ' + JSONTeams[loop2].color + ';">&#9686;&nbsp;</span>' + JSONTeams[loop2].team_name + '</td><td>' + 
                                     data[loop].wins + '</td><td>' + data[loop].losses + '</td></tr>'; 
                             }
                         }
