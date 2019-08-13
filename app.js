@@ -8,6 +8,7 @@ getAllPlayers();
 getAllPlayedMatches();
 
 getAllUnPlayedMatches();
+
 isLoggedIn();
 
 //
@@ -358,11 +359,11 @@ function isLoggedIn() {
             }
             response.json().then(function(data) {
                 if(data.auth != 'false') {
-                    localStorage.setItem('authcode', data.auth);
-                    enableAllForms();
+                    localStorage.setItem('authcode', data.auth); // this needs to be a has
+                    //enableAllForms(); // function no longer work, due to uikit changes
                 } else {
                     localStorage.setItem('authcode', null);
-                    disableAllForms();
+                    //disableAllForms(); // function no longer work, due to uikit changes
                 }
             });
         }

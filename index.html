@@ -59,19 +59,19 @@
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: users"></span>
-                            Join Team
+                            Join Team!
                         </a>
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: microphone"></span>
-                            Report Match
+                            Report Match!
                         </a>
                     </li>
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: thumbnails"></span>
-                            Players in Team
+                            Players in Team!
                         </a>
                     </li>
                     <li class="">
@@ -82,17 +82,17 @@
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: bolt"></span>
-                            Destroy PHP Session
+                            Destroy PHP Session!
                         </a>
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: file-text"></span>
-                            Team & Player list 
+                            Team & Player list
                         </a>
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: list"></span>
-                            Ladder Rankings 
+                            Ladder Rankings
                         </a>
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
@@ -118,21 +118,40 @@
                             class="uk-input" required>
                     </div>
                     <div class="uk-inline uk-width-1-1">
-                        <input type="submit" class="uk-button uk-button-large uk-width-1-1@s uk-width-1-1" value="Login">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: sign-in"></span>
+                        <input type="submit" class="uk-button uk-button-large uk-width-1-1" value="Login">
                     </div>
                 </form>
             </li>
             <li class="uk-fieldset">
                 <form id="form_regplayer" class="uk-width-1-1">
                     <legend class="uk-form-legend">Create Player</legend>
-                    <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" required>
-                    <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" required>
-                    <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" required>
-                    <input type="text" name="seated" placeholder="Seated Location (dropdown)" required>
-                    <select name="team_id" onfocus="populateAllTeamsInForm(this)">
-                        <option value="0" disabled selected>Choose Team...</option>
-                    </select>
-                    <input type="submit" value="Create Player">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                        <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" class="uk-input" required>
+                    </dev>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                        <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                        <input type="password" name="pass2" pattern=".{8,}" placeholder="Password Again" title="No less than 8 chars" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: location"></span>
+                        <input type="text" name="seated" placeholder="Seated Location (dropdown)" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
+                        <select name="team_id" onfocus="populateAllTeamsInForm(this)" class="uk-select">
+                            <option value="0" disabled selected>Choose Team...</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>
+                        <input type="submit" value="Create Player" class="uk-button uk-button-large uk-width-1-1">
+                    </div>
                 </form>
             </li>
             <li class="uk-fieldset">
@@ -142,46 +161,92 @@
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
                         <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" class="uk-input" required>
                     </div>
-                    <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" required>
-                    <select name="teamicon" required>
-                        <option value="0" default>Choose Team Icon...</option>
-                        <option value="foo">foo</option>
-                        <option value="bar">bar</option>
-                    </select>
-                    <input type="submit" value="Create Team">
+                    <div class="uk-inline uk-width-1-5">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: paint-bucket"></span>                    
+                        <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: camera"></span>                    
+                        <select name="teamicon" class="uk-select" required>
+                            <option value="0" default>Choose Team Icon...</option>
+                            <option value="foo">foo</option>
+                            <option value="bar">bar</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>                    
+                        <input type="submit" value="Create Team" class="uk-button uk-button-large uk-width-1-1">
+                    </div>
                 </form>
             </li>
-            <li>
-                <form id="form_addladder"> 
-                    <label>Create Ladder</label> 
-                    <input type="text" name="game" placeholder="Game Name"> <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" required>
-                    <input type="number" name="players" placeholder="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title+"playes must be int 1-99" required>
-                    <input type="color" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" required>
-                    <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image">
-                    <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time">
-                    <input type="submit" value="Create Ladder">
+            <li class="uk-fieldset">
+                <form id="form_addladder" class="uk-width-1-1">
+                    <legend class="uk-form-legend">Create Ladder</legend>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: desktop"></span>
+                        <input type="text" name="game" placeholder="Game Name" class="uk-input" > 
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: pencil"></span>
+                        <input type="text" name="desc" pattern="[/s0-9A-Za-z]{3,}" title="Ladder is the name of the Game" placeholder="Description" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
+                        <input type="number" name="players" placeholder="0" min="1" max="99" pattern="[1-9]\d|[0-9]\d{1,2}" title="playes must be int 1-99" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-5">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: paint-bucket"></span>
+                        <input type="color" name="ladder_color" pattern="(?!#000000)[\#0-9a-f]{7}" title="color is a hex code" class="uk-input" required>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>                    
+                        <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input">
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: camera"></span>                    
+                        <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image" class="uk-input">
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>                    
+                        <input type="submit" value="Create Ladder" class="uk-button uk-button-large uk-width-1-1">
+                    </div>
                     <p>Refactor from GET to POST</p>
                 </form>
             </li>
-            <li>
-                <form id="form_addmatch">
-                    <label>Create Match</label>
-                    <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" required>
-                        <option value="0" disabled selected>Choose A Ladder...</option>
-                    </select>
-                    <select name="team_a" id="teamainladder" onfocus="populateAllTeamsInForm(this)" required>
-                        <option value="0" disabled selected>Choose Team A</option>
-                    </select>
-                    <select name="team_b" id="teambinladder" onfocus="populateAllTeamsInForm(this)" required>
-                        <option value="0" disabled selected>Choose Team B</option>
-                    </select>
-                    <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" required> 
-                    <input type="submit" value="Create Match"> 
+            <li class="uk-fieldset">
+                <form id="form_addmatch" class="uk-width-1-1">
+                    <legend class="uk-form-legend">Create Match</legend>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: desktop"></span>                    
+                        <select name="ladder_id" onfocus="populateAllLaddersInForm(this)" class="uk-select" required>
+                            <option value="0" disabled selected>Choose A Ladder...</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>   
+                        <select name="team_a" id="teamainladder" onfocus="populateAllTeamsInForm(this)" class="uk-select" required>
+                            <option value="0" disabled selected>Choose Team A</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>   
+                        <select name="team_b" id="teambinladder" onfocus="populateAllTeamsInForm(this)" class="uk-select" required>
+                            <option value="0" disabled selected>Choose Team B</option>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>   
+                        <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input" required> 
+                    </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>   
+                        <input type="submit" value="Create Match" class="uk-button uk-button-large uk-width-1-1">
+                    </div>
                     <p>Would like to replace with just date, not datetime....</p>
                 </form> 
             </li>
-            <li>
-                <form id="form_jointeam">
+            <li class="uk-fieldset">
+                <form id="form_jointeam" class="uk-width-1-1">
                     <label>Join Team</label>
                     <select name="player_id" min="1" onfocus="populatePlayers(this)" onchange="populatePlayers(this)" required>
                         <option value="0">Choose Payer</option>
@@ -189,11 +254,11 @@
                     <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onchange="populateAllTeamsInForm(this)" required>
                         <option value="0">Choose Team A</option>
                     </select>
-                    <input type="submit" value="Join Team">
+                    <input type="submit" value="Join Team" class="uk-button uk-button-large uk-width-1-1">
                 </form>
             </li>
-            <li>
-                <form id="form_reportmatch" class="notdone">
+            <li class="uk-fieldset">
+                <form id="form_reportmatch" class="uk-width-1-1">
                     <label>Report Match</label>
                     <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onBlur="populateTeamsInLadder(this, this.value)" onChange="populateTeamsInLadder(this, this.value)" required>
                         <option value="0" default>Choose a Ladder...</option>
@@ -209,29 +274,29 @@
                         <option value="loss">Loss</option>
                         <option value="draw">Draw</option>
                     </select>
-                    <input type="submit" value="Report Match">
+                    <input type="submit" value="Report Match" class="uk-button uk-button-large uk-width-1-1">
                     <p> incomplete: Implement in another place</p>
                 </form>
             </li>
-            <li>
-                <form id="form_showplayers">
+            <li class="uk-fieldset">
+                <form id="form_showplayers" class="uk-width-1-1">
                     <label>Show Players in a Team</label>
                     <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onChange="populatePlayersInATeam(this, this.value)" onBlur="populatePlayersInATeam(this, this.value)" required>
                         <option value="0">Choose a Team...</option>
                     </select>
                     <select name="player_id" min="1" required disabled>
                         <option value="">Players not Populated</option>
-                    <input type="submit" value="Not Sure Why this exists">
+                    <input type="submit" value="Not Sure Why this exists" class="uk-button uk-button-large uk-width-1-1">
                     <p>The first option chosen does not populate the 2nd</p>
                 </form>
             </li>
-            <li>
-                <form id="form_logout">
+            <li class="uk-fieldset">
+                <form id="form_logout" class="uk-width-1-1">
                     <label>Logout</label>
-                    <input type="submit" value="Logout">
+                    <input type="submit" value="Logout" class="uk-button uk-button-large uk-width-1-1">
                 </form>
             </li>
-            <li>
+            <li class="uk-fieldset">
                 <form id="form_php_session">
                     <a href="ws/ws.php?reqcode=destroy" aria-expanded="false">Destroy PHP Session</a>
                 </form>
@@ -252,7 +317,6 @@
                 </div>
             </li>
         </ul>
-
         <div style="display: none">
             <h3>API Teams</h3>
             <div>
@@ -287,7 +351,6 @@
                 <p>A player can create a new team, but they are automatically put into the team, from whatever team they were in</p>
                 <a href="ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&imageurl=sabre">ws/ws.php?reqcode=createteam&playerid=1&teamname=foobar&teamcolor=FFFFFF&teamurl=sabre</a>
             </div>
-
             <h3>API Players</h3>
             <div>
                 <p>Show the players that are in a team</p>
@@ -301,7 +364,6 @@
                 <p>Authenticate</p>
                 <a href="ws/ws.php?reqcode=auth">ws/ws.php?reqcode=auth</a>
             </div>
-
             <h3>API Ladders</h3>
             <div>
                 <p>This should show the teams ordered by the one that won most matches first</p>
@@ -319,7 +381,6 @@
                 <p>Admins need to manage ladders</p>
                 <a href="ws/ws.php?reqcode=createladder">ws/ws.php?reqcode=createladder</a>
             </div>
-
             <h3>API Matches</h3>
             <div>
                 <p>Matches that are yet to be complete. Two reports of the match oucome are necessary for a match to complete</p>
