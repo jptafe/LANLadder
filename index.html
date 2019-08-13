@@ -9,6 +9,9 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit-icons.min.js"></script>
+        <!-- RPG Icons -->
+            <link rel="stylesheet" href="css/rpg-awesome.css">
+
         <!-- Local Customisations -->
             <script src="app.js" defer></script>
             <link rel="stylesheet" href="app.css">
@@ -129,7 +132,7 @@
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
                         <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" class="uk-input" required>
-                    </dev>
+                    </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                         <input type="password" name="pass" pattern=".{8,}" placeholder="Password" title="No less than 8 chars" class="uk-input" required>
@@ -163,16 +166,15 @@
                     </div>
                     <div class="uk-inline uk-width-1-5">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: paint-bucket"></span>                    
-                        <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" class="uk-input" required>
+                        <input type="color" name="teamcolor" pattern="(?!#000000)[\#0-9a-f]{7}" class="uk-input" onchange="ra_icon.setAttribute('style', 'color: ' + this.value)" required>
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: camera"></span>                    
-                        <select name="teamicon" class="uk-select" required>
-                            <option value="0" default>Choose Team Icon...</option>
-                            <option value="foo">foo</option>
-                            <option value="bar">bar</option>
+                        <select name="teamicon" class="uk-select" oninput="ra_icon.setAttribute('class', 'ra ' + this.value)" required>
+                            <script type="text/javascript" src="./css/rpg-awesome-menu.js"></script>
                         </select>
                     </div>
+                    <div class="uk-inline uk-width-1-1"><h2><i id="ra_icon" class="ra"></h2></i></div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>                    
                         <input type="submit" value="Create Team" class="uk-button uk-button-large uk-width-1-1">

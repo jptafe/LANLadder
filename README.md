@@ -27,10 +27,11 @@ Technologies:
 * Web Service will support the activities of a user, but users must authenticate in order to participate
 * A web app will be developed using a client-side framework (ui-kit?) to speed the development process with mobile components.
 * If the username is the steamid, user icons will be pulled from Steam API
-* Administration panel will be developed using either Angular and API or Symfony
+* Administration panel will be developed using either Vue and API or Symfony
 
 RoadMap
  team ID link to pre-made user icons & Screen Names
+ uikit-based js file upload for ladder/team
  Password Reset via email post deployment online (AWS cognito?)
 
 Current Status
