@@ -574,8 +574,8 @@ function getALadderofUnlayedMatches(ladderID) {
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id)
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id);
                     }
-                    var HTMLLadderReportHead = '<div class="uk-width-1-4">Match ID</div><div class="uk-width-1-4">Winner</div>' +
-                                '<div class="uk-width-1-4">Loser</div><div class="uk-width-1-4">Report</div>';
+                    var HTMLLadderReportHead = '<div class="uk-width-1-1" uk-grid><div class="uk-width-1-5">Match ID</div><div class="uk-width-1-5">Winner</div>' +
+                                '<div class="uk-width-1-5">Loser</div><div class="uk-width-2-5">Report</div></div>';
                     document.getElementById(HTMLladderID).innerHTML = HTMLLadderReportHead + HTMLLadderReport; 
                 }
             });
