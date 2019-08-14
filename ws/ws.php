@@ -2,9 +2,10 @@
     include("db.php"); // ALL SQL Actions go here
     include("se.php"); // ALL Session Management goes here
     include("ws_util.php"); // ALL generic utilities
+
     session_start();
     $databaseOBJECT = new databaseObject();
-//GET_REQUEST_SIGNATURES
+
     try {
         if(!isset($_SESSION['sessionOBJ'])) {
             $_SESSION['sessionOBJ'] = new sessionObject();
@@ -83,7 +84,7 @@
                 }
             }
             if(isset($_GET['imageurl'])) {
-                $imageURL = validate($_GET['imageurl'], 'alpha');
+                $imageURL = validate($_GET['imageurl'], 'filename');
                 if($imageURL == false) {
                     throw new APIException("image url value not valid");
                 }
@@ -241,6 +242,13 @@
                         throw new APIException("team joining IDs missing");
                     }
                     break;
+                case "incompletematchesbyladder":
+                    if(isset($ladderID)) {
+                        $result = $databaseOBJECT->unreportedMatchesByLadder($ladderID);
+                    } else {
+                        throw new APIException("unplayed matches by ladder error");
+                    }
+                    break;
                 case "matchesplayedbyteam":
                     if(isset($teamID) && isset($ladderID)) {
                         $result = $databaseOBJECT->matchesPlayedbyTeam($teamID, $ladderID);
@@ -282,7 +290,11 @@
         } else {
             throw new APIException("request code does not exist");
         }
-        echo json_encode($result);
+        if($result == false) {
+            echo json_encode(Array('result'=>'false'));
+        } else {
+            echo json_encode($result);
+        }
     }
     catch(APIException $ae) {
         echo $ae; // This is debug. INSTEAD: echo json_encode(Array('error'=>'true'));

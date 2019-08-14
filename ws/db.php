@@ -21,7 +21,7 @@
                         WHERE losing_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS losses
                             FROM `played_match`
                             WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid AND
-				winning_team_id != losing_team_id 
+				winning_team_id != losing_team_id
                             GROUP BY teama
                 UNION
                 SELECT distinct(losing_team_id) AS teamb,
@@ -31,7 +31,7 @@
                         WHERE losing_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS losses
                             FROM `played_match`
                             WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid AND
-				winning_team_id != losing_team_id 
+				winning_team_id != losing_team_id
                             GROUP BY teamb
                      ORDER by wins DESC, losses ASC";
                 // We need add to ladder with those teams that won against a forefit
@@ -80,7 +80,7 @@
         }
         public function playersNotinTeam() {
             try {
-                $noteam = "SELECT name, loc, team_id FROM player WHERE team_id = 1
+                $noteam = "SELECT name, loc, image, team_id FROM player WHERE team_id = 1
                     AND user_privileges = 0";
                 $stmt = $this->conn->prepare($noteam);
                 $stmt->execute();
@@ -96,7 +96,7 @@
         }
         public function allPlayers() {
             try {
-                $players = "SELECT id, name, seated_loc, team_id FROM player WHERE user_privileges = 0";
+                $players = "SELECT id, name, seated_loc, image, team_id FROM player WHERE user_privileges = 0";
                 $stmt = $this->conn->prepare($players);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -169,6 +169,26 @@
                 $matches = "SELECT * FROM played_match WHERE played_match.winning_team_id < 3
                     AND played_match.losing_team_id < 3";
                 $stmt = $this->conn->prepare($matches);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
+            } catch(PDOException $e) {
+                echo "playersinTeam"; die();
+            }
+        }
+        function unreportedMatchesByLadder($ladderID) {
+            try {
+                $matches = "SELECT id, team_a_id, team_b_id, ladder_id,
+                            	(select team.team_name FROM team WHERE team.id = played_match.team_a_id) AS team_a_name,
+                            	(select team.team_name FROM team WHERE team.id = played_match.team_b_id) AS team_b_name
+                                FROM `played_match`
+                            	WHERE (winning_team_id < 2 OR losing_team_id < 2) AND ladder_id = :ladderid";
+                $stmt = $this->conn->prepare($matches);
+                $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if($result == false) {

@@ -1,71 +1,68 @@
-// localStorage Initialsation (we'll) need to update these lists, when we enact changes)
-//
+// Need to update these lists in a setTimeout then update the next group of functions....
 getAllTeams();
 getAllLadders();
 getAllPlayers();
 
-// Remove this call
-getAllPlayedMatches();
-
-getAllUnPlayedMatches();
-
-isLoggedIn();
-
-//
-// Interface Pre-Render from localStorage Data
-teamsWithPlayers();
-laddersWithTeamsofUnplayedMatches();
+teamsWithPlayers(); 
 lnadderListWithCompletedResults();
+laddersWithUnplayedMatches();
 populateStatusPanel();
 
-function populateStatusPanel() {
-    var HTMLStatusValues;
-    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
-    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
-    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
-    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
-    var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
+// needs to disable menu items instead of forms themselves...
+isLoggedIn(); 
 
-    HTMLStatusValues = '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONPlayers.length + 
-        '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONTeams.length + 
-        '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONLadders.length +
-        '</a><a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONPlayedMatches.length + 
-        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONUnPlayedMatches.length + '</a>';
-    status_panel.innerHTML = HTMLStatusValues;
-}
+// Remove these calls they'll come from an ajax request instead...
+//getAllPlayedMatches();
+//getAllUnPlayedMatches();
+
 function teamsWithPlayers() {
-    var HTMLTeamList = '<article>';
-    var HTMLPlayerList = '';
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+
+    var templateLadderHeadHTML = document.getElementById('template_team_member_list').innerHTML;
+    var renderedHTML = '<ul uk-accordion>';
+    var playerHTML = '';
+
     for(var loop = 0;loop<JSONTeams.length;loop++) {
-        HTMLTeamList += '<aside style="background-color: #' + JSONTeams[loop].color + ';"><h1>' + JSONTeams[loop].team_name +
-            '<img src="img/' + JSONTeams[loop].image + '" width="100%"></h1><input type="checkbox">';
+        renderedHTML += '<li>';
+        renderedHTML += templateLadderHeadHTML.replace(/{{teamTitle}}/g, JSONTeams[loop].team_name)
+                .replace(/{{teamImage}}/g, JSONTeams[loop].image)
+                .replace(/{{teamColor}}/g, JSONTeams[loop].color);
+        renderedHTML += '<div class="uk-accordion-content">';
+
         for(var loop2 = 0;loop2<JSONPlayers.length;loop2++) {
             if(JSONPlayers[loop2].team_id == JSONTeams[loop].id) {
-                HTMLPlayerList += '<h5>' + JSONPlayers[loop2].name + ' - ' + JSONPlayers[loop2].seated_loc + '</h5>'; 
+                playerHTML += '<tr><td><i class="ra ' + JSONPlayers[loop2].image + '"></i></td><td>' + JSONPlayers[loop2].name + '</td><td>' + JSONPlayers[loop2].seated_loc + '</td></tr>';
             }
         }
-        if(HTMLPlayerList.length > 0) {
-            HTMLTeamList += '<aside class="fixfloat">' + HTMLPlayerList + '</aside>';            
-            HTMLPlayerList = '';
+        if(playerHTML.length == 0) {
+            renderedHTML += '<p>No Players</p>';
+        } else {
+            renderedHTML += '<table class="uk-table uk-table-small"><thead><tr><th>icon</th><th>name</th><th>location</th></tr></thead>' + playerHTML + '</table>';
         }
-        HTMLTeamList += '</aside>';
+        playerHTML = '';
+        renderedHTML += '</div>';
     }
-    HTMLTeamList += '<p>Kill the checkbox if its the last child</p></article>';
-    teams_with_players.innerHTML = HTMLTeamList; 
+    renderedHTML += '</ul>';
+    teams_with_players.innerHTML = renderedHTML;
 }
-function laddersWithTeamsofUnplayedMatches() {
-    var HTMLLadderList = '<article>';
+function laddersWithUnplayedMatches() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
-    for(var loop = 0;loop<JSONLadders.length;loop++) {
-        HTMLLadderList += '<aside style="background-color: #' + JSONLadders[loop].color + ';"><h3>' + 
-            JSONLadders[loop].game +
-            '<img src="img/' + JSONLadders[loop].image + '"></h3>';
-        HTMLLadderList += '</aside>';
+
+    var templateLadderHeadHTML = document.getElementById('template_ladder_head').innerHTML;
+    var renderedHTML = '<ul uk-accordion>';
+
+    for(var loop = 0;loop < JSONLadders.length;loop++) {
+        renderedHTML += '<li onclick="getALadderofUnlayedMatches(' + JSONLadders[loop].id + ')">';
+        renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game)
+                .replace(/{{ladderImage}}/g, JSONLadders[loop].image)
+                .replace(/{{ladderColor}}/g, JSONLadders[loop].color);
+        renderedHTML += '<div class="uk-accordion-content" id="reported_ladder_list_' + JSONLadders[loop].id + '">';
+        renderedHTML += '<div uk-spinner></div>';
+        renderedHTML += '</div>';
+        renderedHTML += '</li>';
     }
-    HTMLLadderList += '</article>';
-    panel_ladder_team_report_form.innerHTML = HTMLLadderList; 
+    panel_ladder_team_report_form.innerHTML = renderedHTML + '</ul>';
 }
 function lnadderListWithCompletedResults() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
@@ -76,6 +73,7 @@ function lnadderListWithCompletedResults() {
     for(var loop = 0;loop < JSONLadders.length;loop++) {
         renderedHTML += '<li onclick="getLadderPlayedMatches(' + JSONLadders[loop].id + ')">';
         renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game)
+                .replace(/{{ladderImage}}/g, JSONLadders[loop].image)
                 .replace(/{{ladderColor}}/g, JSONLadders[loop].color);
         renderedHTML += '<div class="uk-accordion-content" id="ladder_list_' + JSONLadders[loop].id + '">';
         renderedHTML += '<div uk-spinner></div>';
@@ -84,9 +82,8 @@ function lnadderListWithCompletedResults() {
     }
     panel_ladder_results.innerHTML = renderedHTML + '</ul>';
 }
-
 //Interface manipulation
-function disableAllForms() {
+function disableAllForms() { // broken delete
     var allForms = document.getElementsByTagName('form');
     for(var loop = 0;loop<allForms.length;loop++) {
         if(allForms[loop].children[0].innerHTML == 'Login' ||
@@ -107,7 +104,7 @@ function disableAllForms() {
         }
     }
 }
-function enableAllForms() {
+function enableAllForms() { // broken delete
     var allForms = document.getElementsByTagName('form');
     for(var loop = 0;loop<allForms.length;loop++) {
         var formElements = allForms[loop].children;
@@ -141,7 +138,21 @@ function clearForm(evt) {
         }
     }
 }
+function populateStatusPanel() {
+    var HTMLStatusValues;
+    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
+    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
+    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
+    var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
 
+    HTMLStatusValues = '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONPlayers.length + 
+        '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONTeams.length + 
+        '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONLadders.length +
+        '</a><a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONPlayedMatches.length + 
+        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONUnPlayedMatches.length + '</a>';
+    status_panel.innerHTML = HTMLStatusValues;
+}
 // Events
 // Submit:
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
@@ -151,8 +162,6 @@ document.getElementById('form_addladder').addEventListener('submit', function(e)
 document.getElementById('form_jointeam').addEventListener('submit', function(e) {joinTeamProcess(e)});
 document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
-document.getElementById('form_showplayers').addEventListener('submit', function(e) {showPlayersForm(e)});
-document.getElementById('form_logout').addEventListener('submit', function(e) {logoutNowForm(e)});
 
 // change events
 document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
@@ -217,13 +226,13 @@ function registerPlayerProcess(evt) {
                 }
                 response.json().then(function(data) {
                     getAllPlayers();
-            });
+                });
             }
         ) 
     } 
 } 
-function logoutNowForm(evt) {
-    evt.preventDefault(evt);
+function logoutNow(evt) {
+    UIkit.offcanvas(main_nav).hide();
     fetch('ws/ws.php?reqcode=deauth', {
         method: 'GET',
         credentials: 'include'
@@ -235,7 +244,7 @@ function logoutNowForm(evt) {
             }
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
-                disableAllForms();
+                disableAllForms(); // broken
             });
         }
     )
@@ -310,7 +319,7 @@ function addMatchProcess(evt) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function(data) {
-                    getAllUnPlayedMatches();
+                    //getAllUnPlayedMatches();
                 });
             }
         )
@@ -522,15 +531,13 @@ function getLadderPlayedMatches(ladder) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                console.log(data);
-                console.log(JSONTeams);
                 if(data.result == false) {
                     document.getElementById(ladderId).innerHTML = 'No Ladder Found';
                 } else {
                     for(var loop = 0;loop < data.length;loop++) {
                         for(var loop2 = 0;loop2<JSONTeams.length;loop2++) {
                             if(data[loop].teama == JSONTeams[loop2].id) {
-                                ladderHTML += '<tr><td><span style="color: ' + JSONTeams[loop2].color + ';">&#9686;&nbsp;</span>' + JSONTeams[loop2].team_name + '</td><td>' + 
+                                ladderHTML += '<tr><td><span style="color: ' + JSONTeams[loop2].color + ';"><i class="ra ' + JSONTeams[loop2].image + '"></i>&nbsp;</span>' + JSONTeams[loop2].team_name + '</td><td>' + 
                                     data[loop].wins + '</td><td>' + data[loop].losses + '</td></tr>'; 
                             }
                         }
@@ -541,7 +548,41 @@ function getLadderPlayedMatches(ladder) {
         }
     )
 }
-function getAllUnPlayedMatches() {  
+function getALadderofUnlayedMatches(ladderID) {
+    var HTMLladderID = 'reported_ladder_list_' + ladderID;
+    var HTMLLadderReport = '';
+    var HTMLLadderTemplate = template_match_report_form.innerHTML;
+    var url = 'ws/ws.php?reqcode=incompletematchesbyladder&ladderid=' + ladderID;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.result == 'false') {
+                    document.getElementById(HTMLladderID).innerHTML = 'No matches to Report';
+                } else { 
+                    for(var loop = 0;loop < data.length;loop++) {
+                        HTMLLadderReport += HTMLLadderTemplate.replace(/{{matchID}}/g, data[loop].id)
+                            .replace(/{{team_a_name}}/g, data[loop].team_a_name)
+                            .replace(/{{team_b_name}}/g, data[loop].team_b_name)
+                            .replace(/{{team_a_id}}/g, data[loop].team_a_id)
+                            .replace(/{{team_b_id}}/g, data[loop].team_b_id)
+                            .replace(/{{team_b_id}}/g, data[loop].team_b_id);
+                    }
+                    var HTMLLadderReportHead = '<div class="uk-width-1-4">Match ID</div><div class="uk-width-1-4">Winner</div>' +
+                                '<div class="uk-width-1-4">Loser</div><div class="uk-width-1-4">Report</div>';
+                    document.getElementById(HTMLladderID).innerHTML = HTMLLadderReportHead + HTMLLadderReport; 
+                }
+            });
+        }
+    )
+}
+function getAllUnPlayedMatches() { // defunct 
     fetch('ws/ws.php?reqcode=allunreportedmatches', {
         method: 'GET',
         credentials: 'include'
@@ -557,7 +598,6 @@ function getAllUnPlayedMatches() {
         }
     )
 }
-
 function populateAllTeamsInForm(elem) {
     var HTMLTeams = '';
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -601,6 +641,7 @@ function populateTeamsInLadder(elem, ladder) {
     }
     // incomplete list unplayed matches...
 }
+/*
 function populatePlayersInATeam(elem, team) {
     var HTMLPlayers = '';
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
@@ -617,6 +658,7 @@ function populatePlayersInATeam(elem, team) {
         elem.nextElementSibling.innerHTML = '<option value="">Players not Populated</option>';
     }
 }
+*/
 function populatePlayers(elem) {
     var HTMLPlayers = '';
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));

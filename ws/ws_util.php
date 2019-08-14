@@ -64,6 +64,11 @@
                     return $dirty_string;
                 }
                 return false;
+            case 'filename':
+                if(ctype_graph($dirty_string)) {
+                    return $dirty_string;
+                }
+                return false;
             case 'isodate':
                 $dt = strtotime($dirty_string);
                 $dt = DateTime::createFromFormat('Y-m-d', $dt);

@@ -2,19 +2,20 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>TestPage</title>
+        <title>LANLadder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- UIkit -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit-icons.min.js"></script>
+
         <!-- RPG Icons -->
             <link rel="stylesheet" href="css/rpg-awesome.css">
 
         <!-- Local Customisations -->
             <script src="app.js" defer></script>
-            <link rel="stylesheet" href="app.css">
+            <link rel="stylesheet" href="css/app.css">
     </head>
     <body>
         <div class="uk-navbar-container">
@@ -32,7 +33,7 @@
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="true">
                             <span uk-icon="icon: sign-in"></span>
-                            Login
+                            Player Login
                         </a>
                     </li>
                     <li class="">
@@ -71,14 +72,16 @@
                             Report Match!
                         </a>
                     </li>
+                    <!--
                     <li class="">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: thumbnails"></span>
                             Players in Team!
                         </a>
                     </li>
+                    -->
                     <li class="">
-                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
+                        <a onclick="logoutNow();" href="#" aria-expanded="false">
                             <span uk-icon="icon: sign-out"></span>
                             Logout
                         </a>
@@ -99,7 +102,7 @@
                         </a>
                     </li>
                     <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
-                            <span uk-icon="icon: push"></span>
+                            <span uk-icon="icon: microphone"></span>
                             Match Report
                         </a>
                     </li>
@@ -143,7 +146,18 @@
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: location"></span>
-                        <input type="text" name="seated" placeholder="Seated Location (dropdown)" class="uk-input" required>
+                        <select name="seated" class="uk-select" required>
+                            <option value="0" selected>Choose Location...</option>
+                            <option value="centre">Centre</option>
+                            <option value="rear">Rear</option>
+                            <option value="front">Front</option>
+                            <option value="window">Windows</option>
+                            <option value="entry">Entry</option>
+                            <option value="stage">Stage</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                            <option value="screen">Screen</option>
+                        </select>
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
@@ -151,6 +165,13 @@
                             <option value="0" disabled selected>Choose Team...</option>
                         </select>
                     </div>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: camera"></span>                    
+                        <select name="playericon" class="uk-select" oninput="ra_player_icon.setAttribute('class', 'ra ' + this.value)" required>
+                            <script type="text/javascript" src="./css/rpg-awesome-menu.js"></script>
+                        </select>
+                    </div>
+                    <div class="uk-inline uk-width-1-1"><h2><i id="ra_player_icon" class="ra"></h2></i></div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>
                         <input type="submit" value="Create Player" class="uk-button uk-button-large uk-width-1-1">
@@ -280,6 +301,7 @@
                     <p> incomplete: Implement in another place</p>
                 </form>
             </li>
+            <!--
             <li class="uk-fieldset">
                 <form id="form_showplayers" class="uk-width-1-1">
                     <label>Show Players in a Team</label>
@@ -292,11 +314,15 @@
                     <p>The first option chosen does not populate the 2nd</p>
                 </form>
             </li>
+            -->
             <li class="uk-fieldset">
+                <p>Logout Complete</p>
+                <!--
                 <form id="form_logout" class="uk-width-1-1">
                     <label>Logout</label>
                     <input type="submit" value="Logout" class="uk-button uk-button-large uk-width-1-1">
                 </form>
+                -->
             </li>
             <li class="uk-fieldset">
                 <form id="form_php_session">
@@ -404,10 +430,47 @@
 
 <!-- TEMPLATES -->
         <script id="template_ladder_head" type="text/template">
-            <a class="uk-accordion-title" href="#"><span style="color: {{ladderColor}}">&#9686;&nbsp;</span>{{ladderTitle}}</a>
+            <a class="uk-accordion-title" href="#">
+                <span style="color: #{{ladderColor}}">
+                    <img width="18" height="18" src="img/{{ladderImage}}">
+                    &nbsp;
+                </span>
+                {{ladderTitle}}
+            </a>
         </script>
         <script id="template_team_member_list" type="text/template">
-            <a class="uk-accordion-title" href="#"><span style="color: {{ladderColor}}">&#9686;&nbsp;</span>{{teamTitle}}</a>
+            <a class="uk-accordion-title" href="#">
+                <span style="color: #{{teamColor}}"> 
+                    <i class="ra {{teamImage}}"></i>
+                &nbsp;
+                </span>
+                {{teamTitle}}
+            </a>
+        </script>
+        <script id="template_match_report_form" type="text/template">
+            <form onsbumit="reportMatch(this)" class="uk-fieldset uk-width-1-1" uk-grid>
+                <div class="uk-width-1-5">{{matchID}}</div>
+                <div class="uk-width-1-5">
+                   <input type="hidden" name="matchid" value="{{matchID}}">
+                   <select class="uk-select" name="winning_team"
+                        id="match_{{matchID}}_report_winner"
+                        onchange="if(match_{{matchID}}_report_winner.value == {{team_a_id}}) { match_{{matchID}}_report_loser.value = {{team_b_id}}; } else { match_{{matchID}}_report_loser.value = {{team_a_id}}; }">
+                        <option value="{{team_a_id}}">{{team_a_name}}</option>
+                        <option value="{{team_b_id}}">{{team_b_name}}</option>
+                    </select>
+                </div>
+                <div class="uk-width-1-5">
+                    <select class="uk-select" name="losing_team"
+                        id="match_{{matchID}}_report_loser"
+                        onchange="if(match_{{matchID}}_report_loser.value == {{team_a_id}}) { match_{{matchID}}_report_winner.value = {{team_b_id}}; } else { match_{{matchID}}_report_winner.value = {{team_a_id}}; }">
+                        > <option value="{{team_b_id}}">{{team_b_name}}</option>
+                        <option value="{{team_a_id}}">{{team_a_name}}</option>
+                    </select>
+                </div>
+                <div class="uk-width-2-5">
+                    <input class="uk-button uk-width-2-3" type=kkkk"submit" name="report" value="report">
+                </div>
+            </form>
         </script>
     </body>
 </html>
