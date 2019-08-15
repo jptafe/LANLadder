@@ -225,10 +225,15 @@
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>                    
                         <input type="datetime-local" value="2019-07-01T09:00:00" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input">
                     </div>
-                    <div class="uk-inline uk-width-1-1">
-                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: camera"></span>                    
-                        <input type="text" name="ladder_image" pattern="A-Za-z0-9\_" title="image is alpha numeric, no spaces" placeholder="image" class="uk-input">
+                    <div class="uk-inline uk-width-1-1 js-upload uk-placeholder uk-text-center">
+                        <span uk-icon="icon: cloud-upload"></span>
+                        <span class="uk-text-middle">Attach png or jpg by dropping them here or</span>
+                        <div uk-form-custom>
+                            <input type="file" name="ladder_image" title="image is alpha numeric, no spaces">
+                            <span class="uk-link">selecting one</span>
+                        </div>
                     </div>
+                    <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>                    
                         <input type="submit" value="Create Ladder" class="uk-button uk-button-large uk-width-1-1">
