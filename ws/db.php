@@ -167,7 +167,7 @@
         function allUnReportedMatches() {
             try {
                 $matches = "SELECT * FROM played_match WHERE played_match.winning_team_id < 3
-                    AND played_match.losing_team_id < 3";
+                    OR played_match.losing_team_id < 3";
                 $stmt = $this->conn->prepare($matches);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

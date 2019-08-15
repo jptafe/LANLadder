@@ -429,8 +429,17 @@
         </div>
 
 <!-- TEMPLATES -->
-        <script id="template_ladder_head" type="text/template">
-            <a class="uk-accordion-title" href="#">
+        <script id="template_ladder_head_played" type="text/template">
+            <a class="uk-accordion-title" onclick="getLadderPlayedMatches({{ladderID}})" href="#">
+                <span style="color: #{{ladderColor}}">
+                    <img width="18" height="18" src="img/{{ladderImage}}">
+                    &nbsp;
+                </span>
+                {{ladderTitle}}
+            </a>
+        </script>
+        <script id="template_ladder_head_unplayed" type="text/template">
+            <a class="uk-accordion-title" onclick="getALadderofUnlayedMatches({{ladderID}})" href="#">
                 <span style="color: #{{ladderColor}}">
                     <img width="18" height="18" src="img/{{ladderImage}}">
                     &nbsp;
@@ -449,24 +458,24 @@
         </script>
         <script id="template_match_report_form" type="text/template">
             <form onsubmit="reportMatch(this)" class="uk-fieldset uk-width-1-1" uk-grid>
-                <div class="uk-width-1-5">
+                <div class="uk-width-1-6">
                     {{matchID}}
                     <input type="hidden" name="matchid" value="{{matchID}}">
                 </div>
-                <div class="uk-width-1-5">
+                <div class="uk-width-1-3">
                     <select class="uk-select" name="winning_team" id="match_{{matchID}}_report_winner" onchange="if(match_{{matchID}}_report_winner.value == {{team_a_id}}) { match_{{matchID}}_report_loser.value = {{team_b_id}}; } else { match_{{matchID}}_report_loser.value = {{team_a_id}}; }">
                         <option value="{{team_a_id}}">{{team_a_name}}</option>
                         <option value="{{team_b_id}}">{{team_b_name}}</option>
                     </select>
                 </div>
-                <div class="uk-width-1-5">
+                <div class="uk-width-1-3">
                     <select class="uk-select" name="losing_team" id="match_{{matchID}}_report_loser" onchange="if(match_{{matchID}}_report_loser.value == {{team_a_id}}) { match_{{matchID}}_report_winner.value = {{team_b_id}}; } else { match_{{matchID}}_report_winner.value = {{team_a_id}}; }">
                         <option value="{{team_b_id}}">{{team_b_name}}</option>
                         <option value="{{team_a_id}}">{{team_a_name}}</option>
                     </select>
                 </div>
-                <div class="uk-width-2-5">
-                    <input class="uk-button uk-width-2-3" type="submit" name="report" value="report">
+                <div class="uk-width-1-6">
+                    <input class="uk-button" type="submit" name="report" value="report">
                 </div>
             </form>
         </script>

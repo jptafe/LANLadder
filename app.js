@@ -12,8 +12,8 @@ populateStatusPanel();
 isLoggedIn(); 
 
 // Remove these calls they'll come from an ajax request instead...
-//getAllPlayedMatches();
-//getAllUnPlayedMatches();
+getAllPlayedMatches();
+getAllUnPlayedMatches();
 
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -49,14 +49,15 @@ function teamsWithPlayers() {
 function laddersWithUnplayedMatches() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
 
-    var templateLadderHeadHTML = document.getElementById('template_ladder_head').innerHTML;
+    var templateLadderHeadHTML = document.getElementById('template_ladder_head_unplayed').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
 
     for(var loop = 0;loop < JSONLadders.length;loop++) {
-        renderedHTML += '<li onclick="getALadderofUnlayedMatches(' + JSONLadders[loop].id + ')">';
+        renderedHTML += '<li>';
         renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game)
                 .replace(/{{ladderImage}}/g, JSONLadders[loop].image)
-                .replace(/{{ladderColor}}/g, JSONLadders[loop].color);
+                .replace(/{{ladderColor}}/g, JSONLadders[loop].color)
+                .replace(/{{ladderID}}/g, JSONLadders[loop].id);
         renderedHTML += '<div class="uk-accordion-content" id="reported_ladder_list_' + JSONLadders[loop].id + '">';
         renderedHTML += '<div uk-spinner></div>';
         renderedHTML += '</div>';
@@ -67,14 +68,15 @@ function laddersWithUnplayedMatches() {
 function lnadderListWithCompletedResults() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
 
-    var templateLadderHeadHTML = document.getElementById('template_ladder_head').innerHTML;
+    var templateLadderHeadHTML = document.getElementById('template_ladder_head_played').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
 
     for(var loop = 0;loop < JSONLadders.length;loop++) {
-        renderedHTML += '<li onclick="getLadderPlayedMatches(' + JSONLadders[loop].id + ')">';
+        renderedHTML += '<li>';
         renderedHTML += templateLadderHeadHTML.replace(/{{ladderTitle}}/g, JSONLadders[loop].game)
                 .replace(/{{ladderImage}}/g, JSONLadders[loop].image)
-                .replace(/{{ladderColor}}/g, JSONLadders[loop].color);
+                .replace(/{{ladderColor}}/g, JSONLadders[loop].color)
+                .replace(/{{ladderID}}/g, JSONLadders[loop].id); 
         renderedHTML += '<div class="uk-accordion-content" id="ladder_list_' + JSONLadders[loop].id + '">';
         renderedHTML += '<div uk-spinner></div>';
         renderedHTML += '</div>';
@@ -574,8 +576,8 @@ function getALadderofUnlayedMatches(ladderID) {
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id)
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id);
                     }
-                    var HTMLLadderReportHead = '<div class="uk-width-1-1" uk-grid><div class="uk-width-1-5">Match ID</div><div class="uk-width-1-5">Winner</div>' +
-                                '<div class="uk-width-1-5">Loser</div><div class="uk-width-2-5">Report</div></div>';
+                    var HTMLLadderReportHead = '<div class="uk-width-1-1" uk-grid><div class="uk-width-1-6">Match ID</div><div class="uk-width-1-3">Winner</div>' +
+                                '<div class="uk-width-1-3">Loser</div><div class="uk-width-1-6">Report</div></div>';
                     document.getElementById(HTMLladderID).innerHTML = HTMLLadderReportHead + HTMLLadderReport; 
                 }
             });
