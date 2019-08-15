@@ -188,8 +188,8 @@
                     break;
                 /// INSERT new player
                 case "createplayer":
-                    if(isset($playerName) && isset($passWord) && isset($location) && isset($teamID)) {
-                        $result = $databaseOBJECT->createPlayer($playerName, $passWord, $location, $teamID);
+                    if(isset($playerName) && isset($passWord) && isset($location) && isset($image) && isset($teamID)) {
+                        $result = $databaseOBJECT->createPlayer($playerName, $passWord, $location, $image, $teamID);
                     } else {
                         throw new APIException("create player error");
                     }

@@ -236,15 +236,16 @@
                 echo "joinTeam error"; die();
             }
         }
-        public function createPlayer($name, $pass, $loc, $teamid) {
+        public function createPlayer($name, $pass, $loc, $image, $teamid) {
             try {
                 $HashedPassword = password_hash($pass, PASSWORD_DEFAULT);
-                $query = 'INSERT INTO `player`(`name`, `pass`, `seated_loc`, `team_id`)
-                    VALUES (:name , :pass, :loc, :team)';
+                $query = 'INSERT INTO `player`(`name`, `pass`, `seated_loc`, `image` `team_id`)
+                    VALUES (:name , :pass, :loc, :image, :team)';
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':pass', $HashedPassword);
                 $stmt->bindParam(':loc', $loc);
+                $stmt->bindParam(':image', $image);
                 $stmt->bindParam(':team', $teamid, PDO::PARAM_INT);
                 $result = $stmt->execute();
                 if($result == false) {
