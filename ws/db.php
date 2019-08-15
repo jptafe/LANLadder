@@ -4,7 +4,7 @@
         public function __construct() {
             try {
                 //$this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
-                $this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=LANLadder", 'adminuser','thisisapassword');
+                $this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=ebdb", 'adminuser','thisisapassword');
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {
