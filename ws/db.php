@@ -3,8 +3,8 @@
         private $conn;
         public function __construct() {
             try {
-                //$this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
-                $this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=ebdb", 'adminuser','thisisapassword');
+                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root','');
+                //$this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=ebdb", 'adminuser','thisisapassword');
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {
@@ -34,7 +34,7 @@
 				winning_team_id != losing_team_id
                             GROUP BY teamb
                      ORDER by wins DESC, losses ASC";
-                // We need add to ladder with those teams that won against a forefit
+                // We need add to ladder with those teams that won against a forefit but not tie
                 $stmt = $this->conn->prepare($getLadder);
                 $stmt->bindParam(':ladderid', $ladderID, PDO::PARAM_INT);
                 $stmt->execute();

@@ -468,15 +468,19 @@
                     <input type="hidden" name="matchid" value="{{matchID}}">
                 </div>
                 <div class="uk-width-1-3">
-                    <select class="uk-select" name="winning_team" id="match_{{matchID}}_report_winner" onchange="if(match_{{matchID}}_report_winner.value == {{team_a_id}}) { match_{{matchID}}_report_loser.value = {{team_b_id}}; } else { match_{{matchID}}_report_loser.value = {{team_a_id}}; }">
+                    <select class="uk-select" name="winning_team" id="match_{{matchID}}_report_winner" 
+                        onchange="if(match_{{matchID}}_report_winner.value == {{team_a_id}}) { match_{{matchID}}_report_loser.value = {{team_b_id}}; } else { match_{{matchID}}_report_loser.value = {{team_a_id}}; } if(match_{{matchID}}_report_winner.value == 2) {match_{{matchID}}_report_loser.value = 2}">
                         <option value="{{team_a_id}}">{{team_a_name}}</option>
                         <option value="{{team_b_id}}">{{team_b_name}}</option>
+                        <option value="2">Tie</option>
                     </select>
                 </div>
                 <div class="uk-width-1-3">
-                    <select class="uk-select" name="losing_team" id="match_{{matchID}}_report_loser" onchange="if(match_{{matchID}}_report_loser.value == {{team_a_id}}) { match_{{matchID}}_report_winner.value = {{team_b_id}}; } else { match_{{matchID}}_report_winner.value = {{team_a_id}}; }">
+                    <select class="uk-select" name="losing_team" id="match_{{matchID}}_report_loser" 
+                        onchange="if(match_{{matchID}}_report_loser.value == {{team_a_id}}) { match_{{matchID}}_report_winner.value = {{team_b_id}}; } else { match_{{matchID}}_report_winner.value = {{team_a_id}}; } if(match_{{matchID}}_report_loser.value == 2) {match_{{matchID}}_report_winner.value = 2}">
                         <option value="{{team_b_id}}">{{team_b_name}}</option>
                         <option value="{{team_a_id}}">{{team_a_name}}</option>
+                        <option value="2">Tie</option>
                     </select>
                 </div>
                 <div class="uk-width-1-6">
