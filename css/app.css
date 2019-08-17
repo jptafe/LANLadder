@@ -99,7 +99,6 @@ form p, section p {
 }
 #content_tabs {
     margin: .6em auto;
-    border: dotted darkgray 1px;
     border-radius: 8px;
     box-shadow: gray .5em .5em .5em;
     padding: 1em;
@@ -109,4 +108,10 @@ form p, section p {
 }
 .uk-form-icon svg {
     margin-right: 1.4em;
+}
+#alert_msg, #alert_wrn, #alert_dng {
+    position: absolute;
+    bottom: 0; 
+    width: 90%;
+    margin: 5%;
 }

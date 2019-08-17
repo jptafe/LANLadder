@@ -9,7 +9,7 @@ laddersWithUnplayedMatches();
 populateStatusPanel();
 
 // needs to disable menu items instead of forms themselves...
-isLoggedIn(); 
+isLoggedIn(); // also we need to get hashes of user/team
 
 // Remove these calls they'll come from an ajax request instead...
 getAllPlayedMatches();
@@ -157,19 +157,38 @@ function populateStatusPanel() {
 }
 // Events
 // Submit:
+document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
 document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
 document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
 document.getElementById('form_addladder').addEventListener('submit', function(e) {addLadderProcess(e)});
 document.getElementById('form_jointeam').addEventListener('submit', function(e) {joinTeamProcess(e)});
-document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
 
 // change events
 document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
 document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamPreviousForm(e)});
 
-// Window events
+UIkit.alert(alert_msg).close();
+UIkit.alert(alert_wrn).close();
+UIkit.alert(alert_dng).close();
+
+function setMsg(message) {
+    alert_msg_msg.innerHTML = message;
+    UIkit.alert(alert_msg).open();
+    setTimeout(UIkit.alert(alert_msg).close(), 10000);
+}
+function setWrn(warning) {
+    alert_msg_wrn.innerHTML = warning;
+    UIkit.alert(alert_wrn).open();
+    setTimeout(UIkit.alert(alert_wrn).close(), 10000);
+}
+function setDng(danger) {
+    alert_msg_dng.innerHTML = danger;
+    UIkit.alert(alert_dng).open();
+    setTimeout(UIkit.alert(alert_dng).close(), 10000);
+}
+
 //window.onfocus = function() {isLoggedIn();};
 
 function showPlayersForm(evt) {
@@ -440,10 +459,12 @@ function loginProcess(evt) {
             response.json().then(function(data) {
                 if(data.user == -1) {
                     localStorage.setItem('authcode', null);
+                    setWrn('Authentication failure');
+                    clearForm(evt);
                 } else {
                     localStorage.setItem('authcode', data.user);
                     clearForm(evt);
-                    enableAllForms();
+                    //enableAllForms();
                 }
             });
         }
