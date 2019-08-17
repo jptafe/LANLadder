@@ -180,6 +180,7 @@ function setMsg(message) {
 }
 function setWrn(warning) {
     alert_msg_wrn.innerHTML = warning;
+    var elem = document.getElementById('alert_wrn');
     UIkit.alert(alert_wrn).open();
     setTimeout(UIkit.alert(alert_wrn).close(), 10000);
 }
@@ -448,7 +449,6 @@ function loginProcess(evt) {
     fetch(url, {
         method: 'POST',
         body: fd,
-        mode: 'cors',
         credentials: 'include'
     })
     .then(
