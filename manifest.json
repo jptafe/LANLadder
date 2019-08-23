@@ -6,27 +6,27 @@
   "background_color": "#fff",
   "description": "A LAN Party match ladder accounting system",
   "icons": [{
-    "src": "img/icons/homescreen48.png",
-    "sizes": "48x48",
+    "src": "img/icons/lanladder_32.png",
+    "sizes": "32x32",
     "type": "image/png"
   }, {
-    "src": "img/icons/homescreen72.png",
+    "src": "img/icons/lanladder_72.png",
     "sizes": "72x72",
     "type": "image/png"
   }, {
-    "src": "img/icons/homescreen96.png",
-    "sizes": "96x96",
+    "src": "img/icons/lanladder_128.png",
+    "sizes": "128x128",
     "type": "image/png"
   }, {
-    "src": "img/icons/homescreen144.png",
+    "src": "img/icons/lanladder_150.png",
     "sizes": "144x144",
     "type": "image/png"
   }, {
-    "src": "img/icons/homescreen168.png",
+    "src": "img/icons/lanladder_150.png",
     "sizes": "168x168",
     "type": "image/png"
   }, {
-    "src": "img/icons/homescreen192.png",
+    "src": "img/icons/lanladder_310.png",
     "sizes": "192x192",
     "type": "image/png"
   }]
