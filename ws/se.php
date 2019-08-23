@@ -28,7 +28,7 @@
         }
         public function domainLock() {
             if((strpos($this->referrer, 'localhost') !== false) ||
-                    (strpos($this->referrer, 'drupaltwo') !== false)) {
+                    (strpos($this->referrer, 'LANLadder') !== false)) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");
