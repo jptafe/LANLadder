@@ -3,9 +3,10 @@
         private $conn;
         public function __construct() {
             try {
-                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root',''); // DEV
+//                $this->conn = new PDO("mysql:host=localhost;dbname=LANLadder", 'root',''); // DEV
 //                $this->conn = new PDO("mysql:host=127.0.0.1;port=51051;dbname=localdb", 'azure','6#vWHD_$'); // Azure
-                //$this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=ebdb", 'adminuser','thisisapassword'); // AWS
+//                $this->conn = new PDO("mysql:host=aa1rdt1oikf2nc.cqbylsinlsjf.us-west-2.rds.amazonaws.com;port=3306;dbname=ebdb", 'adminuser','thisisapassword'); // AWS
+                $this->conn = new PDO("mysql:unix_socket=cmssubdomains:australia-southeast1:lanladder;dbname=LANLadder", 'root','b0KJK8Ih5CbjC1Bd'); // GCP 
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // DEBUG
             }
             catch(PDOException $e) {

@@ -1,0 +1,25 @@
+runtime: php73
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  script: index.html 
+
+- url: /
+  script: app.js 
+
+- url: /css
+  static_dir: css
+
+- url: /(.*\.(png|jpg|ico))$
+  static_files: static/\1
+
+- url: /(.*\.(ttf|woff))$
+  static_files: static/\1
+
+- url: /ws/.*
+  script: ws.php
+
+- url: /.*
+  script: not_found.app

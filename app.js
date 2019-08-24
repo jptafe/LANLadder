@@ -458,6 +458,7 @@ function loginProcess(evt) {
             }
             response.json().then(function(data) {
                 if(data.user == -1) {
+                console.log(data);
                     localStorage.setItem('authcode', null);
                     setWrn('Authentication failure');
                     clearForm(evt);
