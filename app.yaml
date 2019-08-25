@@ -6,11 +6,11 @@ handlers:
 - url: /
   script: index.html 
 
-- url: /
+- url: /app.js
   script: app.js 
 
-- url: /css
-  static_dir: css
+- url: /css/app.css
+  script: /css/app.css
 
 - url: /(.*\.(png|jpg|ico))$
   static_files: static/\1
@@ -18,8 +18,8 @@ handlers:
 - url: /(.*\.(ttf|woff))$
   static_files: static/\1
 
-- url: /ws/.*
-  script: ws.php
+- url: /ws/ws.php
+  script: /ws/ws.php
 
 - url: /.*
   script: not_found.app
