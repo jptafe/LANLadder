@@ -179,10 +179,10 @@ function setMsg(message) {
     setTimeout(UIkit.alert(alert_msg).close(), 10000);
 }
 function setWrn(warning) {
-    alert_msg_wrn.innerHTML = warning;
+    document.getElementById('alert_msg_wrn').innerHTML = warning;
     var elem = document.getElementById('alert_wrn');
-    UIkit.alert(alert_wrn).open();
-    setTimeout(UIkit.alert(alert_wrn).close(), 10000);
+    UIkit.alert(elem).open();
+    setTimeout(UIkit.alert(elem).close(), 10000);
 }
 function setDng(danger) {
     alert_msg_dng.innerHTML = danger;
@@ -203,7 +203,7 @@ function addTeamProcess(evt) {
     var name = evt.srcElement[0].value;
     var color = evt.srcElement[1].value.substr(1,6);
     var icon = evt.srcElement[2].value;
-    var url = 'ws/ws.php?reqcode=createteam&playerid=1&name=' + name + '&color=' + color + '&imageurl=' + icon;
+    var url = 'api/ws.php?reqcode=createteam&playerid=1&name=' + name + '&color=' + color + '&imageurl=' + icon;
     if(icon == '0') {
         evt.srcElement[2].setCustomValidity("Choose an Icon");
     } else {
@@ -230,7 +230,7 @@ function registerPlayerProcess(evt) {
     var pass2 = evt.srcElement[2].value;
     var seated = evt.srcElement[3].value;
     var team_id = evt.srcElement[4].value;
-    var url = 'ws/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
+    var url = 'ap/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
     if(pass1 != pass2) { 
         alert('pass does not match');
     } else {
@@ -255,7 +255,7 @@ function registerPlayerProcess(evt) {
 } 
 function logoutNow(evt) {
     UIkit.offcanvas(main_nav).hide();
-    fetch('ws/ws.php?reqcode=deauth', {
+    fetch('api/ws.php?reqcode=deauth', {
         method: 'GET',
         credentials: 'include'
     })
@@ -273,13 +273,13 @@ function logoutNow(evt) {
 }
 function reportMatchProcess(evt) {
     evt.preventDefault();
-    console.log('ws/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
+    console.log('api/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
 }
 function joinTeamProcess(evt) {
     evt.preventDefault();
     var player_id = evt.srcElement[0].value;
     var team_id = evt.srcElement[1].value;
-    var url = 'ws/ws.php?reqcode=jointeam&playerid=' + player_id + '&teamid=' + team_id; 
+    var url = 'api/ws.php?reqcode=jointeam&playerid=' + player_id + '&teamid=' + team_id; 
     if(team_id == 0) {
         team_id = 1;
     }
@@ -310,7 +310,7 @@ function addMatchProcess(evt) {
     var starttime = starttime.replace(/-/g, '/');
     var starttime = starttime.split('Z');
     var starttime = starttime[0].split('.');
-    var url = 'ws/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + 
+    var url = 'api/ws.php?reqcode=creatematch&teamid=' + teamA + '&teambid=' + teamB + '&ladderid=' + 
                 ladder + '&starttime=' + starttime[0];
     var allGood = true;
     if(teamA == '0') {
@@ -359,7 +359,7 @@ function addLadderProcess(evt) {
     var teamTime = teamTime.replace(/-/g, '/');
     var teamTime = teamTime.split('Z');
     var teamTime = teamTime[0].split('.');
-    var url = 'ws/ws.php?reqcode=createladder&name=' + gameName + '&desc=' + description + '&members=' + memberNo + 
+    var url = 'api/ws.php?reqcode=createladder&name=' + gameName + '&desc=' + description + '&members=' + memberNo + 
         '&color=' + teamColor + '&imageurl=' + teamImage + '&starttime=' + teamTime[0];
     fetch(url, {
         method: 'GET',
@@ -378,7 +378,7 @@ function addLadderProcess(evt) {
 }
 // Anonymous Functions
 function isLoggedIn() {
-    var url = 'ws/ws.php?reqcode=isauth';
+    var url = 'api/ws.php?reqcode=isauth';
     fetch(url, {
         method: 'GET',
         credentials: 'include'
@@ -402,7 +402,7 @@ function isLoggedIn() {
 }
 function checkExistingUser(elem) {
     var username = elem.value;
-    var url = 'ws/ws.php?reqcode=userexists&name=' + username;
+    var url = 'api/ws.php?reqcode=userexists&name=' + username;
     fetch(url, {
         method: 'GET',
         credentials: 'include'
@@ -445,10 +445,12 @@ function loginProcess(evt) {
     var fd = new FormData();
     fd.append('username', evt.srcElement[0].value);
     fd.append('password', evt.srcElement[1].value);
-    var url = 'ws/ws.php?reqcode=auth';
+    var url = 'api/ws.php?reqcode=auth';
     fetch(url, {
         method: 'POST',
         body: fd,
+        mode: 'cors',
+        cache: 'no-cache',
         credentials: 'include'
     })
     .then(
@@ -458,7 +460,6 @@ function loginProcess(evt) {
             }
             response.json().then(function(data) {
                 if(data.user == -1) {
-                console.log(data);
                     localStorage.setItem('authcode', null);
                     setWrn('Authentication failure');
                     clearForm(evt);
@@ -475,7 +476,7 @@ function loginProcess(evt) {
 // Data Acquisition Functions
 //
 function getAllPlayers() {
-    fetch('ws/ws.php?reqcode=allplayers', {
+    fetch('api/ws.php?reqcode=allplayers', {
         method: 'GET',
         credentials: 'include'
     })
@@ -491,7 +492,7 @@ function getAllPlayers() {
     )
 }
 function getAllTeams() {  
-    fetch('ws/ws.php?reqcode=allteams', {
+    fetch('api/ws.php?reqcode=allteams', {
         method: 'GET',
         credentials: 'include'
     })
@@ -507,7 +508,7 @@ function getAllTeams() {
     )
 }
 function getAllLadders() {  
-    fetch('ws/ws.php?reqcode=allladders', {
+    fetch('api/ws.php?reqcode=allladders', {
         method: 'GET',
         credentials: 'include'
     })
@@ -523,7 +524,7 @@ function getAllLadders() {
     )
 }
 function getAllPlayedMatches() {  
-    fetch('ws/ws.php?reqcode=allplayedmatches', {
+    fetch('api/ws.php?reqcode=allplayedmatches', {
         method: 'GET',
         credentials: 'include'
     })
@@ -544,7 +545,7 @@ function getLadderPlayedMatches(ladder) {
     var team
     var ladderHTML = '<table class="uk-table uk-table-small">';
     ladderHTML += '<thead><tr><th>Team</th><th>Wins</th><th>Losses</th></tr></thead><tbody>';
-    var url = 'ws/ws.php?reqcode=ladderlist&ladderid=' + ladder; 
+    var url = 'api/ws.php?reqcode=ladderlist&ladderid=' + ladder; 
     fetch(url, {
         method: 'GET',
         credentials: 'include'
@@ -576,7 +577,7 @@ function getALadderofUnlayedMatches(ladderID) {
     var HTMLladderID = 'reported_ladder_list_' + ladderID;
     var HTMLLadderReport = '';
     var HTMLLadderTemplate = template_match_report_form.innerHTML;
-    var url = 'ws/ws.php?reqcode=incompletematchesbyladder&ladderid=' + ladderID;
+    var url = 'api/ws.php?reqcode=incompletematchesbyladder&ladderid=' + ladderID;
     fetch(url, {
         method: 'GET',
         credentials: 'include'
@@ -607,7 +608,7 @@ function getALadderofUnlayedMatches(ladderID) {
     )
 }
 function getAllUnPlayedMatches() { // defunct 
-    fetch('ws/ws.php?reqcode=allunreportedmatches', {
+    fetch('api/ws.php?reqcode=allunreportedmatches', {
         method: 'GET',
         credentials: 'include'
     })
