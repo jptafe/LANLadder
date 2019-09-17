@@ -1,10 +1,12 @@
+::
       +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''+
      /                                                                 /
     /   /   /\   /|  / /   /\   /--/ /--/ /-- /--/                    /
    /   /   ---  / | / /   ---  /  / /  / /-  /--/                    /
   /   /___/   \/  |/ /___/   \/__/ /__/ /__ /   \    LAN-Only       /
  /                                                                 /
-+.................................................................+
++.................................................................+ 
+::
 
 
 A LAN Party ladder Management System to show the state of play in LAN games between teams
@@ -38,10 +40,19 @@ Current Status
  Frontend - Test html/css/js created to interact with web service
  Backend - Web Service in Test phase
  Admin End - Not Started
-
-Priorities:
- Make auth robust (think about using jwt.io)
- Look at fetch API for file upload
+ 
+Major Priorities:
+ Create a status funciton on WebService to tell client updates are needed
+ Put an alert at the end of every .fetch to tell the user what happened
+ Switch registration/add ladder to POST instead of GET
+ Write FETCH requests to report match outcome & kick player from team
+ Extend auth status to hash an auth token, instead of passing uid
+ Extend web service to handle auth functions based on $_SESSION uid, tid
+ Show/hide menu items on auth status.
+ Implement file upload WS method as per classroom activity
+ 
+ 
+Long-term Priorities:
  Make auth work with Google API 
 
 
