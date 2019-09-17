@@ -27,8 +27,8 @@
             <link rel="stylesheet" href="css/rpg-awesome.css">
 
         <!-- Local Customisations -->
-            <script src="js/app.js" defer></script>
             <link rel="stylesheet" href="css/app.css">
+            <script src="js/app.js" defer></script>
     </head>
     <body>
         <div class="uk-navbar-container">
@@ -335,17 +335,14 @@
             </li>
         </ul>
 
-        <div id="alert_msg" class="uk-alert-success" onclick="UIkit.alert(this).close();" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
+        <div id="alert_msg" class="uk-alert-success" hidden uk-alert>
             <p><b>SUCCESS:</b><span id="alert_msg_msg">Message to user</span></p>
         </div>
-        <div id="alert_wrn" class="uk-alert-warning" onclick="UIkit.alert(this).close();" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p id="alert_msg_wrn">Message to user</p>
+        <div id="alert_wrn" class="uk-alert-warning" hidden uk-alert>
+            <p><b>WARNING:</b><span id="alert_msg_wrn">Message to user</span></p>
         </div>
-        <div id="alert_dng" class="uk-alert-danger" onclick="UIkit.alert(this).close();" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p><b>ERROR:</b><i id="alert_msg_dng">Message to user</i></p>
+        <div id="alert_dng" class="uk-alert-danger" hidden uk-alert>
+            <p><b>ERROR:</b><span id="alert_msg_dng">Message to user</span></p>
         </div>
 
         <!-- Something I'll get rid of: --> 

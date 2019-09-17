@@ -169,31 +169,28 @@ document.getElementById('form_reportmatch').addEventListener('submit', function(
 document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
 document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamPreviousForm(e)});
 
-UIkit.alert(alert_msg).close();
-UIkit.alert(alert_wrn).close();
-UIkit.alert(alert_dng).close();
+document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
+document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
+document.getElementById('alert_dng').addEventListener('click', function(e) {alert_dng.setAttribute('hidden', 'hidden')});
 
 function setMsg(message) {
     alert_msg_msg.innerHTML = message;
-    UIkit.alert(alert_msg).open();
-    setTimeout(UIkit.alert(alert_msg).close(), 10000);
+    alert_msg.removeAttribute('hidden');
+    setTimeout(function () { alert_msg.setAttribute('hidden', 'hidden')}, 10000);
 }
 function setWrn(warning) {
-    document.getElementById('alert_msg_wrn').innerHTML = warning;
-    var elem = document.getElementById('alert_wrn');
-    UIkit.alert(elem).open();
-    setTimeout(UIkit.alert(elem).close(), 10000);
+    alert_msg_wrn.innerHTML = warning;
+    alert_wrn.removeAttribute('hidden');
+    setTimeout(function () { alert_wrn.setAttribute('hidden', 'hidden')}, 10000);
 }
 function setDng(danger) {
     alert_msg_dng.innerHTML = danger;
-    UIkit.alert(alert_dng).open();
-    setTimeout(UIkit.alert(alert_dng).close(), 10000);
+    alert_dng.removeAttribute('hidden');
+    setTimeout(function () { alert_dng.setAttribute('hidden', 'hidden')}, 10000);
 }
 
-//window.onfocus = function() {isLoggedIn();};
-
 function showPlayersForm(evt) {
-    // GIMPED FORM that does not submit
+    // GIMPED FORM so it does not submit
     evt.preventDefault();
     console.log('showPlayersForm');
 }
@@ -449,7 +446,6 @@ function loginProcess(evt) {
     fetch(url, {
         method: 'POST',
         body: fd,
-        mode: 'cors',
         cache: 'no-cache',
         credentials: 'include'
     })
@@ -465,6 +461,7 @@ function loginProcess(evt) {
                     clearForm(evt);
                 } else {
                     localStorage.setItem('authcode', data.user);
+                    setMsg('Authentication success');
                     clearForm(evt);
                     //enableAllForms();
                 }
