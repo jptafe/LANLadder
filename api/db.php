@@ -472,24 +472,24 @@
             }
         }
         public function getLANStatus() {
-            $allplayers = allPlayers();
-            $allplayersHash = hash('md2', $allplayers);
+            $allplayers = $this->allPlayers();
+            $allplayersHash = hash('md2', json_encode($allplayers));
             $allplayersCount = sizeof($allplayers);
             
-            $allladders = allLadders();
-            $allladdersHash = hash('md2', $allladders);
+            $allladders = $this->allLadders();
+            $allladdersHash = hash('md2', json_encode($allladders));
             $allplayersCount = sizeof($allladders);
             
-            $allteams = allTeamlist();
-            $allteamsHash = hash('md2', $allteams);
+            $allteams = $this->allTeamlist();
+            $allteamsHash = hash('md2', json_encode($allteams));
             $allteamsCount = sizeof($allteams);
             
-            $allplayedmatches = allPlayedMatches();
-            $allplayedmatchesHash = hash('md2', $allplayedmatches);
+            $allplayedmatches = $this->allPlayedMatches();
+            $allplayedmatchesHash = hash('md2', json_encode($allplayedmatches));
             $allplayedmatchesCount = sizeof($allplayedmatches);
             
-            $allunplayedmatches = allUnReportedMatches();
-            $allunplayedmatchesHash = hash('md2', $allunplayedmatches);
+            $allunplayedmatches = $this->allUnReportedMatches();
+            $allunplayedmatchesHash = hash('md2', json_encode($allunplayedmatches));
             $allunplayedmatchesCount = sizeof($allunplayedmatches);
             
             return Array(

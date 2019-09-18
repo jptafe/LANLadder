@@ -1,20 +1,50 @@
 // Need to update these lists in a setTimeout then update the next group of functions....
-getAllTeams();
-getAllLadders();
-getAllPlayers();
-
 teamsWithPlayers(); 
 lnadderListWithCompletedResults();
 laddersWithUnplayedMatches();
-getAllPlayedMatches();
-getAllUnPlayedMatches();
 
-
+checkForUpdates();
+function checkForUpdates() {
+    fetch('api/ws.php?reqcode=statushashes', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(localStorage.getItem('statushash') === null) {
+                    localStorage.setItem('statushash', JSON.stringify(data));
+                } else {
+                    var oldHash = JSON.parse(localStorage.getItem('statushash'));
+                    if(oldHash.players.hash != data.players.hash) {
+                        getAllPlayers();
+                    }
+                    if(oldHash.ladders.hash != data.ladders.hash) {
+                        getAllLadders();
+                    }
+                    if(oldHash.teams.hash != data.teams.hash) {
+                        getAllTeams();
+                    }
+                    if(oldHash.playedmatches.hash != data.playedmatches.hash) {
+                        getAllPlayedMatches();
+                    }
+                    if(oldHash.unplayedmatches.hash != data.unplayedmatches.hash) {
+                        getAllUnPlayedMatches();
+                    }
+                    localStorage.setItem('statushash', JSON.stringify(data));
+                }
+                populateStatusPanel();
+            });
+        }
+    )
+}
 // needs to disable menu items instead of forms themselves...
 isLoggedIn(); // also we need to get hashes of user/team
 
 // Remove these calls they'll come from an ajax request instead...
-populateStatusPanel();
 
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -142,18 +172,12 @@ function clearForm(evt) {
     }
 }
 function populateStatusPanel() {
-    var HTMLStatusValues;
-    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
-    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
-    var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
-    var JSONPlayedMatches = JSON.parse(localStorage.getItem('allPlayedMatches'));
-    var JSONUnPlayedMatches = JSON.parse(localStorage.getItem('allUnPlayedMatches'));
-
-    HTMLStatusValues = '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONPlayers.length + 
-        '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONTeams.length + 
-        '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONLadders.length +
-        '</a><a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONPlayedMatches.length + 
-        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONUnPlayedMatches.length + '</a>';
+    var JSONHash = JSON.parse(localStorage.getItem('statushash'));
+    var HTMLStatusValues = '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
+        '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONHash.teams.size + 
+        '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONHash.ladders.size +
+        '</a><a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONHash.playedmatches.size + 
+        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONHash.unplayedmatches.size + '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
 // Events
@@ -248,7 +272,7 @@ function registerPlayerProcess(evt) {
                     getAllPlayers();
                 });
             }
-        ) 
+        )
     } 
 } 
 function logoutNow(evt) {
