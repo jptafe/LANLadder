@@ -283,6 +283,9 @@
                 case 'destroy':
                     kill_session();
                     break;
+                case 'statushashes':
+                    $result = $databaseOBJECT->getLANStatus();
+                    break;
                 default:
                     throw new APIException("incorrect request code");
                     break;

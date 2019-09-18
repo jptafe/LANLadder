@@ -471,6 +471,36 @@
                 echo "Auth error"; die();
             }
         }
+        public function getLANStatus() {
+            $allplayers = allPlayers();
+            $allplayersHash = hash('md2', $allplayers);
+            $allplayersCount = sizeof($allplayers);
+            
+            $allladders = allLadders();
+            $allladdersHash = hash('md2', $allladders);
+            $allplayersCount = sizeof($allladders);
+            
+            $allteams = allTeamlist();
+            $allteamsHash = hash('md2', $allteams);
+            $allteamsCount = sizeof($allteams);
+            
+            $allplayedmatches = allPlayedMatches();
+            $allplayedmatchesHash = hash('md2', $allplayedmatches);
+            $allplayedmatchesCount = sizeof($allplayedmatches);
+            
+            $allunplayedmatches = allUnReportedMatches();
+            $allunplayedmatchesHash = hash('md2', $allunplayedmatches);
+            $allunplayedmatchesCount = sizeof($allunplayedmatches);
+            
+            return Array(
+                'players'=>Array('hash'=>$allplayersHash,'size'=>$allplayersCount), 
+                'ladders'=>Array('hash'=>$allladdersHash,'size'=>$allplayersCount), 
+                'teams'=>Array('hash'=>$allteamsHash,'size'=>$allteamsCount), 
+                'playedmatches'=>Array('hash'=>$allplayedmatchesHash,'size'=>$allplayedmatchesCount), 
+                'unplayedmatches'=>Array('hash'=>$allunplayedmatchesHash,'size'=>$allunplayedmatchesCount)
+            );
+            
+        }
         public function logEvent() {
             return Array("request"=>"log an event");
         }
