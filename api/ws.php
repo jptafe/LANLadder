@@ -265,8 +265,8 @@
                     break;
                 case "auth":
                     $result = $databaseOBJECT->authPlayer($userName, $passWord);
-                    if($result['user'] != 'false') {
-                        $_SESSION['sessionOBJ']->setAuth($result['user']);
+                    if($result['name'] != -1) {
+                        $result = $_SESSION['sessionOBJ']->setAuth($result);
                     }
                     break;
                 case "isauth":

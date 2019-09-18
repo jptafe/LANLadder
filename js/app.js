@@ -1,51 +1,14 @@
-// Need to update these lists in a setTimeout then update the next group of functions....
-teamsWithPlayers(); 
-lnadderListWithCompletedResults();
-laddersWithUnplayedMatches();
-
 checkForUpdates();
-function checkForUpdates() {
-    fetch('api/ws.php?reqcode=statushashes', {
-        method: 'GET',
-        credentials: 'include'
-    })
-    .then(
-        function(response) {
-            if (response.status !== 200) {
-                console.log('Looks like there was a problem. Status Code: ' + response.status);
-            }
-            response.json().then(function(data) {
-                if(localStorage.getItem('statushash') === null) {
-                    localStorage.setItem('statushash', JSON.stringify(data));
-                } else {
-                    var oldHash = JSON.parse(localStorage.getItem('statushash'));
-                    if(oldHash.players.hash != data.players.hash) {
-                        getAllPlayers();
-                    }
-                    if(oldHash.ladders.hash != data.ladders.hash) {
-                        getAllLadders();
-                    }
-                    if(oldHash.teams.hash != data.teams.hash) {
-                        getAllTeams();
-                    }
-                    if(oldHash.playedmatches.hash != data.playedmatches.hash) {
-                        getAllPlayedMatches();
-                    }
-                    if(oldHash.unplayedmatches.hash != data.unplayedmatches.hash) {
-                        getAllUnPlayedMatches();
-                    }
-                    localStorage.setItem('statushash', JSON.stringify(data));
-                }
-                populateStatusPanel();
-            });
-        }
-    )
-}
+isLoggedIn();
 // needs to disable menu items instead of forms themselves...
-isLoggedIn(); // also we need to get hashes of user/team
 
-// Remove these calls they'll come from an ajax request instead...
+//Interface manipulation
+function loggedOutMenu() {
 
+}
+function loggedInMenu() {
+
+}
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
@@ -96,7 +59,7 @@ function laddersWithUnplayedMatches() {
     }
     panel_ladder_team_report_form.innerHTML = renderedHTML + '</ul>';
 }
-function lnadderListWithCompletedResults() {
+function ladderListWithCompletedResults() {
     var JSONLadders = JSON.parse(localStorage.getItem('allLadders'));
 
     var templateLadderHeadHTML = document.getElementById('template_ladder_head_played').innerHTML;
@@ -114,48 +77,6 @@ function lnadderListWithCompletedResults() {
         renderedHTML += '</li>';
     }
     panel_ladder_results.innerHTML = renderedHTML + '</ul>';
-}
-//Interface manipulation
-function disableAllForms() { // broken delete
-    var allForms = document.getElementsByTagName('form');
-    for(var loop = 0;loop<allForms.length;loop++) {
-        if(allForms[loop].children[0].innerHTML == 'Login' ||
-               allForms[loop].children[0].innerHTML == 'Create Player') {
-            var formElements = allForms[loop].children;
-            for(var loop2 = 0;loop2<formElements.length;loop2++) {
-                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                    formElements[loop2].removeAttribute('disabled');
-                }
-            }
-        } else {
-            var formElements = allForms[loop].children;
-            for(var loop2 = 0;loop2<formElements.length;loop2++) {
-                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                    formElements[loop2].setAttribute('disabled','');
-                }
-            }
-        }
-    }
-}
-function enableAllForms() { // broken delete
-    var allForms = document.getElementsByTagName('form');
-    for(var loop = 0;loop<allForms.length;loop++) {
-        var formElements = allForms[loop].children;
-        if(allForms[loop].children[0].innerHTML == 'Login' ||
-               allForms[loop].children[0].innerHTML == 'Create Player') {
-            for(var loop2 = 0;loop2<formElements.length;loop2++) {
-                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                    formElements[loop2].setAttribute('disabled', '');
-                }
-            }
-        } else {
-            for(var loop2 = 0;loop2<formElements.length;loop2++) {
-                if(formElements[loop2].localName == 'input' || formElements[loop2].localName == 'select') {
-                    formElements[loop2].removeAttribute('disabled');
-                }
-            }
-        }
-    }
 }
 function clearForm(evt) {
     for(var loop = 0;loop < evt.srcElement.length;loop++) {
@@ -213,7 +134,6 @@ function setDng(danger) {
     alert_dng.removeAttribute('hidden');
     setTimeout(function () { alert_dng.setAttribute('hidden', 'hidden')}, 10000);
 }
-
 function showPlayersForm(evt) {
     // GIMPED FORM so it does not submit
     evt.preventDefault();
@@ -288,7 +208,6 @@ function logoutNow(evt) {
             }
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
-                disableAllForms(); // broken
             });
         }
     )
@@ -320,7 +239,6 @@ function joinTeamProcess(evt) {
         }
     )
 }
-
 // Admin functions
 function addMatchProcess(evt) {
     evt.preventDefault();
@@ -399,6 +317,48 @@ function addLadderProcess(evt) {
     )
 }
 // Anonymous Functions
+function checkForUpdates() {
+    fetch('api/ws.php?reqcode=statushashes', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(localStorage.getItem('statushash') === null) {
+                    localStorage.setItem('statushash', JSON.stringify(data));
+                    getAllPlayers();
+                    getAllTeams();
+                    getAllLadders();
+                    //getAllPlayedMatches();
+                    //getAllUnPlayedMatches();
+                } else {
+                    var oldHash = JSON.parse(localStorage.getItem('statushash'));
+                    if(oldHash.players.hash != data.players.hash) {
+                        getAllPlayers();
+                    }
+                    if(oldHash.ladders.hash != data.ladders.hash) {
+                        getAllLadders();
+                    }
+                    if(oldHash.teams.hash != data.teams.hash) {
+                        getAllTeams();
+                    }
+                    if(oldHash.playedmatches.hash != data.playedmatches.hash) {
+                        getAllPlayedMatches();
+                    }
+                    if(oldHash.unplayedmatches.hash != data.unplayedmatches.hash) {
+                        getAllUnPlayedMatches();
+                    }
+                    localStorage.setItem('statushash', JSON.stringify(data));
+                }
+                populateStatusPanel();
+            });
+        }
+    )
+}
 function isLoggedIn() {
     var url = 'api/ws.php?reqcode=isauth';
     fetch(url, {
@@ -411,13 +371,16 @@ function isLoggedIn() {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                if(data.auth != 'false') {
+                if(data.auth != -1) {
                     localStorage.setItem('authcode', data.auth); // this needs to be a has
-                    //enableAllForms(); // function no longer work, due to uikit changes
+                    loggedInMenu();
                 } else {
                     localStorage.setItem('authcode', null);
-                    //disableAllForms(); // function no longer work, due to uikit changes
+                    loggedOutMenu();
                 }
+                teamsWithPlayers(); 
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )
@@ -471,15 +434,16 @@ function loginProcess(evt) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                if(data.user == -1) {
+                if(data.name == -1) {
                     localStorage.setItem('authcode', null);
                     setWrn('Authentication failure');
+                    loggedOutMenu();
                     clearForm(evt);
                 } else {
-                    localStorage.setItem('authcode', data.user);
+                    localStorage.setItem('authcode', data.name);
                     setMsg('Authentication success');
+                    loggedInMenu();
                     clearForm(evt);
-                    //enableAllForms();
                 }
             });
         }
@@ -500,6 +464,9 @@ function getAllPlayers() {
             }
             response.json().then(function(data) {
                 localStorage.setItem('allPlayers', JSON.stringify(data));
+                teamsWithPlayers(); 
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )
@@ -516,6 +483,9 @@ function getAllTeams() {
             }
             response.json().then(function(data) {
                 localStorage.setItem('allTeams', JSON.stringify(data));
+                teamsWithPlayers(); 
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )
@@ -532,6 +502,9 @@ function getAllLadders() {
             }
             response.json().then(function(data) {
                 localStorage.setItem('allLadders', JSON.stringify(data));
+                teamsWithPlayers(); 
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )
@@ -548,6 +521,9 @@ function getAllPlayedMatches() {
             }
             response.json().then(function(data) {
                 localStorage.setItem('allPlayedMatches', JSON.stringify(data));
+                teamsWithPlayers(); 
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )

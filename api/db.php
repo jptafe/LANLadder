@@ -451,6 +451,22 @@
                 echo "Auth error"; die();
             }
         }
+        public function userIDExist($id) {
+            try {
+                $auth = "SELECT * FROM player WHERE id = :userid";
+                $stmt = $this->conn->prepare($auth);
+                $stmt->bindParam(':userid', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return Array("user"=>'notfound');
+                } else {
+                    return $result;
+                }
+            } catch (PDOException $e) {
+                echo "Auth error"; die();
+            }
+        }
         public function authPlayer($username, $password) {
             try {
                 $auth = "SELECT * FROM player WHERE name = :username";
@@ -459,12 +475,12 @@
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result == false) {
-                    return Array("user"=>-1);
+                    return Array("name"=>-1);
                 } else {
                     if(password_verify($password, $result['pass'])) {
-                        return Array("user"=>$result['id']);
+                        return $result;
                     } else {
-                        return Array("user"=>-1);
+                        return Array("name"=>-1);
                     }
                 }
             } catch (PDOException $e) {

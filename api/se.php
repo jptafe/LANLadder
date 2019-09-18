@@ -9,6 +9,8 @@
         private $referrer;
         private $lastrequestArray = null;
         private $authCode = null;
+        private $uid;
+        private $tid;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -67,15 +69,20 @@
             if($this->authCode !== null) {
                 return Array('auth'=>$this->authCode);
             } else {
-                return Array('auth'=>'false');
+                return Array('auth'=>-1);
             }
         }
         function setAuth($incomingAuth) {
-            $this->authCode = $incomingAuth;
+            $stringAuth = json_encode($incomingAuth);
+            $this->authCode = hash('md2', $stringAuth);
+            $this->uid = $incomingAuth['id'];
+            $this->tid = $incomingAuth['team_id'];
+            return Array('name'=>$this->authCode);
         }
         function unsetAuth() {
             $this->authCode = null;
-            return Array("user"=>"-1");
+            $this->uid = null;
+            return Array("name"=>"-1");
         }
     }
 ?>

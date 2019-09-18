@@ -42,18 +42,14 @@ Current Status
  Admin End - Not Started
  
 Major Priorities:
- Create a status funciton on WebService to tell client updates are needed
+ Show/hide menu items on auth status.
  Put an alert at the end of every .fetch to tell the user what happened
  Switch registration/add ladder to POST instead of GET
  Write FETCH requests to report match outcome & kick player from team
- Extend auth status to hash an auth token, instead of passing uid
  Extend web service to handle auth functions based on $_SESSION uid, tid
- Show/hide menu items on auth status.
  Implement file upload WS method as per classroom activity
- 
- 
+
 Long-term Priorities:
  Make auth work with Google API 
-
 
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/jptafe/LANLadder)
