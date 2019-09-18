@@ -6,14 +6,15 @@ getAllPlayers();
 teamsWithPlayers(); 
 lnadderListWithCompletedResults();
 laddersWithUnplayedMatches();
-populateStatusPanel();
+getAllPlayedMatches();
+getAllUnPlayedMatches();
+
 
 // needs to disable menu items instead of forms themselves...
 isLoggedIn(); // also we need to get hashes of user/team
 
 // Remove these calls they'll come from an ajax request instead...
-getAllPlayedMatches();
-getAllUnPlayedMatches();
+populateStatusPanel();
 
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -166,8 +167,8 @@ document.getElementById('form_jointeam').addEventListener('submit', function(e) 
 document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
 
 // change events
-document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeamNextForm(e)});
-document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeamPreviousForm(e)});
+document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeam(e)});
+document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeam(e)});
 
 document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
 document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
@@ -419,22 +420,13 @@ function checkExistingUser(elem) {
         }
     )
 }
-function checkSameTeamNextForm(elem) {
-    if(elem.srcElement.nextElementSibling.value == elem.srcElement.value) {
-        elem.srcElement.nextElementSibling.setCustomValidity("Team can't comete with itself");
-        elem.srcElement.setCustomValidity("Team can't comete with itself");
+function checkSameTeam(elem) {
+    if(teamainladder.value == teambinladder.value) {
+        teamainladder.setCustomValidity("Team can't comete with itself");
+        teambinladder.setCustomValidity("Team can't comete with itself");
     } else {
-        elem.srcElement.nextElementSibling.setCustomValidity("");
-        elem.srcElement.setCustomValidity("");
-    }
-}
-function checkSameTeamPreviousForm(elem) {
-    if(elem.srcElement.previousElementSibling.value == elem.srcElement.value) {
-        elem.srcElement.previousElementSibling.setCustomValidity("Team can't comete with itself");
-        elem.srcElement.setCustomValidity("Team can't comete with itself");
-    } else {
-        elem.srcElement.previousElementSibling.setCustomValidity("");
-        elem.srcElement.setCustomValidity("");
+        teamainladder.setCustomValidity("");
+        teambinladder.setCustomValidity("");
     }
 }
 function loginProcess(evt) {
