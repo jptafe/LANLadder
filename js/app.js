@@ -1,13 +1,30 @@
 checkForUpdates();
 isLoggedIn();
-// needs to disable menu items instead of forms themselves...
 
 //Interface manipulation
 function loggedOutMenu() {
-
+    menu_logout.setAttribute('hidden','hidden');
+    menu_login.removeAttribute('hidden');
+    menu_register.removeAttribute('hidden');
+    menu_addteam.setAttribute('hidden','hidden');
+    menu_addladder.setAttribute('hidden','hidden');
+    menu_creatematch.setAttribute('hidden','hidden');
+    menu_matchreport.setAttribute('hidden','hidden');
+    menu_teamlist.removeAttribute('hidden');
+    menu_joinkickteam.setAttribute('hidden','hidden');
+    UIkit.tab(nav_content_tabs).show(0);
 }
 function loggedInMenu() {
-
+    menu_logout.removeAttribute('hidden');
+    menu_login.setAttribute('hidden','hidden');
+    menu_register.setAttribute('hidden','hidden');
+    menu_addteam.removeAttribute('hidden');
+    menu_addladder.removeAttribute('hidden');
+    menu_creatematch.removeAttribute('hidden');
+    menu_matchreport.removeAttribute('hidden');
+    menu_teamlist.setAttribute('hidden', 'hidden');
+    menu_joinkickteam.removeAttribute('hidden');
+    UIkit.tab(nav_content_tabs).show(8);
 }
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -90,6 +107,9 @@ function clearForm(evt) {
         if(evt.srcElement[loop].localName == 'select') {
             evt.srcElement[loop].value = '0';
         }
+        if(evt.srcElement[loop].type == 'color') {
+            evt.srcElement[loop].value = '#000000';
+        }
     }
 }
 function populateStatusPanel() {
@@ -102,19 +122,13 @@ function populateStatusPanel() {
     status_panel.innerHTML = HTMLStatusValues;
 }
 // Events
-// Submit:
 document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
 document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
 document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
 document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
 document.getElementById('form_addladder').addEventListener('submit', function(e) {addLadderProcess(e)});
-document.getElementById('form_jointeam').addEventListener('submit', function(e) {joinTeamProcess(e)});
-document.getElementById('form_reportmatch').addEventListener('submit', function(e) {reportMatchProcess(e)});
-
-// change events
 document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeam(e)});
 document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeam(e)});
-
 document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
 document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
 document.getElementById('alert_dng').addEventListener('click', function(e) {alert_dng.setAttribute('hidden', 'hidden')});
@@ -159,7 +173,11 @@ function addTeamProcess(evt) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function(data) {
-                    getAllTeams();
+                    if(data.request == 'created new team') {
+                        getAllTeams();  
+                        setMsg('Team Created');
+                        clearForm(evt);
+                    }
                 });
             }
         )
@@ -208,6 +226,7 @@ function logoutNow(evt) {
             }
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
+                loggedOutMenu();
             });
         }
     )

@@ -215,7 +215,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"create new team");
+                    return Array("request"=>"created new team");
                 }
             } catch (PDOException $e) {
                 echo "createTeam error"; die();
@@ -261,8 +261,8 @@
             }
         }
         public function createMatch($team_a, $team_b, $ladder, $start) {
-            try{
-                $query = 'INSERT INTO played_match(team_a_id, team_b_id,
+            try {
+                $query = 'INSERT INTO played_match (team_a_id, team_b_id,
                     ladder_id, winning_team_id, losing_team_id, match_start)
                     VALUES (:team_a, :team_b, :ladder, 1, 1, :start)'; // 1 is unset
                 $stmt = $this->conn->prepare($query);
@@ -274,9 +274,10 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"create a match");
+                    return Array("request"=>"created a match");
                 }
             } catch (PDOException $e) {
+                echo $e;
                 echo "createMatch error"; die();
             }
         }
@@ -494,7 +495,7 @@
             
             $allladders = $this->allLadders();
             $allladdersHash = hash('md2', json_encode($allladders));
-            $allplayersCount = sizeof($allladders);
+            $allladdersCount = sizeof($allladders);
             
             $allteams = $this->allTeamlist();
             $allteamsHash = hash('md2', json_encode($allteams));
@@ -510,7 +511,7 @@
             
             return Array(
                 'players'=>Array('hash'=>$allplayersHash,'size'=>$allplayersCount), 
-                'ladders'=>Array('hash'=>$allladdersHash,'size'=>$allplayersCount), 
+                'ladders'=>Array('hash'=>$allladdersHash,'size'=>$allladdersCount), 
                 'teams'=>Array('hash'=>$allteamsHash,'size'=>$allteamsCount), 
                 'playedmatches'=>Array('hash'=>$allplayedmatchesHash,'size'=>$allplayedmatchesCount), 
                 'unplayedmatches'=>Array('hash'=>$allunplayedmatchesHash,'size'=>$allunplayedmatchesCount)

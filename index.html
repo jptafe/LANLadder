@@ -4,20 +4,22 @@
         <meta charset="UTF-8">
         <title>LANLadder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="favicon.ico" />
-        
-        <link rel="apple-touch-icon" sizes="128x128" href="img/icons/lanladder_128.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="128x128" href="img/icons/lanladder_128.png" />
 
-        <link rel="icon" type="image/png" sizes="64x64" href="img/icons/lanladder_64.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="img/icons/lanladder_32.png">
-        <link rel="icon" type="image/png" sizes="72x72" href="img/icons/lanladder_72.png">
+        <!-- Icons -->
+            <link rel="shortcut icon" href="favicon.ico" />
+            
+            <link rel="apple-touch-icon" sizes="128x128" href="img/icons/lanladder_128.png" />
+            <link rel="apple-touch-icon-precomposed" sizes="128x128" href="img/icons/lanladder_128.png" />
 
-        <meta name="msapplication-square70x70logo" content="img/icons/lanladder_70.png">
-        <meta name="msapplication-square150x150logo" content="img/icons/lanladder_150.png">
-        <meta name="msapplication-square310x310logo" content="img/icons/lanladder_310.png">
-        <meta name="msapplication-wide310x150logo" content="img/icons/lanladder_310.png">
-        <meta name="msapplication-TileColor" content="#2e2e2e">
+            <link rel="icon" type="image/png" sizes="64x64" href="img/icons/lanladder_64.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="img/icons/lanladder_32.png">
+            <link rel="icon" type="image/png" sizes="72x72" href="img/icons/lanladder_72.png">
+
+            <meta name="msapplication-square70x70logo" content="img/icons/lanladder_70.png">
+            <meta name="msapplication-square150x150logo" content="img/icons/lanladder_150.png">
+            <meta name="msapplication-square310x310logo" content="img/icons/lanladder_310.png">
+            <meta name="msapplication-wide310x150logo" content="img/icons/lanladder_310.png">
+            <meta name="msapplication-TileColor" content="#2e2e2e">
 
         <!-- UIkit -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.min.css" />
@@ -35,7 +37,7 @@
         <div class="uk-navbar-container">
             <div class="uk-navbar-left uk-light uk-background-secondary">
                 <span uk-toggle="target: #main_nav" type="button"><span uk-icon="icon: menu"></span></span>
-                <span id="status_panel">Teams 9 - Players - 49 - Ladders - 3 - Played Matches - 48</span>
+                <span id="status_panel"></span>
             </div>
         <div>
         <nav>
@@ -43,73 +45,71 @@
             <div id="main_nav" uk-offcanvas="overlay: true">
                 <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <ul uk-tab="connect: #content_tabs" class="uk-tab-left">
-                    <li class="">
+                <ul uk-tab="connect: #content_tabs" class="uk-tab-left" id="nav_content_tabs">
+                    <li id="menu_login">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="true">
                             <span uk-icon="icon: sign-in"></span>
                             Player Login
                         </a>
                     </li>
-                    <li class="">
+                    <li id="menu_register">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: pencil"></span>
                             Register
                         </a>
                     </li>
-                    <li class="">
+                    <li id="menu_addteam">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: users"></span>
                             Add Team
                         </a>
                     </li>
-                    <li class="">
+                    <li id="menu_addladder">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: calendar"></span>
                             Add Ladder
                         </a>
                     </li>
-                    <li class="">
+                    <li id="menu_creatematch">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: play-circle"></span>
                             Create Match
                         </a>
                     </li>
-                    <li class="">
+                    <li id="menu_joinkickteam">
                         <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
                             <span uk-icon="icon: users"></span>
-                            Join Team!
+                            Manage Teams
                         </a>
                     </li>
-                    <li class="">
-                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: microphone"></span>
-                            Report Match!
-                        </a>
-                    </li>
-                    <li class="">
-                        <a onclick="logoutNow();" href="#" aria-expanded="false">
-                            <span uk-icon="icon: sign-out"></span>
-                            Logout
-                        </a>
-                    </li>
-                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                    <li id="menu_destroysession">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: bolt"></span>
                             Destroy PHP Session!
                         </a>
                     </li>
-                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                    <li id="menu_teamlist">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: file-text"></span>
-                            Team & Player list
+                            Team &amp; Player list
                         </a>
                     </li>
-                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                    <li id="menu_rankings">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: list"></span>
                             Ladder Rankings
                         </a>
                     </li>
-                    <li class=""><a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
+                    <li id="menu_matchreport">
+                        <a onclick="UIkit.offcanvas(main_nav).hide();" href="" aria-expanded="false">
                             <span uk-icon="icon: microphone"></span>
-                            Match Report
+                            Report match
+                        </a>
+                    </li>
+                    <li id="menu_logout">
+                        <a onclick="logoutNow();" href="#" aria-expanded="false">
+                            <span uk-icon="icon: sign-out"></span>
+                            Logout
                         </a>
                     </li>
                 </ul>
@@ -279,60 +279,30 @@
                 </form> 
             </li>
             <li class="uk-fieldset">
-                <form id="form_jointeam" class="uk-width-1-1">
-                    <label>Join Team</label>
-                    <select name="player_id" min="1" onfocus="populatePlayers(this)" onchange="populatePlayers(this)" required>
-                        <option value="0">Choose Payer</option>
-                    </select>
-                    <select name="team_id" min="1" onfocus="populateAllTeamsInForm(this)" onchange="populateAllTeamsInForm(this)" required>
-                        <option value="0">Choose Team A</option>
-                    </select>
-                    <input type="submit" value="Join Team" class="uk-button uk-button-large uk-width-1-1">
-                </form>
-            </li>
-            <li class="uk-fieldset">
-                <form id="form_reportmatch" class="uk-width-1-1">
-                    <label>Report Match</label>
-                    <select name="ladder_id" min="1" onfocus="populateAllLaddersInForm(this)" onBlur="populateTeamsInLadder(this, this.value)" onChange="populateTeamsInLadder(this, this.value)" required>
-                        <option value="0" default>Choose a Ladder...</option>
-                    </select>
-                    <select name="team_id" min="1" required disabled>
-                        <option value="">Choose a Team...</option>
-                    </select>
-                    <input type="hidden" name="playerid" value="0">
-                    <input type="hidden" name="matchid" value="0">
-                    <select name="winloss" pattern=".{3,}" required>
-                        <option value="" default>Choose Outcome...</option>
-                        <option value="win">Win</option>
-                        <option value="loss">Loss</option>
-                        <option value="draw">Draw</option>
-                    </select>
-                    <input type="submit" value="Report Match" class="uk-button uk-button-large uk-width-1-1">
-                    <p> incomplete: Implement in another place</p>
-                </form>
-            </li>
-            <li class="uk-fieldset">
-                <p>Logout Complete</p>
+                moo choo
             </li>
             <li class="uk-fieldset">
                 <form id="form_php_session">
                     <a href="api/ws.php?reqcode=destroy" aria-expanded="false">Destroy PHP Session</a>
                 </form>
             </li>
-            <li>
+            <li class="uk-fieldset">
                 <div id="teams_with_players">
                     All Team List -&gt; players 
                 </div>
             </li>
-            <li>
+            <li class="uk-fieldset">
                 <div class="" id="panel_ladder_results">
                     All Ladder List -&gt; teams
                 </div>
             </li>
-            <li>
+            <li class="uk-fieldset">
                 <div class="" id="panel_ladder_team_report_form">
                     All Team List -&gt; players 
                 </div>
+            </li>
+            <li class="uk-fieldset">
+                <p>Logout Complete</p>
             </li>
         </ul>
 

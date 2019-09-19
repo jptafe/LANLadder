@@ -42,11 +42,9 @@ Current Status
  Admin End - Not Started
  
 Major Priorities:
- Show/hide menu items on auth status.
  Put an alert at the end of every .fetch to tell the user what happened
  Switch registration/add ladder to POST instead of GET
  Write FETCH requests to report match outcome & kick player from team
- Extend web service to handle auth functions based on $_SESSION uid, tid
  Implement file upload WS method as per classroom activity
 
 Long-term Priorities:
