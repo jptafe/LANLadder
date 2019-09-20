@@ -313,12 +313,12 @@ function addLadderProcess(evt) {
     var description = evt.srcElement[1].value;
     var memberNo = evt.srcElement[2].value;
     var teamColor = evt.srcElement[3].value.substr(1,6);
-    var teamImage = evt.srcElement[4].value;
-    var teamTime = new Date(evt.srcElement[5].value).toISOString();
+    var teamTime = new Date(evt.srcElement[4].value).toISOString();
     var teamTime = teamTime.replace('T', ' ');
     var teamTime = teamTime.replace(/-/g, '/');
     var teamTime = teamTime.split('Z');
     var teamTime = teamTime[0].split('.');
+    var teamImage = evt.srcElement[5].value; // the hidden field as a result of directly uplaoding the image
     var url = 'api/ws.php?reqcode=createladder&name=' + gameName + '&desc=' + description + '&members=' + memberNo + 
         '&color=' + teamColor + '&imageurl=' + teamImage + '&starttime=' + teamTime[0];
     fetch(url, {
