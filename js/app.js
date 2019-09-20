@@ -176,6 +176,7 @@ function addTeamProcess(evt) {
                     if(data.request == 'created new team') {
                         getAllTeams();  
                         setMsg('Team Created');
+                        populateStatusPanel();
                         clearForm(evt);
                     }
                 });
@@ -365,12 +366,14 @@ function checkForUpdates() {
                     if(oldHash.teams.hash != data.teams.hash) {
                         getAllTeams();
                     }
+                    /*
                     if(oldHash.playedmatches.hash != data.playedmatches.hash) {
                         getAllPlayedMatches();
                     }
                     if(oldHash.unplayedmatches.hash != data.unplayedmatches.hash) {
                         getAllUnPlayedMatches();
                     }
+                    */
                     localStorage.setItem('statushash', JSON.stringify(data));
                 }
                 populateStatusPanel();
