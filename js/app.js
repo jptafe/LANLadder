@@ -2,19 +2,6 @@ checkForUpdates();
 isLoggedIn();
 populateForms();
 
-function populateForms() {
-    var datetimes = document.getElementsByTagName('input');
-    for(var loop = 0; loop < datetimes.length;loop++) {
-        if(datetimes[loop].type == 'datetime-local') {
-            var startTime = new Date();
-            var startOffset = new Date().getTimezoneOffset() * 60 * 1000;
-            var localTime = startTime - startOffset;
-            newTime = new Date(localTime).toISOString();
-            datetimes[loop].value = newTime.substr(0, 19);
-        }
-    }
-}
-
 //Interface manipulation
 function loggedOutMenu() {
     menu_logout.setAttribute('hidden','hidden');
@@ -39,6 +26,18 @@ function loggedInMenu() {
     menu_teamlist.setAttribute('hidden', 'hidden');
     menu_joinkickteam.removeAttribute('hidden');
     UIkit.tab(nav_content_tabs).show(8);
+}
+function populateForms() {
+    var datetimes = document.getElementsByTagName('input');
+    for(var loop = 0; loop < datetimes.length;loop++) {
+        if(datetimes[loop].type == 'datetime-local') {
+            var startTime = new Date();
+            var startOffset = new Date().getTimezoneOffset() * 60 * 1000;
+            var localTime = startTime - startOffset;
+            newTime = new Date(localTime).toISOString();
+            datetimes[loop].value = newTime.substr(0, 17) + '00';
+        }
+    }
 }
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
