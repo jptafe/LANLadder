@@ -111,6 +111,8 @@ function clearForm(evt) {
             evt.srcElement[loop].value = '#000000';
         }
     }
+    ra_player_icon.innerHTML = '&nbsp;';
+    ra_icon.innerHTML = '&nbsp;';
 }
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
