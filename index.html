@@ -228,13 +228,14 @@
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>                    
-                        <input type="datetime-local" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input">
+                        <input type="datetime-local" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input" required>
                     </div>
+                    <input type="hidden" name="ladder_image" value="placeholder.png">
                     <div class="uk-inline uk-width-1-1 js-upload uk-placeholder uk-text-center">
                         <span uk-icon="icon: cloud-upload"></span>
                         <span class="uk-text-middle">Attach png or jpg by dropping them here or</span>
                         <div uk-form-custom>
-                            <input type="file" name="ladder_image" title="image is alpha numeric, no spaces">
+                            <input type="file" name="ladder_image_upload" title="image is alpha numeric, no spaces">
                             <span class="uk-link">selecting one</span>
                         </div>
                     </div>
@@ -269,7 +270,7 @@
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>   
-                        <input type="datetime-local" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input" required> 
+                        <input type="datetime-local" onload="console.log('foo');" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input" required> 
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>   

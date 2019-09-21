@@ -291,17 +291,17 @@
                 $stmt->bindParam(':desc', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':start', $start, PDO::PARAM_STR);
                 $stmt->bindParam(':color', $color, PDO::PARAM_STR);
-                $stmt->bindParam(':image', $image, PDO::PARAM_INT);
+                $stmt->bindParam(':image', $image, PDO::PARAM_STR);
                 $stmt->bindParam(':members', $members, PDO::PARAM_INT);
                 $stmt->bindParam(':start', $start, PDO::PARAM_STR);
                 $result = $stmt->execute();
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"create a ladder");
+                    return Array("request"=>"created a ladder");
                 }
             } catch (PDOException $e) {
-                echo "createMatch error"; die();
+                echo "createLadder error"; die();
             }
         }
         public function removeTeam($teamID) {

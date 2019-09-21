@@ -1,5 +1,19 @@
 checkForUpdates();
 isLoggedIn();
+populateForms();
+
+function populateForms() {
+    var datetimes = document.getElementsByTagName('input');
+    for(var loop = 0; loop < datetimes.length;loop++) {
+        if(datetimes[loop].type == 'datetime-local') {
+            var startTime = new Date();
+            var startOffset = new Date().getTimezoneOffset() * 60 * 1000;
+            var localTime = startTime - startOffset;
+            newTime = new Date(localTime).toISOString();
+            datetimes[loop].value = newTime.substr(0, 19);
+        }
+    }
+}
 
 //Interface manipulation
 function loggedOutMenu() {
@@ -309,6 +323,9 @@ function addMatchProcess(evt) {
         )
     }
 }
+function imageUploadProcess(evt) {
+    evt.preventDefault();
+}
 function addLadderProcess(evt) {
     evt.preventDefault();
     var gameName = evt.srcElement[0].value;
@@ -334,6 +351,8 @@ function addLadderProcess(evt) {
             }
             response.json().then(function(data) {
                 getAllLadders();
+                setMsg('Ladder Created');
+                clearForm(evt);
             });
         }
     )

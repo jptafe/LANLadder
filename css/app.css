@@ -11,25 +11,6 @@
 a:hover {
     text-decoration: none;
 }
-figcaption {
-    display: inline-block;
-    width: 24em;
-    border-radius: 8px;
-    box-shadow: gray .5em .5em .5em;
-    margin: .7em .6em;
-    background-color: LemonChiffon;
-    padding: 1em;
-    vertical-align: top;
-    min-height: 4em;
-}
-figcaption a {
-    padding-left: 2em;
-}
-form, section {
-    display: inline-block;
-    width: 15em;
-    vertical-align: top;
-}
 nav p {
     display: inline-block;
     width: 4em;
@@ -104,7 +85,9 @@ h1 {
 }
 input:not(:placeholder-shown):not(:focus):invalid,
 select:invalid {
-    border: #FF5733 solid 1px;
+    color: white;
+    font-weight: 600;
+    background-color: #FF5733;
 }
 select:disabled, input:disabled {
     border: lightgray dotted 1px;
@@ -118,6 +101,7 @@ input:disabled::placeholder, select:disabled {
     background-color: #900C3E;
     color: #FFC300;
     border: 0;
+    width: 100%;
 }
 .uk-select, .uk-input {
     background-color: #FFC300;
@@ -142,6 +126,9 @@ input:disabled::placeholder, select:disabled {
 }
 .uk-accordion-title:hover, .uk-open > .uk-accordion-title {
     color: white;
+}
+.uk-accordion-title:focus {
+    color: #FF5733;
 }
 #content_tabs {
     background-image: linear-gradient(-30deg, #ff5633, #c70039);
