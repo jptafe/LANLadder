@@ -151,7 +151,7 @@ document.getElementById('pass').addEventListener('change', function(e) {passChec
 document.getElementById('pass2').addEventListener('change', function(e) {passCheck(e)});
 
 function passCheck(evt) {
-    if(pass.checkValidity() || pass2.checkValidity()) {
+    if(pass.checkValidity() == false || pass2.checkValidity() == false) {
         if(pass.value != pass2.value) {
             pass.setCustomValidity("passwords do not match");
             pass2.setCustomValidity("passwords do not match");
@@ -219,7 +219,8 @@ function registerPlayerProcess(evt) {
     var pass2 = evt.srcElement[2].value;
     var seated = evt.srcElement[3].value;
     var team_id = evt.srcElement[4].value;
-    var url = 'api/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
+    var image = evt.srcElement[5].value;
+    var url = 'api/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&imageurl=' + image + '&password=' + pass1 + '&location=' + seated;
     if(pass1 != pass2) { 
         evt.srcElement[1].setCustomValidity("passwords do not match");
         evt.srcElement[2].setCustomValidity("passwords do not match");
