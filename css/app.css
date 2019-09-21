@@ -90,18 +90,11 @@ form p, section p {
     background-color: peachpuff;
 }
 #status_panel {
-    position: fixed;
     display: flex;
     margin-left: 2em;
 }
 #status_panel a {
     margin: 0 .5em .2em 0;
-}
-#content_tabs {
-    margin: .6em auto;
-    border-radius: 8px;
-    box-shadow: gray .5em .5em .5em;
-    padding: 1em;
 }
 .uk-navbar-container > div {
     background-image: linear-gradient(-30deg, ghostwhite, mintgreen);
@@ -114,4 +107,43 @@ form p, section p {
     bottom: 0; 
     width: 90%;
     margin: 5%;
+}
+.uk-background-secondary, .uk-offcanvas-bar {
+    background-image: linear-gradient(#571845, #900C3E);
+}
+.uk-button, tr th {
+    background-color: #900C3E;
+    color: #FFC300;
+    border: 0;
+}
+.uk-select, .uk-input {
+    background-color: #FFC300;
+    color: #571845;
+    border: 0;
+}
+.uk-input::placeholder {
+    color: #571845;
+}
+.uk-select:active, .uk-input:active, .uk-input::placeholder:active {
+    background-color: white;
+    color: #900C3E;
+}
+.uk-fieldset {
+    color: white;
+    margin: 0 auto;
+    padding: 1em;
+}
+.uk-accordion-title {
+    color: #FFC300;
+}
+.uk-accordion-title:hover, .uk-open > .uk-accordion-title {
+    color: white;
+}
+#content_tabs, body, html {
+    background-color: #c70039;
+}
+legend {
+    color: white;
+    font-weight: 900;
+    margin-bottom: 1em;
 }
