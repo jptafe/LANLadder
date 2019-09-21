@@ -147,7 +147,20 @@ document.getElementById('teambinladder').addEventListener('change', function(e) 
 document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
 document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
 document.getElementById('alert_dng').addEventListener('click', function(e) {alert_dng.setAttribute('hidden', 'hidden')});
+document.getElementById('pass').addEventListener('change', function(e) {passCheck(e)});
+document.getElementById('pass2').addEventListener('change', function(e) {passCheck(e)});
 
+function passCheck(evt) {
+    if(pass.checkValidity() || pass2.checkValidity()) {
+        if(pass.value != pass2.value) {
+            pass.setCustomValidity("passwords do not match");
+            pass2.setCustomValidity("passwords do not match");
+        } else {
+            pass.setCustomValidity("");
+            pass2.setCustomValidity("");
+        }
+    }
+}
 function setMsg(message) {
     alert_msg_msg.innerHTML = message;
     alert_msg.removeAttribute('hidden');
@@ -206,10 +219,13 @@ function registerPlayerProcess(evt) {
     var pass2 = evt.srcElement[2].value;
     var seated = evt.srcElement[3].value;
     var team_id = evt.srcElement[4].value;
-    var url = 'ap/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
+    var url = 'api/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&password=' + pass1 + '&location=' + seated;
     if(pass1 != pass2) { 
-        alert('pass does not match');
+        evt.srcElement[1].setCustomValidity("passwords do not match");
+        evt.srcElement[2].setCustomValidity("passwords do not match");
     } else {
+        evt.srcElement[1].setCustomValidity("");
+        evt.srcElement[2].setCustomValidity("");
         if(team_id == 0) {
             team_id = 1;
         }
@@ -224,6 +240,9 @@ function registerPlayerProcess(evt) {
                 }
                 response.json().then(function(data) {
                     getAllPlayers();
+                    setMsg('Player Created');
+                    populateStatusPanel();
+                    clearForm(evt);
                 });
             }
         )
