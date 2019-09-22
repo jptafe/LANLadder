@@ -10,8 +10,9 @@
         private $lastrequestArray = null;
         private $authCode = null;
         private $uid;
-        private $tid;
         private $icon;
+        private $tid;
+        private $ticon;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -68,18 +69,25 @@
         }
         function isAuth() {
             if($this->authCode !== null) {
-                return Array('auth'=>$this->authCode, 'authicon'=>$this->icon);
+                return Array('auth'=>$this->authCode, 
+                             'authicon'=>$this->icon, 
+                             'teamicon'=>$this->ticon);
             } else {
                 return Array('auth'=>-1);
             }
         }
         function setAuth($incomingAuth) {
+            global $databaseOBJECT;
             $stringAuth = json_encode($incomingAuth);
             $this->authCode = hash('md2', $stringAuth);
             $this->uid = $incomingAuth['id'];
             $this->tid = $incomingAuth['team_id'];
             $this->icon = $incomingAuth['image'];
-            return Array('name'=>$this->authCode, 'authicon'=>$this->icon);
+            $team = $databaseOBJECT->getTeam($incomingAuth['team_id']);
+            $this->ticon = $team['image'];
+            return Array('name'=>$this->authCode, 
+                        'authicon'=>$this->icon,
+                        'teamicon'=>$this->ticon);
         }
         function unsetAuth() {
             $this->authCode = null;

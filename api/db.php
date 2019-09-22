@@ -149,22 +149,33 @@
         }
         public function reportPlayedmatch($matchID, $winner, $loser) {
             try {
-                $sql = 'UPDATE played_match SET winning_team_id = :winner, 
-                        losing_team_id = :loser WHERE id = :matchid';
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bindParam(':winner', $winner, PDO::PARAM_INT);
-                $stmt->bindParam(':loser', $loser, PDO::PARAM_INT);
+                $check_sql = 'SELECT * from played_match WHERE id = :matchid';
+                $stmt = $this->conn->prepare($check_sql);
                 $stmt->bindParam(':matchid', $matchID, PDO::PARAM_INT);
-                $result = $stmt->execute();
-                if($result == false) {
-                    return Array("matchreport"=>"fail");
-                } else {
-                    return Array("matchreport"=>"success");
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if(sizeof($result) > 0) {
+                    if(($result['team_a_id'] == $winner || $result['team_a_id'] == $loser) &&
+                            ($result['team_b_id'] == $winner || $result['team_b_id'] == $loser)) {
+                        $sql = 'UPDATE played_match SET winning_team_id = :winner, 
+                        losing_team_id = :loser WHERE id = :matchid';
+                        $stmt = $this->conn->prepare($sql);
+                        $stmt->bindParam(':winner', $winner, PDO::PARAM_INT);
+                        $stmt->bindParam(':loser', $loser, PDO::PARAM_INT);
+                        $stmt->bindParam(':matchid', $matchID, PDO::PARAM_INT);
+                        $result = $stmt->execute();
+                        if($result == false) {
+                            return Array("matchreport"=>"fail");
+                        } else {
+                            return Array("matchreport"=>"success");
+                        }
+                    }
                 }
+                return Array("matchreport"=>"fail");
             } catch(PDOException $e) {
                 echo $e;
                 echo "match report error"; die();
-            } 
+            }
         }
         function allPlayedMatches() {
             try {
@@ -371,6 +382,22 @@
                 echo "teamsWithZeroPlayersList Error"; die();
             }
         }
+        public function getTeam($teamid) { // Probably not needed
+            try {
+                $team = "SELECT * FROM team WHERE id = :teamid";
+                $stmt = $this->conn->prepare($team);
+                $stmt->bindParam(':teamid', $teamid, PDO::PARAM_INT);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return false;
+                } else {
+                    return $result;
+                }
+            } catch(PDOException $e) {
+                echo "Get team Error"; die();
+            }
+        }        
         public function ladderTeamlist($ladderID) {
             try {
                 $teaminladder = "SELECT UNIQUE * FROM team

@@ -130,6 +130,7 @@ function clearForm(evt) {
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
     var HTMLStatusValues = '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('authicon') + '"></i></a>' +
+    '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('teamicon') + '"></i></a>' +
         '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
         '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONHash.teams.size + 
         '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONHash.ladders.size +
@@ -265,6 +266,7 @@ function logoutNow(evt) {
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
                 localStorage.setItem('authicon', null);
+                localStorage.setItem('teamicon', null);
                 loggedOutMenu();
                 populateStatusPanel();
             });
@@ -292,6 +294,8 @@ function reportMatchProcess(evt) {
                 } else {
                     setMsg('Match reported');
                     evt.srcElement.style = 'display: none';
+                    checkForUpdates();
+                    populateStatusPanel();
                 }
             });
         }
@@ -465,10 +469,12 @@ function isLoggedIn() {
                 if(data.auth != -1) {
                     localStorage.setItem('authcode', data.auth);
                     localStorage.setItem('authicon', data.authicon);
+                    localStorage.setItem('teamicon', data.teamicon);
                     loggedInMenu();
                 } else {
                     localStorage.setItem('authcode', null);
                     localStorage.setItem('authicon', null);
+                    localStorage.setItem('teamicon', null);
                     loggedOutMenu();
                 }
                 populateStatusPanel();
@@ -531,12 +537,14 @@ function loginProcess(evt) {
                 if(data.name == -1) {
                     localStorage.setItem('authcode', null);
                     localStorage.setItem('authicon', null);
+                    localStorage.setItem('teamicon', null);
                     setWrn('Authentication failure');
                     loggedOutMenu();
                     clearForm(evt);
                 } else {
                     localStorage.setItem('authcode', data.name);
                     localStorage.setItem('authicon', data.authicon);
+                    localStorage.setItem('teamicon', data.teamicon);
                     setMsg('Authentication success');
                     loggedInMenu();
                     clearForm(evt);

@@ -45,9 +45,8 @@ Major Priorities:
  1 Switch add player & add ladder to POST instead of GET
  2 Put an alert at the end of every .fetch to tell the user what happened
  3 Write a panel for players and teams to allow player to join & kick
- 4 Write FETCH requests to report match outcome
- 5 secure 3 & 4 user in team can report/kick 
- 6 Implement file upload WS method as per classroom activity
+ 4 secure No 3 user in team can report/kick 
+ 5 Implement file upload WS method as per classroom activity
 
 Long-term Priorities:
  Make auth work with Google API 
