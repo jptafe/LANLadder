@@ -78,7 +78,7 @@ form p, section p {
     margin-right: 1.4em;
 }
 #alert_msg, #alert_wrn, #alert_dng {
-    position: absolute;
+    position: fixed;
     box-shadow: 2px 2px 8px maroon, -2px -2px 8px maroon,
                 -2px 2px 8px maroon, 2px -2px 8px maroon;
     bottom: 0; 

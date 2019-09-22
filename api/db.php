@@ -151,17 +151,18 @@
             try {
                 $sql = 'UPDATE played_match SET winning_team_id = :winner, 
                         losing_team_id = :loser WHERE id = :matchid';
-                $stmt = $this->conn->prepare($matches);
+                $stmt = $this->conn->prepare($sql);
                 $stmt->bindParam(':winner', $winner, PDO::PARAM_INT);
                 $stmt->bindParam(':loser', $loser, PDO::PARAM_INT);
                 $stmt->bindParam(':matchid', $matchID, PDO::PARAM_INT);
-                $stmt->execute();
+                $result = $stmt->execute();
                 if($result == false) {
                     return Array("matchreport"=>"fail");
                 } else {
                     return Array("matchreport"=>"success");
                 }
             } catch(PDOException $e) {
+                echo $e;
                 echo "match report error"; die();
             } 
         }

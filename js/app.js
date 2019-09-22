@@ -274,8 +274,8 @@ function logoutNow(evt) {
 function reportMatchProcess(evt) {
     evt.preventDefault();
     var matchid = evt.srcElement[0].value;
-    var win = evt.srcElement[0].value;
-    var loss = evt.srcElement[0].value;
+    var win = evt.srcElement[1].value;
+    var loss = evt.srcElement[2].value;
     var url = 'api/ws.php?reqcode=reportplayedmatch&matchid=' + matchid + '&winner=' + win + '&loser=' + loss;
     fetch(url, {
         method: 'GET',
