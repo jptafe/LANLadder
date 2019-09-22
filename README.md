@@ -5,7 +5,7 @@
    /   /   ---  / | / /   ---  /  / /  / /-  /--/                    /
   /   /___/   \/  |/ /___/   \/__/ /__/ /__ /   \    LAN-Only       /
  /                                                                 /
-+.................................................................+ 
++.................................................................+
 ::
 
 
@@ -20,8 +20,8 @@ Business Rules:
 * A player can't join a team that is full, if they are successful their current team is overwritten, and if that team then has zero players it too will be deleted
 * Played matches will only appear on the ladder if both the winning team and losing team have reported the outcome correctly. That outcome will be reported in the Team view, by any team member.
 * Once a result has been fully reported it can't be changed except by admin
-* The number of games played for a valid ladder must be equal to the number of teams in the ladder 
-* The authenticated player must return a user token to the API supplied by the server during auth to access secure API functions 
+* The number of games played for a valid ladder must be equal to the number of teams in the ladder
+* The authenticated player must return a user token to the API supplied by the server during auth to access secure API functions
 * Teams will choose from a library of approved iconagraphy (to avoid ugly or unsavoury icons)  
 * Team ID 1 = Unset, Team ID 2 = Forefit
 
@@ -40,15 +40,16 @@ Current Status
  Frontend - Test html/css/js created to interact with web service
  Backend - Web Service in Test phase
  Admin End - Not Started
- 
+
 Major Priorities:
  1 Switch add player & add ladder to POST instead of GET
  2 Put an alert at the end of every .fetch to tell the user what happened
  3 Write a panel for players and teams to allow player to join & kick
- 4 secure No 3 user in team can report/kick 
+ 4 secure No 3 user in team can report/kick
  5 Implement file upload WS method as per classroom activity
 
 Long-term Priorities:
- Make auth work with Google API 
+ Make auth work with Google API
+ get a JS photo editor to square uploaded image
 
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/jptafe/LANLadder)
