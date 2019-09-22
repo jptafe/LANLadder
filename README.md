@@ -31,11 +31,6 @@ Technologies:
 * If the username is the steamid, user icons will be pulled from Steam API
 * Administration panel will be developed using either Vue and API or Symfony
 
-RoadMap
- team ID link to pre-made user icons & Screen Names
- uikit-based js file upload for ladder/team
- Password Reset via email post deployment online (AWS cognito?)
-
 Current Status
  Frontend - Test html/css/js created to interact with web service
  Backend - Web Service in Test phase
@@ -51,5 +46,7 @@ Major Priorities:
 Long-term Priorities:
  Make auth work with Google API
  get a JS photo editor to square uploaded image
+ Password Reset via email post deployment online (AWS cognito?)
+
 
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/jptafe/LANLadder)
