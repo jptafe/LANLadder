@@ -55,22 +55,32 @@ article aside h5:nth-child(even) {
 form p, section p {
     background-color: peachpuff;
 }
+.uk-navbar-left {
+    height: 2em;
+}
 #status_panel {
     display: flex;
-    margin-left: 2em;
+    margin-left: 1em;
 }
 #status_panel a {
     margin: 0 .5em .2em 0;
 }
+#status_panel a i {
+    margin-right: .6em;
+}
 .uk-navbar-container > div {
     background-image: linear-gradient(-30deg, ghostwhite, mintgreen);
+}
+.uk-navbar-container > div > span {
+    margin-left: .4em;
 }
 .uk-form-icon svg {
     margin-right: 1.4em;
 }
 #alert_msg, #alert_wrn, #alert_dng {
     position: absolute;
-    box-shadow: 2px 2px 8px maroon, -2px -2px 8px maroon;
+    box-shadow: 2px 2px 8px maroon, -2px -2px 8px maroon,
+                -2px 2px 8px maroon, 2px -2px 8px maroon;
     bottom: 0; 
     width: 90%;
     margin: 5%;
@@ -109,6 +119,11 @@ input:disabled::placeholder, select:disabled {
     border: 0;
     margin: .2em 0;
 }
+select { /* fails to remove arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 .uk-input::placeholder {
     color: #571845;
 }
@@ -133,10 +148,9 @@ input:disabled::placeholder, select:disabled {
 #content_tabs {
     background-image: linear-gradient(-30deg, #ff5633, #c70039);
     margin: 0 auto;
-    min-height: 95vh;
-
+    min-height: 94.9vh;
 }
-body, html {
+body, html, body > div > div:nth-child(2) {
     background-color: #c70039;
 }
 legend {
@@ -146,4 +160,9 @@ legend {
 }
 .ra {
     text-shadow: 2px 2px 8px maroon, -2px -2px 8px maroon;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    opacity: 1;
 }

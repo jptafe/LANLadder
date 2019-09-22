@@ -41,6 +41,18 @@
                     throw new APIException("team B ID not a valid ID");
                 }
             }
+            if(isset($_GET['winner'])) {
+                $winner = validate($_GET['winner'], 'primarykey');
+                if($winner == false) {
+                    throw new APIException("team winner ID not valid");
+                }
+            }
+            if(isset($_GET['loser'])) {
+                $loser = validate($_GET['loser'], 'primarykey');
+                if($loser == false) {
+                    throw new APIException("team loser ID not valid");
+                }
+            }
             if(isset($_GET['playerid'])) {
                 $playerID = validate($_GET['playerid'], 'primarykey');
                 if($playerID == false) {
@@ -164,8 +176,13 @@
                     break;
                 /// UPDATE played_match with results
                 case "reportplayedmatch":
-                    if(isset($matchID) && isset($playerID) && isset($winLoss)) {
-                        $result = $databaseOBJECT->reportPlayedmatch($matchID, $playerID, $winLoss);
+                    if(isset($matchID) && isset($winner) && isset($loser)) {
+                        if($winner == $_SESSION['sessionOBJ']->tid() ||
+                            $loser == $_SESSION['sessionOBJ']->tid()) {
+                            $result = $databaseOBJECT->reportPlayedmatch($matchID, $winner, $loser);
+                        } else {
+                            $result = Array('matchreport'=>'fail');
+                        }
                     } else {
                         throw new APIException("played match ids missing");
                     }

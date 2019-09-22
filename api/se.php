@@ -11,6 +11,7 @@
         private $authCode = null;
         private $uid;
         private $tid;
+        private $icon;
 
         public function __construct() {
             if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -67,7 +68,7 @@
         }
         function isAuth() {
             if($this->authCode !== null) {
-                return Array('auth'=>$this->authCode);
+                return Array('auth'=>$this->authCode, 'authicon'=>$this->icon);
             } else {
                 return Array('auth'=>-1);
             }
@@ -77,12 +78,18 @@
             $this->authCode = hash('md2', $stringAuth);
             $this->uid = $incomingAuth['id'];
             $this->tid = $incomingAuth['team_id'];
-            return Array('name'=>$this->authCode);
+            $this->icon = $incomingAuth['image'];
+            return Array('name'=>$this->authCode, 'authicon'=>$this->icon);
         }
         function unsetAuth() {
             $this->authCode = null;
             $this->uid = null;
+            $this->tid = null;
+            $this->icon = null;
             return Array("name"=>"-1");
+        }
+        function tid() {
+            return $this->tid;
         }
     }
 ?>

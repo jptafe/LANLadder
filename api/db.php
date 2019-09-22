@@ -147,8 +147,23 @@
                 echo "teamsInLadder Error"; die();
             }
         }
-        public function reportPlayedmatch($matchID, $playerID, $winLoss) {
-            return Array("request"=>"report played match");
+        public function reportPlayedmatch($matchID, $winner, $loser) {
+            try {
+                $sql = 'UPDATE played_match SET winning_team_id = :winner, 
+                        losing_team_id = :loser WHERE id = :matchid';
+                $stmt = $this->conn->prepare($matches);
+                $stmt->bindParam(':winner', $winner, PDO::PARAM_INT);
+                $stmt->bindParam(':loser', $loser, PDO::PARAM_INT);
+                $stmt->bindParam(':matchid', $matchID, PDO::PARAM_INT);
+                $stmt->execute();
+                if($result == false) {
+                    return Array("matchreport"=>"fail");
+                } else {
+                    return Array("matchreport"=>"success");
+                }
+            } catch(PDOException $e) {
+                echo "match report error"; die();
+            } 
         }
         function allPlayedMatches() {
             try {
@@ -163,7 +178,7 @@
                     return $result;
                 }
             } catch(PDOException $e) {
-                echo "playersinTeam"; die();
+                echo "played matches error"; die();
             }
         }
         function allUnReportedMatches() {

@@ -82,8 +82,8 @@ function laddersWithUnplayedMatches() {
                 .replace(/{{ladderImage}}/g, JSONLadders[loop].image)
                 .replace(/{{ladderColor}}/g, JSONLadders[loop].color)
                 .replace(/{{ladderID}}/g, JSONLadders[loop].id);
-        renderedHTML += '<div class="uk-accordion-content" id="reported_ladder_list_' + JSONLadders[loop].id + '">';
-        renderedHTML += '<div uk-spinner></div>';
+        renderedHTML += '<div class="uk-accordion-content" id="reported_ladder_list_' + JSONLadders[loop].id + '" uk-grid>';
+        renderedHTML += '<p uk-spinner></p>';
         renderedHTML += '</div>';
         renderedHTML += '</li>';
     }
@@ -129,11 +129,13 @@ function clearForm(evt) {
 }
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
-    var HTMLStatusValues = '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
+    var HTMLStatusValues = '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('authicon') + '"></i></a>' +
+        '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
         '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONHash.teams.size + 
         '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONHash.ladders.size +
         '</a><a href="#" title="played matches"><span uk-icon="icon: play-circle"></span>:' + JSONHash.playedmatches.size + 
-        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONHash.unplayedmatches.size + '</a>';
+        '</a><a href="#" title="unplayed matches"><span uk-icon="icon: microphone"></span>:' + JSONHash.unplayedmatches.size + 
+        '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
 // Events
@@ -262,14 +264,38 @@ function logoutNow(evt) {
             }
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
+                localStorage.setItem('authicon', null);
                 loggedOutMenu();
+                populateStatusPanel();
             });
         }
     )
 }
 function reportMatchProcess(evt) {
     evt.preventDefault();
-    console.log('api/ws.php?reqcode=reportplayedmatch&playerid=1&matchid=2&winloss=win');
+    var matchid = evt.srcElement[0].value;
+    var win = evt.srcElement[0].value;
+    var loss = evt.srcElement[0].value;
+    var url = 'api/ws.php?reqcode=reportplayedmatch&matchid=' + matchid + '&winner=' + win + '&loser=' + loss;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.matchreport == 'fail') {
+                    setWrn('Report Error');
+                } else {
+                    setMsg('Match reported');
+                    evt.srcElement.style = 'display: none';
+                }
+            });
+        }
+    )    
 }
 function joinTeamProcess(evt) {
     evt.preventDefault();
@@ -297,9 +323,9 @@ function joinTeamProcess(evt) {
 // Admin functions
 function addMatchProcess(evt) {
     evt.preventDefault();
-    var teamA = evt.srcElement[0].value;
-    var teamB = evt.srcElement[1].value;
-    var ladder = evt.srcElement[2].value;
+    var ladder = evt.srcElement[0].value;
+    var teamA = evt.srcElement[1].value;
+    var teamB = evt.srcElement[2].value;
     var starttime = new Date(evt.srcElement[3].value).toISOString();
     var starttime = starttime.replace('T', ' ');
     var starttime = starttime.replace(/-/g, '/');
@@ -336,7 +362,10 @@ function addMatchProcess(evt) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function(data) {
-                    //getAllUnPlayedMatches();
+                    checkForUpdates();
+                    populateStatusPanel();
+                    setMsg('Match Created');
+                    clearForm(evt);
                 });
             }
         )
@@ -434,12 +463,15 @@ function isLoggedIn() {
             }
             response.json().then(function(data) {
                 if(data.auth != -1) {
-                    localStorage.setItem('authcode', data.auth); // this needs to be a has
+                    localStorage.setItem('authcode', data.auth);
+                    localStorage.setItem('authicon', data.authicon);
                     loggedInMenu();
                 } else {
                     localStorage.setItem('authcode', null);
+                    localStorage.setItem('authicon', null);
                     loggedOutMenu();
                 }
+                populateStatusPanel();
                 teamsWithPlayers(); 
                 ladderListWithCompletedResults();
                 laddersWithUnplayedMatches();
@@ -498,14 +530,17 @@ function loginProcess(evt) {
             response.json().then(function(data) {
                 if(data.name == -1) {
                     localStorage.setItem('authcode', null);
+                    localStorage.setItem('authicon', null);
                     setWrn('Authentication failure');
                     loggedOutMenu();
                     clearForm(evt);
                 } else {
                     localStorage.setItem('authcode', data.name);
+                    localStorage.setItem('authicon', data.authicon);
                     setMsg('Authentication success');
                     loggedInMenu();
                     clearForm(evt);
+                    populateStatusPanel();
                 }
             });
         }
@@ -650,9 +685,13 @@ function getALadderofUnlayedMatches(ladderID) {
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id)
                             .replace(/{{team_b_id}}/g, data[loop].team_b_id);
                     }
-                    var HTMLLadderReportHead = '<div class="uk-width-1-1" uk-grid><div class="uk-width-1-6">Match ID</div><div class="uk-width-1-3">Winner</div>' +
+                    var HTMLLadderReportHead = '<div class="uk-grid uk-width-1-1"><div class="uk-width-1-6">Match ID</div><div class="uk-width-1-3">Winner</div>' +
                                 '<div class="uk-width-1-3">Loser</div><div class="uk-width-1-6">Report</div></div>';
                     document.getElementById(HTMLladderID).innerHTML = HTMLLadderReportHead + HTMLLadderReport; 
+                    for(var loop = 0;loop < data.length;loop++) {
+                        var eventid = 'match_report_form_' + data[loop].id;
+                        document.getElementById(eventid).addEventListener('submit', function(e) {reportMatchProcess(e)});
+                    }
                 }
             });
         }
