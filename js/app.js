@@ -108,25 +108,6 @@ function ladderListWithCompletedResults() {
     }
     panel_ladder_results.innerHTML = renderedHTML + '</ul>';
 }
-function clearForm(evt) {
-    for(var loop = 0;loop < evt.srcElement.length;loop++) {
-        if(evt.srcElement[loop].type == 'text' || 
-                evt.srcElement[loop].type == 'password') {
-            evt.srcElement[loop].value = '';
-        }
-        if(evt.srcElement[loop].type == 'number') {
-            evt.srcElement[loop].value = '0';
-        }
-        if(evt.srcElement[loop].localName == 'select') {
-            evt.srcElement[loop].value = '0';
-        }
-        if(evt.srcElement[loop].type == 'color') {
-            evt.srcElement[loop].value = '#000000';
-        }
-    }
-    ra_player_icon.innerHTML = '&nbsp;';
-    ra_icon.innerHTML = '&nbsp;';
-}
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
     if(localStorage.getItem('authcode') != 'null') {
@@ -144,20 +125,25 @@ function populateStatusPanel() {
         '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
-// Events
-document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
-document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
-document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
-document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
-document.getElementById('form_addladder').addEventListener('submit', function(e) {addLadderProcess(e)});
-document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeam(e)});
-document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeam(e)});
-document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
-document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
-document.getElementById('alert_dng').addEventListener('click', function(e) {alert_dng.setAttribute('hidden', 'hidden')});
-document.getElementById('pass').addEventListener('change', function(e) {passCheck(e)});
-document.getElementById('pass2').addEventListener('change', function(e) {passCheck(e)});
-
+function clearForm(evt) {
+    for(var loop = 0;loop < evt.srcElement.length;loop++) {
+        if(evt.srcElement[loop].type == 'text' || 
+                evt.srcElement[loop].type == 'password') {
+            evt.srcElement[loop].value = '';
+        }
+        if(evt.srcElement[loop].type == 'number') {
+            evt.srcElement[loop].value = '0';
+        }
+        if(evt.srcElement[loop].localName == 'select') {
+            evt.srcElement[loop].value = '0';
+        }
+        if(evt.srcElement[loop].type == 'color') {
+            evt.srcElement[loop].value = '#000000';
+        }
+    }
+    ra_player_icon.removeAttribute('class');
+    ra_icon.removeAttribute('class');
+}
 function passCheck(evt) {
     if(pass.checkValidity() == false || pass2.checkValidity() == false) {
         if(pass.value.length > 0 && pass2.value.length > 0 ) {
@@ -189,11 +175,25 @@ function setDng(danger) {
     alert_dng.removeAttribute('hidden');
     setTimeout(function () { alert_dng.setAttribute('hidden', 'hidden')}, 10000);
 }
+document.getElementById('form_login').addEventListener('submit', function(e) {loginProcess(e)});
+document.getElementById('form_addteam').addEventListener('submit', function(e) {addTeamProcess(e)});
+document.getElementById('form_addmatch').addEventListener('submit', function(e) {addMatchProcess(e)});
+document.getElementById('form_regplayer').addEventListener('submit', function(e) {registerPlayerProcess(e)});
+document.getElementById('form_addladder').addEventListener('submit', function(e) {addLadderProcess(e)});
+document.getElementById('teamainladder').addEventListener('change', function(e) {checkSameTeam(e)});
+document.getElementById('teambinladder').addEventListener('change', function(e) {checkSameTeam(e)});
+document.getElementById('alert_msg').addEventListener('click', function(e) {alert_msg.setAttribute('hidden', 'hidden')});
+document.getElementById('alert_wrn').addEventListener('click', function(e) {alert_wrn.setAttribute('hidden', 'hidden')});
+document.getElementById('alert_dng').addEventListener('click', function(e) {alert_dng.setAttribute('hidden', 'hidden')});
+document.getElementById('pass').addEventListener('change', function(e) {passCheck(e)});
+document.getElementById('pass2').addEventListener('change', function(e) {passCheck(e)});
+/*
 function showPlayersForm(evt) {
     // GIMPED FORM so it does not submit
     evt.preventDefault();
     console.log('showPlayersForm');
 }
+*/
 // Authenticted functions
 function addTeamProcess(evt) {
     evt.preventDefault();
@@ -270,7 +270,7 @@ function registerPlayerProcess(evt) {
             }
         )
     } 
-} 
+}
 function logoutNow(evt) {
     UIkit.offcanvas(main_nav).hide();
     fetch('api/ws.php?reqcode=deauth', {

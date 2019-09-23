@@ -51,10 +51,6 @@ article aside h5:nth-child(even) {
 .defunct {
     background-color: gainsboro;
 }
-/* debugging info */
-form p, section p {
-    background-color: peachpuff;
-}
 .uk-navbar-left {
     height: 2em;
 }
@@ -107,7 +103,7 @@ select:disabled, input:disabled {
 input:disabled::placeholder, select:disabled {
     color: gainsboro;
 }
-.uk-button, tr th, .uk-grid:first-child {
+.uk-button, tr th, div > .uk-first-column:first-child { /* .uk-grid:first-child */
     background-color: #900C3E;
     color: #FFC300;
     border: 0;
