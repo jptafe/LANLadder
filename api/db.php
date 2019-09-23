@@ -284,7 +284,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"create a player");
+                    return Array("request"=>"created a player");
                     //$conn->lastInsertId();
                 }
             } catch (PDOException $e) {

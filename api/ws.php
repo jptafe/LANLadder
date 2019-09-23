@@ -29,8 +29,20 @@
                     throw new APIException("ladder ID not a valid ID");
                 }
             }
+            if(isset($_POST['ladderid'])) {
+                $ladderID = validate($_POST['ladderid'], 'primarykey');
+                if($ladderID == false) {
+                    throw new APIException("ladder ID not a valid ID");
+                }
+            }
             if(isset($_GET['teamid'])) {
                 $teamID = validate($_GET['teamid'], 'primarykey');
+                if($teamID == false) {
+                    throw new APIException("team ID not a valid ID");
+                }
+            }
+            if(isset($_POST['teamid'])) {
+                $teamID = validate($_POST['teamid'], 'primarykey');
                 if($teamID == false) {
                     throw new APIException("team ID not a valid ID");
                 }
@@ -65,34 +77,52 @@
                     throw new APIException("Match ID not a valid ID");
                 }
             }
-            if(isset($_GET['winloss'])) {
-                $winLoss = validate($_GET['winloss'], 'winloss');
-                if($winLoss == false) {
-                    throw new APIException("win/loss value not valid");
-                }
-            }
             if(isset($_GET['color'])) {
                 $color = validate($_GET['color'], 'colorcode');
                 if($color == false) {
                     throw new APIException("color value not valid");
                 }
             }
-            if(isset($_GET['name'])) {
-                $name = validate($_GET['name'], 'alphanumeric');
-                if($name == false) {
-                    throw new APIException("teamname value not valid");
+            if(isset($_POST['color'])) {
+                $color = validate($_POST['color'], 'colorcode');
+                if($color == false) {
+                    throw new APIException("color value not valid");
                 }
             }
-            if(isset($_GET['desc'])) {
-                $desc = validate($_GET['desc'], 'alphanumeric');
+            if(isset($_POST['laddername'])) {
+                $laddername = validate($_POST['laddername'], 'alphanumeric');
+                if($laddername == false) {
+                    throw new APIException("ladder value not valid");
+                }
+            }
+            if(isset($_GET['teamname'])) {
+                $teamname = validate($_GET['teamname'], 'alphanumeric');
+                if($teamname == false) {
+                    throw new APIException("ladder value not valid");
+                }
+            }
+            if(isset($_GET['username'])) {
+                $username = validate($_GET['username'], 'alphanumeric');
+                if($username == false) {
+                    throw new APIException("ladder value not valid");
+                }
+            }
+            if(isset($_POST['desc'])) {
+                $desc = validate($_POST['desc'], 'alphanumeric_space');
                 if($desc == false) {
                     throw new APIException("Description value not valid");
                 }
             }
-            if(isset($_GET['members'])) {
-                $memberNos = validate($_GET['members'], 'integer');
+            if(isset($_POST['members'])) {
+                $memberNos = validate($_POST['members'], 'integer');
                 if($memberNos == false || $memberNos < 1) {
                     throw new APIException("Member Numbernot valid");
+                }
+            }
+            if(isset($_POST['imageurl'])) {
+                $imageURL = validate($_POST['imageurl'], 'filename');
+                if($imageURL == false) {
+                    throw new APIException("image url value not valid");
                 }
             }
             if(isset($_GET['imageurl'])) {
@@ -101,17 +131,14 @@
                     throw new APIException("image url value not valid");
                 }
             }
-            if(isset($_GET['playername'])) {
-                $playerName = validate($_GET['playername'], 'alphanumeric');
-                if($playerName == false) {
+            if(isset($_POST['username'])) {
+                $userName = validate($_POST['username'], 'alphanumeric');
+                if($userName == false) {
                     throw new APIException("Player Name value not valid");
                 }
             }
-            if(isset($_GET['password'])) {
-                $passWord = $_GET['password'];
-            }
-            if(isset($_GET['location'])) {
-                $location = validate($_GET['location'], 'alphanumeric');
+            if(isset($_POST['location'])) {
+                $location = validate($_POST['location'], 'alphanumeric');
                 if($location == false) {
                     throw new APIException("Location Name value not valid");
                 }
@@ -122,13 +149,15 @@
                     throw new APIException("ISO date not valid");
                 }
             }
-            if(isset($_POST['username'])) {
-                $userName = $_POST['username'];
-            }
+            if(isset($_POST['starttime'])) {
+                $startTime = validate($_POST['starttime'], 'isodatetime');
+                if($startTime == false) {
+                    throw new APIException("ISO date not valid");
+                }
+            }      
             if(isset($_POST['password'])) {
                 $passWord = $_POST['password'];
             }
-
             switch($validated_pagereq) {
                 case "ladderlist":
                     if(isset($ladderID)) {
@@ -189,8 +218,8 @@
                     break;
                 /// INSERT new team and add inserting player into team
                 case "createteam":
-                    if(isset($playerID) && isset($name) || isset($color) && isset($imageURL)) {
-                        $result = $databaseOBJECT->createTeam($playerID, $name, $color, $imageURL);
+                    if(isset($playerID) && isset($teamname) || isset($color) && isset($imageURL)) {
+                        $result = $databaseOBJECT->createTeam($playerID, $teamname, $color, $imageURL);
                     } else {
                         throw new APIException("player id missing to create team");
                     }
@@ -205,8 +234,8 @@
                     break;
                 /// INSERT new player
                 case "createplayer":
-                    if(isset($playerName) && isset($passWord) && isset($location) && isset($imageURL) && isset($teamID)) {
-                        $result = $databaseOBJECT->createPlayer($playerName, $passWord, $location, $imageURL, $teamID);
+                    if(isset($userName) && isset($passWord) && isset($location) && isset($imageURL) && isset($teamID)) {
+                        $result = $databaseOBJECT->createPlayer($userName, $passWord, $location, $imageURL, $teamID);
                     } else {
                         throw new APIException("create player error");
                     }
@@ -221,8 +250,8 @@
                     break;
                 /// INSERT new ladder
                 case "createladder":
-                    if(isset($imageURL) && isset($memberNos) && isset($name) && isset($color) && isset($desc) && isset($startTime)) {
-                        $result = $databaseOBJECT->createLadder($name, $desc, $memberNos, $color, $imageURL, $startTime);
+                    if(isset($imageURL) && isset($memberNos) && isset($laddername) && isset($color) && isset($desc) && isset($startTime)) {
+                        $result = $databaseOBJECT->createLadder($laddername, $desc, $memberNos, $color, $imageURL, $startTime);
                     } else {
                         throw new APIException("create player error");
                     }
@@ -281,9 +310,11 @@
                     }
                     break;
                 case "auth":
-                    $result = $databaseOBJECT->authPlayer($userName, $passWord);
-                    if($result['name'] != -1) {
-                        $result = $_SESSION['sessionOBJ']->setAuth($result);
+                    if(isset($userName) && isset($passWord)) {
+                        $result = $databaseOBJECT->authPlayer($userName, $passWord);
+                        if($result['name'] != -1) {
+                            $result = $_SESSION['sessionOBJ']->setAuth($result);
+                        }
                     }
                     break;
                 case "isauth":
@@ -293,8 +324,8 @@
                     $result = $_SESSION['sessionOBJ']->unsetAuth();
                     break;
                 case 'userexists':
-                    if(isset($name)) {
-                        $result = $databaseOBJECT->doesUserExist($name);
+                    if(isset($username)) {
+                        $result = $databaseOBJECT->doesUserExist($username);
                     }
                     break;
                 case 'destroy':

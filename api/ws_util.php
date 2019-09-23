@@ -64,6 +64,13 @@
                     return $dirty_string;
                 }
                 return false;
+            case 'alphanumeric_space':
+                if(ctype_print($dirty_string)) {
+                    return $dirty_string;
+                }
+                return false;
+
+
             case 'filename':
                 if(ctype_graph($dirty_string)) {
                     return $dirty_string;

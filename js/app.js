@@ -130,7 +130,7 @@ function clearForm(evt) {
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
     var HTMLStatusValues = '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('authicon') + '"></i></a>' +
-    '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('teamicon') + '"></i></a>' +
+    '<a href="#" title="team icon"><i class="ra ' + localStorage.getItem('teamicon') + '"></i></a>' +
         '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
         '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONHash.teams.size + 
         '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONHash.ladders.size +
@@ -190,7 +190,7 @@ function addTeamProcess(evt) {
     var name = evt.srcElement[0].value;
     var color = evt.srcElement[1].value.substr(1,6);
     var icon = evt.srcElement[2].value;
-    var url = 'api/ws.php?reqcode=createteam&playerid=1&name=' + name + '&color=' + color + '&imageurl=' + icon;
+    var url = 'api/ws.php?reqcode=createteam&playerid=1&teamname=' + name + '&color=' + color + '&imageurl=' + icon;
     if(icon == '0') {
         evt.srcElement[2].setCustomValidity("Choose an Icon");
     } else {
@@ -207,8 +207,9 @@ function addTeamProcess(evt) {
                     if(data.request == 'created new team') {
                         getAllTeams();  
                         setMsg('Team Created');
-                        populateStatusPanel();
                         clearForm(evt);
+                        checkForUpdates();
+                        populateStatusPanel();
                     }
                 });
             }
@@ -223,7 +224,7 @@ function registerPlayerProcess(evt) {
     var seated = evt.srcElement[3].value;
     var team_id = evt.srcElement[4].value;
     var image = evt.srcElement[5].value;
-    var url = 'api/ws.php?reqcode=createplayer&teamid=' + team_id + '&playername=' + playerName + '&imageurl=' + image + '&password=' + pass1 + '&location=' + seated;
+    var url = 'api/ws.php?reqcode=createplayer';
     if(pass1 != pass2) { 
         evt.srcElement[1].setCustomValidity("passwords do not match");
         evt.srcElement[2].setCustomValidity("passwords do not match");
@@ -233,8 +234,16 @@ function registerPlayerProcess(evt) {
         if(team_id == 0) {
             team_id = 1;
         }
+        var fd = new FormData();
+        fd.append('teamid', team_id);
+        fd.append('username', playerName);
+        fd.append('imageurl', image);
+        fd.append('password', pass1);
+        fd.append('location', seated);
         fetch(url, {
-            method: 'GET',
+            method: 'POST',
+            body: fd,
+            cache: 'no-cache',
             credentials: 'include'
         })
         .then(
@@ -390,10 +399,20 @@ function addLadderProcess(evt) {
     var teamTime = teamTime.split('Z');
     var teamTime = teamTime[0].split('.');
     var teamImage = evt.srcElement[5].value; // the hidden field as a result of directly uplaoding the image
-    var url = 'api/ws.php?reqcode=createladder&name=' + gameName + '&desc=' + description + '&members=' + memberNo + 
-        '&color=' + teamColor + '&imageurl=' + teamImage + '&starttime=' + teamTime[0];
+    var url = 'api/ws.php?reqcode=createladder';
+
+    var fd = new FormData();
+    fd.append('laddername', gameName);
+    fd.append('desc', description);
+    fd.append('members', memberNo);
+    fd.append('color', teamColor);
+    fd.append('imageurl', teamImage);
+    fd.append('starttime', teamTime[0]);
+
     fetch(url, {
-        method: 'GET',
+        method: 'POST',
+        body: fd,
+        cache: 'no-cache',
         credentials: 'include'
     })
     .then(
@@ -487,7 +506,7 @@ function isLoggedIn() {
 }
 function checkExistingUser(elem) {
     var username = elem.value;
-    var url = 'api/ws.php?reqcode=userexists&name=' + username;
+    var url = 'api/ws.php?reqcode=userexists&username=' + username;
     fetch(url, {
         method: 'GET',
         credentials: 'include'
