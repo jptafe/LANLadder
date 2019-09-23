@@ -530,6 +530,50 @@ function checkExistingUser(elem) {
         }
     )
 }
+function checkExistingTeam(elem) {
+    var teamname = elem.value;
+    var url = 'api/ws.php?reqcode=teamexists&teamname=' + teamname;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.team == "notfound") {
+                    elem.setCustomValidity("");
+                } else {
+                    elem.setCustomValidity("Team Exists");
+                }
+            });
+        }
+    )
+}
+function checkExistingLadder(elem) {
+    var laddername = elem.value;
+    var url = 'api/ws.php?reqcode=ladderexists&laddername=' + laddername;
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                if(data.ladder == "notfound") {
+                    elem.setCustomValidity("");
+                } else {
+                    elem.setCustomValidity("Ladder Exists");
+                }
+            });
+        }
+    )
+}
 function checkSameTeam(elem) {
     if(teamainladder.value == teambinladder.value) {
         teamainladder.setCustomValidity("Team can't comete with itself");
