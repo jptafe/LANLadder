@@ -139,7 +139,7 @@
                     <legend class="uk-form-legend">Create Player</legend>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
-                        <input type="text" name="name" pattern="[\s0-9A-Za-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" class="uk-input" required>
+                        <input type="text" name="name" pattern="[0-9A-Z a-z]{3,}" placeholder="Player Name" onchange="checkExistingUser(this)" class="uk-input" required>
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
@@ -188,7 +188,7 @@
                     <legend class="uk-form-legend">Create Team</legend>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
-                        <input type="text" name="teamname" pattern="[\s0-9A-Za-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" class="uk-input" required>
+                        <input type="text" name="teamname" pattern="[0-9A-Z a-z]{3,}" placeholder="Team Name" title="Team Name Alphanumeric" class="uk-input" onchange="checkExistingTeam(this)" required>
                     </div>
                     <div class="uk-inline uk-width-1-4">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: paint-bucket"></span>                    
@@ -212,7 +212,7 @@
                     <legend class="uk-form-legend">Create Ladder</legend>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: desktop"></span>
-                        <input type="text" name="game" placeholder="Game Name" class="uk-input" > 
+                        <input type="text" name="game" placeholder="Game Name" pattern="[0-9A-Z a-z]{3,}" class="uk-input" onchange="checkExistingLadder(this)" required> 
                     </div>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: pencil"></span>

@@ -144,6 +144,8 @@ select { /* fails to remove arrow */
 }
 .uk-accordion-title:focus {
     color: #FF5733;
+    text-shadow: 2px 2px 8px maroon, -2px -2px 8px maroon,
+                -2px 2px 8px maroon, 2px -2px 8px maroon;
 }
 #content_tabs {
     background-image: linear-gradient(-30deg, #ff5633, #c70039);

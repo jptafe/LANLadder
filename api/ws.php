@@ -95,6 +95,12 @@
                     throw new APIException("ladder value not valid");
                 }
             }
+            if(isset($_GET['laddername'])) {
+                $laddername = validate($_GET['laddername'], 'alphanumeric');
+                if($laddername == false) {
+                    throw new APIException("ladder value not valid");
+                }
+            } 
             if(isset($_GET['teamname'])) {
                 $teamname = validate($_GET['teamname'], 'alphanumeric');
                 if($teamname == false) {
@@ -325,9 +331,19 @@
                     break;
                 case 'userexists':
                     if(isset($username)) {
-                        $result = $databaseOBJECT->doesUserExist($username);
+                        $result = $databaseOBJECT->doesUserNameExist($username);
                     }
                     break;
+                case 'ladderexists':
+                    if(isset($laddername)) {
+                        $result = $databaseOBJECT->doesLadderNameExist($laddername);
+                    }
+                    break;
+                case 'teamexists':
+                    if(isset($teamname)) {
+                        $result = $databaseOBJECT->doesTeamNameExist($teamname);
+                    }
+                    break;             
                 case 'destroy':
                     kill_session();
                     break;

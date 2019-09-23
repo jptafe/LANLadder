@@ -484,7 +484,7 @@
                 echo "isTeaminLadder error"; die();
             }
         }
-        public function doesUserExist($name) {
+        public function doesUserNameExist($name) {
             try {
                 $auth = "SELECT * FROM player WHERE name = :username";
                 $stmt = $this->conn->prepare($auth);
@@ -497,7 +497,39 @@
                     return Array("user"=>"exists");
                 }
             } catch (PDOException $e) {
-                echo "Auth error"; die();
+                echo "User Name error"; die();
+            }
+        }
+        public function doesLadderNameExist($name) {
+            try {
+                $auth = "SELECT * FROM ladder WHERE game = :laddername";
+                $stmt = $this->conn->prepare($auth);
+                $stmt->bindParam(':laddername', $name, PDO::PARAM_STR);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return Array("ladder"=>'notfound');
+                } else {
+                    return Array("ladder"=>"exists");
+                }
+            } catch (PDOException $e) {
+                echo "Ladder Name error"; die();
+            }
+        }
+        public function doesTeamNameExist($name) {
+            try {
+                $auth = "SELECT * FROM team WHERE team_name = :teamname";
+                $stmt = $this->conn->prepare($auth);
+                $stmt->bindParam(':teamname', $name, PDO::PARAM_STR);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result == false) {
+                    return Array("team"=>'notfound');
+                } else {
+                    return Array("team"=>"exists");
+                }
+            } catch (PDOException $e) {
+                echo "Team Name error"; die();
             }
         }
         public function userIDExist($id) {

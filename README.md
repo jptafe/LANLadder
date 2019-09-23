@@ -37,9 +37,10 @@ Current Status
  Admin End - Not Started
 
 Major Priorities:
- 3 Write a panel for players and teams to allow player to join & kick
- 4 secure No 3 user in team can report/kick
- 5 Implement file upload WS method as per classroom activity
+ 1 Write a panel for players and teams to allow player to join & kick
+ 2 secure No 1 user in team can report/kick
+ 3 Implement file upload WS method as per classroom activity
+ 4 Implement 3rd party element that implements a date format compatible with mysql.
 
 Long-term Priorities:
  Make auth work with Google API
