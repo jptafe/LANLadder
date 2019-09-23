@@ -38,6 +38,38 @@ function populateForms() {
         }
     }
 }
+function teamsWithPlayersEdit() { // Need to edit this so that it uses a template better...
+    var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
+    var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    var templateEditTeamsHead = document.getElementById('template_edit_team_member_list').innerHTML;
+    var renderedHTML = '<ul uk-accordion>';
+    var playerHTML = '';
+
+    var renderedHTML = '<ul uk-accordion>';
+ 
+    for(var loop = 0;loop<JSONTeams.length;loop++) {
+        renderedHTML += '<li>';
+        renderedHTML += templateEditTeamsHead.replace(/{{teamTitle}}/g, JSONTeams[loop].team_name)
+                .replace(/{{teamImage}}/g, JSONTeams[loop].image)
+                .replace(/{{teamColor}}/g, JSONTeams[loop].color);
+        renderedHTML += '<div class="uk-accordion-content">';
+
+        for(var loop2 = 0;loop2<JSONPlayers.length;loop2++) {
+            if(JSONPlayers[loop2].team_id == JSONTeams[loop].id) {
+                playerHTML += '<tr><td><i class="ra ' + JSONPlayers[loop2].image + '"></i></td><td>' + JSONPlayers[loop2].name + '</td><td>' + JSONPlayers[loop2].seated_loc + '</td></tr>';
+            }
+        }
+        if(playerHTML.length == 0) {
+            renderedHTML += '<p>No Players</p>';
+        } else {
+            renderedHTML += '<table class="uk-table uk-table-small"><thead><tr><th>icon</th><th>name</th><th>location</th></tr></thead>' + playerHTML + '</table>';
+        }
+        playerHTML = '';
+        renderedHTML += '</div>';
+    }
+    renderedHTML += '</ul>';
+    edit_teams_with_players.innerHTML = renderedHTML;   
+}
 function teamsWithPlayers() {
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
@@ -475,6 +507,7 @@ function checkForUpdates() {
                 }
                 populateStatusPanel();
                 teamsWithPlayers();
+                teamsWithPlayersEdit();
                 ladderListWithCompletedResults();
                 laddersWithUnplayedMatches();
             });
