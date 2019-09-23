@@ -129,8 +129,13 @@ function clearForm(evt) {
 }
 function populateStatusPanel() {
     var JSONHash = JSON.parse(localStorage.getItem('statushash'));
-    var HTMLStatusValues = '<a href="#" title="player icon"><i class="ra ' + localStorage.getItem('authicon') + '"></i></a>' +
-    '<a href="#" title="team icon"><i class="ra ' + localStorage.getItem('teamicon') + '"></i></a>' +
+    if(localStorage.getItem('authcode') != 'null') {
+        var userStatus = JSON.parse(localStorage.getItem('authcode'));
+    } else {
+        var userStatus = { teamicon: null, authicon: null };
+    }
+    var HTMLStatusValues = '<a href="#" title="player icon"><i class="ra ' + userStatus.authicon + '"></i></a>' +
+    '<a href="#" title="team icon"><i class="ra ' + userStatus.teamicon + '"></i></a>' +
         '<a href="#" title="players"><b><span uk-icon="icon: user"></span></b>:' + JSONHash.players.size + 
         '</a><a href="#" title="teams"><span uk-icon="icon: users"></span>:' + JSONHash.teams.size + 
         '</a><a href="#" title="Ladders"><span uk-icon="icon: list"></span>:' + JSONHash.ladders.size +
@@ -155,9 +160,14 @@ document.getElementById('pass2').addEventListener('change', function(e) {passChe
 
 function passCheck(evt) {
     if(pass.checkValidity() == false || pass2.checkValidity() == false) {
-        if(pass.value != pass2.value) {
-            pass.setCustomValidity("passwords do not match");
-            pass2.setCustomValidity("passwords do not match");
+        if(pass.value.length > 0 && pass2.value.length > 0 ) {
+            if(pass.value != pass2.value) {
+                pass.setCustomValidity("passwords do not match");
+                pass2.setCustomValidity("passwords do not match");
+            } else {
+                pass.setCustomValidity("");
+                pass2.setCustomValidity("");
+            } 
         } else {
             pass.setCustomValidity("");
             pass2.setCustomValidity("");
@@ -274,8 +284,6 @@ function logoutNow(evt) {
             }
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
-                localStorage.setItem('authicon', null);
-                localStorage.setItem('teamicon', null);
                 loggedOutMenu();
                 populateStatusPanel();
             });
@@ -486,14 +494,10 @@ function isLoggedIn() {
             }
             response.json().then(function(data) {
                 if(data.auth != -1) {
-                    localStorage.setItem('authcode', data.auth);
-                    localStorage.setItem('authicon', data.authicon);
-                    localStorage.setItem('teamicon', data.teamicon);
+                    localStorage.setItem('authcode', JSON.stringify(data));
                     loggedInMenu();
                 } else {
                     localStorage.setItem('authcode', null);
-                    localStorage.setItem('authicon', null);
-                    localStorage.setItem('teamicon', null);
                     loggedOutMenu();
                 }
                 populateStatusPanel();
@@ -555,15 +559,11 @@ function loginProcess(evt) {
             response.json().then(function(data) {
                 if(data.name == -1) {
                     localStorage.setItem('authcode', null);
-                    localStorage.setItem('authicon', null);
-                    localStorage.setItem('teamicon', null);
                     setWrn('Authentication failure');
                     loggedOutMenu();
                     clearForm(evt);
                 } else {
-                    localStorage.setItem('authcode', data.name);
-                    localStorage.setItem('authicon', data.authicon);
-                    localStorage.setItem('teamicon', data.teamicon);
+                    localStorage.setItem('authcode', JSON.stringify(data));
                     setMsg('Authentication success');
                     loggedInMenu();
                     clearForm(evt);

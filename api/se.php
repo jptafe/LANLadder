@@ -87,6 +87,7 @@
             $this->ticon = $team['image'];
             return Array('name'=>$this->authCode, 
                         'authicon'=>$this->icon,
+                        'teamid'=>$this->tid,
                         'teamicon'=>$this->ticon);
         }
         function unsetAuth() {

@@ -46,5 +46,4 @@ Long-term Priorities:
  get a JS photo editor to square uploaded image
  Password Reset via email post deployment online (AWS cognito?)
 
-
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/jptafe/LANLadder)
