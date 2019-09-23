@@ -1,4 +1,3 @@
-checkForUpdates();
 isLoggedIn();
 populateForms();
 
@@ -274,6 +273,7 @@ function registerPlayerProcess(evt) {
                     setMsg('Player Created');
                     populateStatusPanel();
                     clearForm(evt);
+                    UIkit.tab(nav_content_tabs).show(0);
                 });
             }
         )
@@ -471,17 +471,12 @@ function checkForUpdates() {
                     if(oldHash.teams.hash != data.teams.hash) {
                         getAllTeams();
                     }
-                    /*
-                    if(oldHash.playedmatches.hash != data.playedmatches.hash) {
-                        getAllPlayedMatches();
-                    }
-                    if(oldHash.unplayedmatches.hash != data.unplayedmatches.hash) {
-                        getAllUnPlayedMatches();
-                    }
-                    */
                     localStorage.setItem('statushash', JSON.stringify(data));
                 }
                 populateStatusPanel();
+                teamsWithPlayers();
+                ladderListWithCompletedResults();
+                laddersWithUnplayedMatches();
             });
         }
     )
