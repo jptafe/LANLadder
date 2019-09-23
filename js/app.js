@@ -160,6 +160,15 @@ function passCheck(evt) {
         }
     }
 }
+function checkSameTeam(elem) {
+    if(teamainladder.value == teambinladder.value) {
+        teamainladder.setCustomValidity("Team can't comete with itself");
+        teambinladder.setCustomValidity("Team can't comete with itself");
+    } else {
+        teamainladder.setCustomValidity("");
+        teambinladder.setCustomValidity("");
+    }
+}
 function setMsg(message) {
     alert_msg_msg.innerHTML = message;
     alert_msg.removeAttribute('hidden');
@@ -219,7 +228,6 @@ function addTeamProcess(evt) {
                         setMsg('Team Created');
                         clearForm(evt);
                         checkForUpdates();
-                        populateStatusPanel();
                     }
                 });
             }
@@ -285,7 +293,6 @@ function logoutNow(evt) {
             response.json().then(function(data) {
                 localStorage.setItem('authcode', null);
                 loggedOutMenu();
-                populateStatusPanel();
             });
         }
     )
@@ -312,7 +319,6 @@ function reportMatchProcess(evt) {
                     setMsg('Match reported');
                     evt.srcElement.style = 'display: none';
                     checkForUpdates();
-                    populateStatusPanel();
                 }
             });
         }
@@ -384,7 +390,6 @@ function addMatchProcess(evt) {
                 }
                 response.json().then(function(data) {
                     checkForUpdates();
-                    populateStatusPanel();
                     setMsg('Match Created');
                     clearForm(evt);
                 });
@@ -394,6 +399,8 @@ function addMatchProcess(evt) {
 }
 function imageUploadProcess(evt) {
     evt.preventDefault();
+
+
 }
 function addLadderProcess(evt) {
     evt.preventDefault();
@@ -408,7 +415,6 @@ function addLadderProcess(evt) {
     var teamTime = teamTime[0].split('.');
     var teamImage = evt.srcElement[5].value; // the hidden field as a result of directly uplaoding the image
     var url = 'api/ws.php?reqcode=createladder';
-
     var fd = new FormData();
     fd.append('laddername', gameName);
     fd.append('desc', description);
@@ -416,7 +422,6 @@ function addLadderProcess(evt) {
     fd.append('color', teamColor);
     fd.append('imageurl', teamImage);
     fd.append('starttime', teamTime[0]);
-
     fetch(url, {
         method: 'POST',
         body: fd,
@@ -429,7 +434,7 @@ function addLadderProcess(evt) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                getAllLadders();
+                checkForUpdates();
                 setMsg('Ladder Created');
                 clearForm(evt);
             });
@@ -500,10 +505,7 @@ function isLoggedIn() {
                     localStorage.setItem('authcode', null);
                     loggedOutMenu();
                 }
-                populateStatusPanel();
-                teamsWithPlayers(); 
-                ladderListWithCompletedResults();
-                laddersWithUnplayedMatches();
+                checkForUpdates();
             });
         }
     )
@@ -574,15 +576,6 @@ function checkExistingLadder(elem) {
         }
     )
 }
-function checkSameTeam(elem) {
-    if(teamainladder.value == teambinladder.value) {
-        teamainladder.setCustomValidity("Team can't comete with itself");
-        teambinladder.setCustomValidity("Team can't comete with itself");
-    } else {
-        teamainladder.setCustomValidity("");
-        teambinladder.setCustomValidity("");
-    }
-}
 function loginProcess(evt) {
     evt.preventDefault();
     var fd = new FormData();
@@ -633,8 +626,6 @@ function getAllPlayers() {
             response.json().then(function(data) {
                 localStorage.setItem('allPlayers', JSON.stringify(data));
                 teamsWithPlayers(); 
-                ladderListWithCompletedResults();
-                laddersWithUnplayedMatches();
             });
         }
     )
@@ -652,8 +643,6 @@ function getAllTeams() {
             response.json().then(function(data) {
                 localStorage.setItem('allTeams', JSON.stringify(data));
                 teamsWithPlayers(); 
-                ladderListWithCompletedResults();
-                laddersWithUnplayedMatches();
             });
         }
     )
@@ -671,8 +660,6 @@ function getAllLadders() {
             response.json().then(function(data) {
                 localStorage.setItem('allLadders', JSON.stringify(data));
                 teamsWithPlayers(); 
-                ladderListWithCompletedResults();
-                laddersWithUnplayedMatches();
             });
         }
     )
@@ -690,8 +677,6 @@ function getAllPlayedMatches() {
             response.json().then(function(data) {
                 localStorage.setItem('allPlayedMatches', JSON.stringify(data));
                 teamsWithPlayers(); 
-                ladderListWithCompletedResults();
-                laddersWithUnplayedMatches();
             });
         }
     )
