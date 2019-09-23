@@ -18,22 +18,26 @@
           try {
                 $getLadder = "SELECT distinct(winning_team_id) AS teama,
                     (SELECT count(winning_team_id) FROM played_match
-                        WHERE winning_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+                        WHERE winning_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2
+                        AND ladder_id = :ladderid) AS wins,
                     (SELECT count(losing_team_id) FROM played_match
-                        WHERE losing_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+                        WHERE losing_team_id = teama AND winning_team_id > 2 AND losing_team_id > 2
+                        AND ladder_id = :ladderid) AS losses
                             FROM `played_match`
                             WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid AND
-				winning_team_id != losing_team_id
+				                winning_team_id != losing_team_id
                             GROUP BY teama
                 UNION
                 SELECT distinct(losing_team_id) AS teamb,
                     (SELECT count(winning_team_id) FROM played_match
-                        WHERE winning_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS wins,
+                        WHERE winning_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2
+                        AND ladder_id = :ladderid) AS wins,
                     (SELECT count(losing_team_id) FROM played_match
-                        WHERE losing_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2) AS losses
+                        WHERE losing_team_id = teamb AND winning_team_id > 2 AND losing_team_id > 2
+                        AND ladder_id = :ladderid) AS losses
                             FROM `played_match`
                             WHERE winning_team_id > 2 AND losing_team_id > 2 AND ladder_id = :ladderid AND
-				winning_team_id != losing_team_id
+				                winning_team_id != losing_team_id
                             GROUP BY teamb
                      ORDER by wins DESC, losses ASC";
                 // We need add to ladder with those teams that won against a forefit but not tie
