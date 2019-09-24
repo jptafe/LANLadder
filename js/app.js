@@ -42,6 +42,9 @@ function teamsWithPlayersEdit() { // Need to edit this so that it uses a templat
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
     var JSONPlayer_info = JSON.parse(localStorage.getItem('authcode'));
+    if(JSONPlayer_info == null) {
+        JSONPlayer_info = {teamid: 1};
+    }
     var templateEditTeamsHead = document.getElementById('template_edit_team_member_list').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
     var playerHTML = '';
@@ -366,9 +369,8 @@ function reportMatchProcess(evt) {
 }
 function joinTeamProcess(evt) {
     evt.preventDefault();
-    var player_id = evt.srcElement[0].value;
     var team_id = evt.srcElement[1].value;
-    var url = 'api/ws.php?reqcode=jointeam&playerid=' + player_id + '&teamid=' + team_id; 
+    var url = 'api/ws.php?reqcode=jointeam&teamid=' + team_id; 
     if(team_id == 0) {
         team_id = 1;
     }
@@ -382,7 +384,32 @@ function joinTeamProcess(evt) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
             }
             response.json().then(function(data) {
-                getAllPlayers();
+                checkForUpdates();
+                setMsg('Team Kicked');                
+            });
+        }
+    )
+}
+function kickPlayerProcess(evt) {
+    evt.preventDefault();
+    var player_id = evt.srcElement[0].value;
+    var team_id = evt.srcElement[1].value;
+    var url = 'api/ws.php?reqcode=kickoffteam&playerid=' + player_id + '&teamid=' + team_id; 
+    if(team_id == 0) {
+        team_id = 1;
+    }
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(
+        function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' + response.status);
+            }
+            response.json().then(function(data) {
+                checkForUpdates();
+                setMsg('Player Kicked from Team');            
             });
         }
     )
@@ -899,10 +926,4 @@ function populatePlayers(elem) {
         HTMLPlayers += '<option value="' + JSONPlayers[loop].id + '">' + JSONPlayers[loop].name + '</option>';
     }
     elem.innerHTML = '<option value="" disabled>Choose One...</option>' + HTMLPlayers;
-}
-function populateTeamsInFormForLadder(elem, teamID) {
-}
-function getLadders() {
-}
-function getPlayers() {
 }
