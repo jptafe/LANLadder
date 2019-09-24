@@ -70,7 +70,8 @@
         function isAuth() {
             if($this->authCode !== null) {
                 return Array('auth'=>$this->authCode, 
-                             'authicon'=>$this->icon, 
+                             'authicon'=>$this->icon,
+                             'teamid'=>$this->tid, 
                              'teamicon'=>$this->ticon);
             } else {
                 return Array('auth'=>-1);

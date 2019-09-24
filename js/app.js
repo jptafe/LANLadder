@@ -41,6 +41,7 @@ function populateForms() {
 function teamsWithPlayersEdit() { // Need to edit this so that it uses a template better...
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
+    var JSONPlayer_info = JSON.parse(localStorage.getItem('authcode'));
     var templateEditTeamsHead = document.getElementById('template_edit_team_member_list').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
     var playerHTML = '';
@@ -65,6 +66,13 @@ function teamsWithPlayersEdit() { // Need to edit this so that it uses a templat
             renderedHTML += '<table class="uk-table uk-table-small"><thead><tr><th>icon</th><th>name</th><th>location</th></tr></thead>' + playerHTML + '</table>';
         }
         playerHTML = '';
+
+        // put a join team here
+        if(JSONTeams[loop].id == JSONPlayer_info.teamid) {
+            renderedHTML += '<p>Joy</p>';
+        } else {
+            renderedHTML += '<p>Sadness</p>';
+        }
         renderedHTML += '</div>';
     }
     renderedHTML += '</ul>';
@@ -455,7 +463,6 @@ UIkit.upload('.js-upload', {
         }, 1000);
         
         var resp = JSON.parse(arguments[0].response);
-        console.log(resp);
         ladder_image_filename.value = resp.upload;
         imageoutput_thumb.innerHTML = '<img src="./img/' + resp.upload + '" width="200" height="200" style="text-align: center">';
         setMsg('file upload complete');
@@ -719,7 +726,7 @@ function getAllLadders() {
         }
     )
 }
-function getAllPlayedMatches() {  
+function getAllPlayedMatches() {
     fetch('api/ws.php?reqcode=allplayedmatches', {
         method: 'GET',
         credentials: 'include'
