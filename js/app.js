@@ -429,11 +429,38 @@ function addMatchProcess(evt) {
         )
     }
 }
-function imageUploadProcess(evt) {
-    evt.preventDefault();
 
+UIkit.upload('.js-upload', {
+    url: 'api/ws.php?reqcode=imageupload',
+    method: 'POST',
+    name: 'file_upload',
+    multiple: false,
+    error: function () { setWrn('file uplaod error'); },
+    loadStart: function (e) {
+        uikitprogressbar.removeAttribute('hidden');
+        uikitprogressbar.max = e.total;
+        uikitprogressbar.value = e.loaded;
+    },
+    progress: function (e) {
+        uikitprogressbar.max = e.total;
+        uikitprogressbar.value = e.loaded;
+    },
+    loadEnd: function (e) {
+        uikitprogressbar.max = e.total;
+        uikitprogressbar.value = e.loaded;
+    },
+    completeAll: function (e) {
+        setTimeout(function () {
+            uikitprogressbar.setAttribute('hidden', 'hidden');
+        }, 1000);
+        
+        var resp = JSON.parse(arguments[0].response);
+        console.log(resp);
+        ladder_image_filename.value = resp.upload;
 
-}
+        setMsg('file upload complete');
+    }
+});
 function addLadderProcess(evt) {
     evt.preventDefault();
     var gameName = evt.srcElement[0].value;

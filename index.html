@@ -230,16 +230,16 @@
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>                    
                         <input type="datetime-local" min="2019-7-1T00:00:00" max="2022-7-1T00:00:00" name="start_time" class="uk-input" required>
                     </div>
-                    <input type="hidden" name="ladder_image" value="placeholder.png">
+                    <input type="hidden" name="ladder_image" id="ladder_image_filename" value="placeholder.png">
                     <div class="uk-inline uk-width-1-1 js-upload uk-placeholder uk-text-center">
                         <span uk-icon="icon: cloud-upload"></span>
                         <span class="uk-text-middle">Attach png or jpg by dropping them here or</span>
                         <div uk-form-custom>
-                            <input type="file" name="ladder_image_upload" title="image is alpha numeric, no spaces">
+                            <input type="file" accept="image/png, image/jpeg" name="ladder_image_upload" id="file_upload" title="image is alpha numeric, no spaces">
                             <span class="uk-link">selecting one</span>
                         </div>
                     </div>
-                    <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+                    <progress id="uikitprogressbar" class="uk-progress" value="0" max="100" hidden></progress>
                     <div class="uk-inline uk-width-1-1">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: cloud-upload"></span>                    
                         <input type="submit" value="Create Ladder" class="uk-button uk-button-large uk-width-1-1">
@@ -278,13 +278,15 @@
                 </form> 
             </li>
             <li class="uk-fieldset">
-                moo choo
+                <div id="edit_teams_with_players">
+                    Edit Team -&gt; player List 
+                </div>
             </li>
             <li class="uk-fieldset">
                 <form id="form_php_session">
                     <a href="api/ws.php?reqcode=destroy" aria-expanded="false">Destroy PHP Session</a>
                 </form>
-            </li>
+            </li> 
             <li class="uk-fieldset">
                 <div id="teams_with_players">
                     All Team List -&gt; players 
@@ -333,6 +335,15 @@
             </a>
         </script>
         <script id="template_team_member_list" type="text/template">
+            <a class="uk-accordion-title" href="#">
+                <span style="color: #{{teamColor}}"> 
+                    <i class="ra {{teamImage}}"></i>
+                &nbsp;
+                </span>
+                {{teamTitle}}
+            </a>
+        </script>
+        <script id="template_edit_team_member_list" type="text/template">
             <a class="uk-accordion-title" href="#">
                 <span style="color: #{{teamColor}}"> 
                     <i class="ra {{teamImage}}"></i>

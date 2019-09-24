@@ -350,6 +350,14 @@
                 case 'statushashes':
                     $result = $databaseOBJECT->getLANStatus();
                     break;
+                case 'imageupload':
+                    if(sizeof($_FILES) > 0) {
+                        move_uploaded_file($_FILES["file_upload"]["tmp_name"], '../img/' . $_FILES["file_upload"]["name"]);
+                        $result = Array('upload'=>$_FILES["file_upload"]["name"]);
+                    } else {
+                        $result = Array('upload'=>'false');
+                    }
+                    break;
                 default:
                     throw new APIException("incorrect request code");
                     break;

@@ -1,0 +1,34 @@
+<html>
+<body>
+    <form>
+	<select id="teams">
+	    <!-- stuff will go here -->	     
+	</select>
+    </form>
+</body>
+    <script>
+	populateSelect();
+	function populateSelect() {
+	    //fetch('../ws/ws.php?reqcode=allteams', { 
+	    fetch('pretend_api.php', { 
+		method: 'GET',
+		credentials: 'include'
+	    })
+	    .then(
+		function(response) {
+		    if (response.status !== 200) {
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+		    }
+		    response.json().then(function(data) {
+			var outHTML = '';
+			Object.keys(data).forEach(function(key) {
+			    outHTML += '<option value="' + key + '">' +
+				data[key] + '</option>'; 
+			});
+			teams.innerHTML = outHTML;
+		    }
+		)
+	    });
+	}
+    </script> 
+</html>

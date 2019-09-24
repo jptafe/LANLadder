@@ -1,0 +1,23 @@
+<html>
+    <head>
+	<script src="team_players.js" defer></script>
+    </head>
+    <body>
+	<div onclick="fetchteams()">Click Me!!!</div>
+	<div id="team_player_list">
+	    <!-- template content will go here -->
+	</div> 
+    </body>
+    <script id="team_head" type="text/template">
+	<h1 onclick="populateplayers({{teamid}})">{{teamname}}</h1>
+	<div id="players_in_team_{{teamid}}">
+	</div>
+    </script>
+    <script id="player_entry" type="text/template">
+	<h2>
+	    <p>{{playerid}}</p>
+	    <p>{{playername}}</p>
+	</h2>
+    </script>
+</html>
+
