@@ -457,7 +457,7 @@ UIkit.upload('.js-upload', {
         var resp = JSON.parse(arguments[0].response);
         console.log(resp);
         ladder_image_filename.value = resp.upload;
-
+        imageoutput_thumb.innerHTML = '<img src="./img/' + resp.upload + '" width="200" height="200" style="text-align: center">';
         setMsg('file upload complete');
     }
 });
