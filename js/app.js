@@ -756,6 +756,7 @@ function getAllLadders() {
         }
     )
 }
+/*
 function getAllPlayedMatches() {
     fetch('api/ws.php?reqcode=allplayedmatches', {
         method: 'GET',
@@ -773,6 +774,7 @@ function getAllPlayedMatches() {
         }
     )
 }
+*/
 function getLadderPlayedMatches(ladder) {
     var ladderId = 'ladder_list_' + ladder;
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
@@ -845,6 +847,7 @@ function getALadderofUnlayedMatches(ladderID) {
         }
     )
 }
+/*
 function getAllUnPlayedMatches() { // defunct 
     fetch('api/ws.php?reqcode=allunreportedmatches', {
         method: 'GET',
@@ -861,6 +864,7 @@ function getAllUnPlayedMatches() { // defunct
         }
     )
 }
+*/
 function populateAllTeamsInForm(elem) {
     var HTMLTeams = '';
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
