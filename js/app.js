@@ -58,6 +58,8 @@ function clearForm(evt) {
     ra_icon.removeAttribute('class');
 }
 function validateForm(evt) {
+    //implement this when all forms have novalidate attribute
+    setWrn('please fix validation issues');
     return false;
 }
 function teamsWithPlayersEdit() { // Need to edit this so that it uses a template better...

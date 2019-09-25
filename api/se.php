@@ -9,7 +9,7 @@
         private $referrer;
         private $lastrequestArray = null;
         private $authCode = null;
-        private $uid;
+        private $uid = null;
         private $icon;
         private $tid;
         private $ticon;
@@ -97,6 +97,9 @@
             $this->tid = null;
             $this->icon = null;
             return Array("name"=>"-1");
+        }
+        function uid() {
+            return $this->uid;
         }
         function tid() {
             return $this->tid;

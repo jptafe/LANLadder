@@ -230,15 +230,28 @@
                         throw new APIException("player id missing to create team");
                     }
                     break;
-                /// UPDATE player with a new team. If the team they leave has 0 players, delete the team
                 case "jointeam":
-                    if(isset($teamID) && isset($playerID)) {
-                        $result = $databaseOBJECT->joinTeam($playerID, $teamID);
+                    if(isset($teamID)) {
+                        $uid = $_SESSION['sessionOBJ']->uid();
+                        if($uid != null) {
+                            $result = $databaseOBJECT->joinTeam($uid, $teamID);
+                        } else {
+                            $result = Array('auth'=>-1);
+                        }
                     } else {
                         throw new APIException("team joining IDs missing");
                     }
+                    break;                
+                case "kickoffteam":
+                    if(isset($teamID) || isset($playerID)) {
+                        $tid = $_SESSION['sessionOBJ']->tid();
+                        if($tid == $teamID) {
+                            $result = $databaseOBJECT->removePlayerFromTeam($playerID);
+                        } else {
+                            $result = Array('kick'=>-1);
+                        }
+                    }
                     break;
-                /// INSERT new player
                 case "createplayer":
                     if(isset($userName) && isset($passWord) && isset($location) && isset($imageURL) && isset($teamID)) {
                         $result = $databaseOBJECT->createPlayer($userName, $passWord, $location, $imageURL, $teamID);
@@ -246,7 +259,6 @@
                         throw new APIException("create player error");
                     }
                     break;
-                /// INSERT new match
                 case "creatematch":
                     if(isset($teamID) && isset($teamBID) && isset($ladderID) && isset($startTime)) {
                         $result = $databaseOBJECT->createMatch($teamID, $teamBID, $ladderID, $startTime);
@@ -254,7 +266,6 @@
                         throw new APIException("create player error");
                     }
                     break;
-                /// INSERT new ladder
                 case "createladder":
                     if(isset($imageURL) && isset($memberNos) && isset($laddername) && isset($color) && isset($desc) && isset($startTime)) {
                         $result = $databaseOBJECT->createLadder($laddername, $desc, $memberNos, $color, $imageURL, $startTime);
@@ -268,13 +279,6 @@
                         $result = $databaseOBJECT->removeTeam($teamID);
                     } else {
                         throw new APIException("team IDs missing");
-                    }
-                    break;
-                case "removeplayerfromteam":
-                    if(isset($playerID)) {
-                        $result = $databaseOBJECT->removePlayerFromTeam($playerID);
-                    } else {
-                        throw new APIException("team joining IDs missing");
                     }
                     break;
                 case "emptyteams":

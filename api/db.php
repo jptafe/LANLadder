@@ -263,7 +263,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"join a team");
+                    return Array("request"=>"joined a team");
                 }
             } catch (PDOException $e){
                 echo "joinTeam error"; die();
@@ -361,7 +361,7 @@
                 if($result == false) {
                     return false;
                 } else {
-                    return Array("request"=>"remove player from team");
+                    return Array("request"=>"removed player from team");
                 }
             } catch (PDOException $e) {
                 echo "removePlayerFromTeam error"; die();
