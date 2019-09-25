@@ -115,6 +115,10 @@ input:disabled::placeholder, select:disabled {
     border: 0;
     margin: .2em 0;
 }
+.uk-progress {
+    color: #FFC300;
+    background-color: #900C3E;
+}
 select { /* fails to remove arrow */
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -38,6 +38,28 @@ function populateForms() {
         }
     }
 }
+function clearForm(evt) {
+    for(var loop = 0;loop < evt.srcElement.length;loop++) {
+        if(evt.srcElement[loop].type == 'text' || 
+                evt.srcElement[loop].type == 'password') {
+            evt.srcElement[loop].value = '';
+        }
+        if(evt.srcElement[loop].type == 'number') {
+            evt.srcElement[loop].value = '0';
+        }
+        if(evt.srcElement[loop].localName == 'select') {
+            evt.srcElement[loop].value = '0';
+        }
+        if(evt.srcElement[loop].type == 'color') {
+            evt.srcElement[loop].value = '#000000';
+        }
+    }
+    ra_player_icon.removeAttribute('class');
+    ra_icon.removeAttribute('class');
+}
+function validateForm(evt) {
+    return false;
+}
 function teamsWithPlayersEdit() { // Need to edit this so that it uses a template better...
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
@@ -167,39 +189,18 @@ function populateStatusPanel() {
         '</a>';
     status_panel.innerHTML = HTMLStatusValues;
 }
-function clearForm(evt) {
-    for(var loop = 0;loop < evt.srcElement.length;loop++) {
-        if(evt.srcElement[loop].type == 'text' || 
-                evt.srcElement[loop].type == 'password') {
-            evt.srcElement[loop].value = '';
-        }
-        if(evt.srcElement[loop].type == 'number') {
-            evt.srcElement[loop].value = '0';
-        }
-        if(evt.srcElement[loop].localName == 'select') {
-            evt.srcElement[loop].value = '0';
-        }
-        if(evt.srcElement[loop].type == 'color') {
-            evt.srcElement[loop].value = '#000000';
-        }
-    }
-    ra_player_icon.removeAttribute('class');
-    ra_icon.removeAttribute('class');
-}
 function passCheck(evt) {
-    if(pass.checkValidity() == false || pass2.checkValidity() == false) {
-        if(pass.value.length > 0 && pass2.value.length > 0 ) {
-            if(pass.value != pass2.value) {
-                pass.setCustomValidity("passwords do not match");
-                pass2.setCustomValidity("passwords do not match");
-            } else {
-                pass.setCustomValidity("");
-                pass2.setCustomValidity("");
-            } 
+    if(pass.value.length > 0 && pass2.value.length > 0 ) {
+        if(pass.value !== pass2.value) {
+            pass.setCustomValidity("passwords do not match");
+            pass2.setCustomValidity("passwords do not match");
         } else {
             pass.setCustomValidity("");
             pass2.setCustomValidity("");
-        }
+        } 
+    } else {
+        pass.setCustomValidity("");
+        pass2.setCustomValidity("");
     }
 }
 function checkSameTeam(elem) {
