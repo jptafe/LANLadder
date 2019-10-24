@@ -38,7 +38,6 @@ Current Status
 
 Major Priorities:
  1 Write a panel for players and teams to allow player to join & kick
- 2 secure No 1 user in team can report/kick
  3 Implement 3rd party element that implements a date format compatible with mysql.
 
 Long-term Priorities:
