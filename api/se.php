@@ -31,8 +31,9 @@
             return $databaseOBJECT->logEvent();
         }
         public function domainLock() {
-            if((strpos($this->referrer, 'localhost') !== false) ||
-                    (strpos($this->referrer, 'lanladder') !== false)) {
+            if(strpos($this->referrer, 'localhost') !== false ||
+                strpos($this->referrer, '192.168') !== false || 
+                    strpos($this->referrer, 'lanladder') !== false) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");
