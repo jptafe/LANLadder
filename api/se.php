@@ -32,7 +32,7 @@
         }
         public function domainLock() {
             if((strpos($this->referrer, 'localhost') !== false) ||
-                    (strpos($this->referrer, 'LANLadder') !== false)) {
+                    (strpos($this->referrer, 'lanladder') !== false)) {
                 return true;
             } else {
                 throw new APIException("invalid referrer");

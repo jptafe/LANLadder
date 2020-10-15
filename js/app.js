@@ -552,6 +552,10 @@ function checkForUpdates() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                if(response.status === 302) {
+                    checkForUpdates();
+                    return;
+                }
                 return;
             }
             response.json().then(function(data) {
@@ -724,6 +728,10 @@ function getAllPlayers() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                if(response.status === 302) {
+                    getAllPlayers();
+                    return;
+                }
                 return;
             }
             response.json().then(function(data) {
@@ -742,6 +750,10 @@ function getAllTeams() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                if(response.status === 302) {
+                    getAllTeams();
+                    return;
+                }
             }
             response.json().then(function(data) {
                 localStorage.setItem('allTeams', JSON.stringify(data));
@@ -759,6 +771,10 @@ function getAllLadders() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                if(response.status === 302) {
+                    getAllLadders();
+                    return;
+                }
                 return;
             }
             response.json().then(function(data) {

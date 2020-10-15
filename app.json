@@ -1,5 +1,5 @@
 {
-    "name": "sqs",
+    "name": "lanladder",
     "env": {
         "BACKGROUND_COLOR": {
             "description": "specify a css color",
