@@ -1,4 +1,4 @@
-::
+~~~
       +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''+
      /                                                                 /
     /   /   /\   /|  / /   /\   /--/ /--/ /-- /--/                    /
@@ -6,15 +6,15 @@
   /   /___/   \/  |/ /___/   \/__/ /__/ /__ /   \    LAN-Only       /
  /                                                                 /
 +.................................................................+
-::
+~~~
 
 
-A LAN Party ladder Management System to show the state of play in LAN games between teams
+#A LAN Party ladder Management System to show the state of play in LAN games between teams
 
 ENTITIES: player, ladder, team & match
 USERS: ANONYMOUS, PLAYER, ADMIN
 
-Business Rules:
+##Business Rules:
 * Teams will be allocated to a ladder by admin when admin creates the requisite matches for the ladder, that team will not be added to the ladder unless they have the requisite number of players
 * Admin also creates ladders, which consists of the name of the game and the maximum players in a team
 * A player can't join a team that is full, if they are successful their current team is overwritten, and if that team then has zero players it too will be deleted
@@ -25,22 +25,22 @@ Business Rules:
 * Teams will choose from a library of approved iconagraphy (to avoid ugly or unsavoury icons)  
 * Team ID 1 = Unset, Team ID 2 = Forefit
 
-Technologies:
+##Technologies:
 * Web Service will support the activities of a user, but users must authenticate in order to participate
 * A web app will be developed using a client-side framework (ui-kit?) to speed the development process with mobile components.
 * If the username is the steamid, user icons will be pulled from Steam API
 * Administration panel will be developed using either Vue and API or Symfony
 
-Current Status
+##Current Status
  Frontend - Test html/css/js created to interact with web service
  Backend - Web Service in Test phase
  Admin End - Not Started
 
-Major Priorities:
+##Major Priorities:
  1 Write a panel for players and teams to allow player to join & kick
  3 Implement 3rd party element that implements a date format compatible with mysql.
 
-Long-term Priorities:
+##Long-term Priorities:
  Make auth work with Google API
  get a JS photo editor to square uploaded image
  Password Reset via email post deployment online (AWS cognito?)

@@ -18,6 +18,9 @@
 --
 -- Table structure for table `ladder`
 --
+USE lanladder;
+
+GRANT ALL PRIVILEGES ON lanladder.* TO lluser@localhost IDENTIFIED BY 'llpassword';
 
 DROP TABLE IF EXISTS `ladder`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

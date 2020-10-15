@@ -1,0 +1,28 @@
+{
+    "name": "sqs",
+    "env": {
+        "BACKGROUND_COLOR": {
+            "description": "specify a css color",
+            "value": "#fefefe",
+            "required": false
+        },
+        "TITLE": {
+            "description": "app title",
+            "value": "LANLadder",
+            "required": false
+        },
+        "APP_SECRET": {
+            "description": "secret value",
+            "generator": "bar",
+            "value": "foo",
+            "required": false
+        }
+    },
+    "options": {
+        "allow-unauthenticated": true,
+        "memory": "512Mi",
+        "cpu": "1",
+        "port": 80,
+        "PORT": 80
+    }
+}

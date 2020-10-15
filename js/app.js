@@ -96,9 +96,9 @@ function teamsWithPlayersEdit() { // Need to edit this so that it uses a templat
 
         // put a join team here
         if(JSONTeams[loop].id == JSONPlayer_info.teamid) {
-            renderedHTML += '<p>Joy</p>';
+            renderedHTML += '';
         } else {
-            renderedHTML += '<p>Sadness</p>';
+            renderedHTML += '<p><a href="#" onclick="joinTeamProcess(' + JSONTeams[loop].id + ')">Join Team</a></p>';
         }
         renderedHTML += '</div>';
     }
@@ -112,7 +112,7 @@ function teamsWithPlayers() {
     var templateLadderHeadHTML = document.getElementById('template_team_member_list').innerHTML;
     var renderedHTML = '<ul uk-accordion>';
     var playerHTML = '';
-
+    
     for(var loop = 0;loop<JSONTeams.length;loop++) {
         renderedHTML += '<li>';
         renderedHTML += templateLadderHeadHTML.replace(/{{teamTitle}}/g, JSONTeams[loop].team_name)
@@ -266,6 +266,7 @@ function addTeamProcess(evt) {
             function(response) {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
                 }
                 response.json().then(function(data) {
                     if(data.request == 'created new team') {
@@ -313,6 +314,7 @@ function registerPlayerProcess(evt) {
             function(response) {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
                 }
                 response.json().then(function(data) {
                     getAllPlayers();
@@ -357,6 +359,7 @@ function reportMatchProcess(evt) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.matchreport == 'fail') {
@@ -370,9 +373,7 @@ function reportMatchProcess(evt) {
         }
     )    
 }
-function joinTeamProcess(evt) {
-    evt.preventDefault();
-    var team_id = evt.srcElement[1].value;
+function joinTeamProcess(team_id) {
     var url = 'api/ws.php?reqcode=jointeam&teamid=' + team_id; 
     if(team_id == 0) {
         team_id = 1;
@@ -385,10 +386,11 @@ function joinTeamProcess(evt) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 checkForUpdates();
-                setMsg('Team Kicked');                
+                setMsg('Joined Team');                
             });
         }
     )
@@ -409,6 +411,7 @@ function kickPlayerProcess(evt) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 checkForUpdates();
@@ -457,6 +460,7 @@ function addMatchProcess(evt) {
             function(response) {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
                 }
                 response.json().then(function(data) {
                     checkForUpdates();
@@ -528,6 +532,7 @@ function addLadderProcess(evt) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 checkForUpdates();
@@ -547,6 +552,7 @@ function checkForUpdates() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(localStorage.getItem('statushash') === null) {
@@ -588,6 +594,7 @@ function isLoggedIn() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.auth != -1) {
@@ -613,6 +620,7 @@ function checkExistingUser(elem) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.user == "notfound") {
@@ -657,6 +665,7 @@ function checkExistingLadder(elem) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.ladder == "notfound") {
@@ -684,6 +693,7 @@ function loginProcess(evt) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.name == -1) {
@@ -714,6 +724,7 @@ function getAllPlayers() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 localStorage.setItem('allPlayers', JSON.stringify(data));
@@ -748,6 +759,7 @@ function getAllLadders() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 localStorage.setItem('allLadders', JSON.stringify(data));
@@ -790,6 +802,7 @@ function getLadderPlayedMatches(ladder) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.result == false) {
@@ -822,6 +835,7 @@ function getALadderofUnlayedMatches(ladderID) {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                return;
             }
             response.json().then(function(data) {
                 if(data.result == 'false') {
