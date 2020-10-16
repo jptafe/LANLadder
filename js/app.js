@@ -62,7 +62,7 @@ function validateForm(evt) {
     setWrn('please fix validation issues');
     return false;
 }
-function teamsWithPlayersEdit() { // Need to edit this so that it uses a template better...
+function teamsWithPlayersEdit() { 
     var JSONTeams = JSON.parse(localStorage.getItem('allTeams'));
     var JSONPlayers = JSON.parse(localStorage.getItem('allPlayers'));
     var JSONPlayer_info = JSON.parse(localStorage.getItem('authcode'));
@@ -598,6 +598,10 @@ function isLoggedIn() {
         function(response) {
             if (response.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
+                if(response.status === 302) {
+                    isLoggedIn();
+                    return;
+                }
                 return;
             }
             response.json().then(function(data) {
@@ -705,12 +709,14 @@ function loginProcess(evt) {
                     setWrn('Authentication failure');
                     loggedOutMenu();
                     clearForm(evt);
+                    checkForUpdates();
                 } else {
                     localStorage.setItem('authcode', JSON.stringify(data));
                     setMsg('Authentication success');
                     loggedInMenu();
                     clearForm(evt);
                     populateStatusPanel();
+                    checkForUpdates();
                 }
             });
         }
