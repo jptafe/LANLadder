@@ -41,7 +41,7 @@ USERS: ANONYMOUS, PLAYER, ADMIN
  3 Implement 3rd party element that implements a date format compatible with mysql.
 
 ##Long-term Priorities:
- Make auth work with Google API
+ Make auth works with Google API
  get a JS photo editor to square uploaded image
  Password Reset via email post deployment online (AWS cognito?)
  Steam ID gets API substitution of both player name & palyer icon 
